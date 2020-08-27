@@ -12,12 +12,21 @@ import {
   initializeDefaultSnoowrap,
   initializeUserSnoowrap,
   getHot,
+  getUserSubs,
+  getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import Snoowrap, { Submission } from "snoowrap";
 import Post from "../screens/Post";
+import { useDidUpdateEffect } from "../util/util";
 
-const Stack = createStackNavigator();
+export type MainStackParamList = {
+  Tabs: undefined;
+  Login: undefined;
+  Post: { data: Object };
+};
+
+const Stack = createStackNavigator<MainStackParamList>();
 
 const MainNavigator: React.FC = () => {
   /**
@@ -30,8 +39,10 @@ const MainNavigator: React.FC = () => {
    * ********STATE********
    */
   const [currentPosts, setCurrentPosts] = useState([]);
-  const [showSubPicker, setShowSubPicker] = useState(false);
+  const [userSubs, setUserSubs] = useState([]);
   const [user, setUser] = useState(null);
+  const [currentSub, setCurrentSub] = useState("Front Page");
+  const [currentCategory, setCurrentCategory] = useState("Hot");
 
   /**
    * ********CONTEXT******
@@ -41,6 +52,7 @@ const MainNavigator: React.FC = () => {
   const getRedditData = (r: Snoowrap | null) => {
     getPosts(r);
     getUser(r);
+    getSubs(r);
   };
 
   const getUser = (r: Snoowrap | null) => {
@@ -52,12 +64,24 @@ const MainNavigator: React.FC = () => {
 
   const getPosts = (r: Snoowrap | null) => {
     const snoo = r;
-    getHot(snoo, "Front Page").then((posts: any) => {
-      console.log("new posts", posts.length);
+    getGeneralPosts(snoo, currentSub, "Hot", "").then((posts: any) => {
       setCurrentPosts(posts);
     });
   };
 
+  const getSubs = (r: Snoowrap | null) => {
+    const snoo = r;
+    getUserSubs(snoo).then((subs: any) => {
+      setUserSubs(subs);
+    });
+  };
+
+  useDidUpdateEffect(() => {
+    setCurrentPosts([]);
+    getPosts(context.clear.snoowrap);
+  }, [currentSub]);
+
+  //when the user changes
   useEffect(() => {
     if (refreshToken !== "none") {
       console.log("remaking snoowrap");
@@ -87,15 +111,17 @@ const MainNavigator: React.FC = () => {
       value={{
         currentPosts: currentPosts,
         updateCurrentPosts: setCurrentPosts,
-        showSubPicker: false,
-        setShowSubPicker: setShowSubPicker,
         user: user,
         setUser: setUser,
+        currentSub: currentSub,
+        setCurrentSub: setCurrentSub,
+        userSubs: userSubs,
+        setUserSubs: setUserSubs,
+        currentCategory: currentCategory,
+        setCurrentCategory: setCurrentCategory,
       }}
     >
       <>
-        {/* SUB PICKER */}
-        {/* {showSubPicker && <SubPicker />} */}
         {/* NAVIGATION CONTAINER */}
         <NavigationContainer>
           <Stack.Navigator>

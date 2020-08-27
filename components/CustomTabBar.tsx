@@ -9,8 +9,6 @@ const CustomTabBar: React.FC<any> = (props) => {
   const { state, navigation } = props;
   const { index } = state;
 
-  const { showSubPicker, setShowSubPicker } = useContext(MainNavigationContext);
-
   return (
     <View style={s.tabBarContainer}>
       {state.routes.map((route: { name: any }, i: any) => {
@@ -35,12 +33,7 @@ const CustomTabBar: React.FC<any> = (props) => {
         return (
           <TouchableWithoutFeedback
             onPress={() => {
-              if (focused && name === "Home") {
-                setShowSubPicker(!showSubPicker);
-              } else {
-                setShowSubPicker(false);
-                navigation.navigate(name);
-              }
+              navigation.navigate(name);
             }}
             key={name}
           >

@@ -67,10 +67,50 @@ module.exports = StyleSheet.create({
   /**
    * ********SUBPICKER********
    */
-  subPickerBackdrop: {
-    width: "100%",
-    height: "100%",
-    top: 0,
-    left: 0,
+  subPickerContainer: {
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "lightgrey",
+    borderRadius: 5,
+    marginTop: 120,
+    marginLeft: 10,
+    padding: 10,
+    maxWidth: screenWidth * 0.7,
+  },
+
+  /**
+   * *******HOME***********
+   */
+  homeHeaderContainer: {
+    height: 60,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderColor: "lightgrey",
+  },
+
+  /**
+   * ********HOMELISTHEADER*******
+   */
+  headerSubIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "grey",
+    marginRight: 10,
+  },
+
+  headerDropdown: {
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "lightgrey",
+    borderRadius: 20,
+    padding: 5,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });

@@ -5,7 +5,13 @@ import Search from "../screens/Search";
 import User from "../screens/User";
 import CustomTabBar from "../components/CustomTabBar";
 
-const Tab = createBottomTabNavigator();
+export type TabParamList = {
+  Home: undefined;
+  Search: undefined;
+  User: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabParamList>();
 
 const TabNavigator: React.FC = () => {
   return (

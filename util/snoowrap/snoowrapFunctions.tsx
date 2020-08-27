@@ -1,4 +1,4 @@
-import snoowrap, { Listing, Submission } from "snoowrap";
+import snoowrap, { Listing, Submission, Subreddit } from "snoowrap";
 import snoowrapConfig from "./snoowrapConfig";
 
 export const initializeSnoowrap = async (authCode: string) => {
@@ -60,20 +60,38 @@ export const initializeUserSnoowrap = async (token: string) => {
   return r;
 };
 
-export const getPostsFromSub = async (
+export const getGeneralPosts = async (
   snoowrap: snoowrap | undefined | null,
-  subName: string,
-  category: string
+  subName: any,
+  category: string,
+  time: string
 ) => {
   if (!snoowrap) return [];
-  switch (category) {
-    case "Hot": {
-      return snoowrap
-        .getHot(subName)
-        .then((posts: Listing<Submission>) => {
-          return posts;
-        })
-        .catch((error: Error) => console.log("error getting posts", error));
+  const name = subName.display_name ? subName.display_name : subName;
+  if (name === "Saved") {
+    /**
+     * TO-DO: saved posts function
+     */
+  } else {
+    switch (category) {
+      case "Hot": {
+        return getHot(snoowrap, name);
+      }
+      case "Top": {
+        /**
+         * TO-DO: top posts function
+         */
+      }
+      case "Controversial": {
+        /**
+         * TO-DO: cont. posts function
+         */
+      }
+      case "New": {
+        /**
+         * TO-DO: new posts function
+         */
+      }
     }
   }
 };
@@ -104,14 +122,15 @@ export const getHot = async (
 };
 
 export const getUserData = (snoowrap: snoowrap | undefined | null) => {
-  // if (!snoowrap) return null;
-  // return snoowrap.getMe().then((me) => {
-
-  //   return me;
-  // });
   if (!snoowrap) return null;
 
   return snoowrap.getMe().then((me) => {
     return me;
   });
+};
+
+export const getUserSubs = async (snoowrap: snoowrap | undefined | null) => {
+  if (!snoowrap) return null;
+  const subs = snoowrap.getSubscriptions();
+  return subs;
 };
