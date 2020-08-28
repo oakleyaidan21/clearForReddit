@@ -17,6 +17,7 @@ import { Comment, Submission } from "snoowrap";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { SwiperScreenNavProp } from "./PostSwiper";
+import CommentThread from "../components/CommentThread";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -140,11 +141,7 @@ const Post: React.FC<Props> = (props) => {
           {comments ? (
             comments.length > 0 ? (
               comments.map((comment: Comment) => {
-                return (
-                  <Text key={comment.id} style={{ margin: 10 }}>
-                    {comment.body}
-                  </Text>
-                );
+                return <CommentThread data={comment} key={comment.id} />;
               })
             ) : (
               <Text style={{ marginTop: 200 }}>No Comments</Text>

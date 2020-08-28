@@ -72,6 +72,7 @@ export const getGeneralPosts = async (
     /**
      * TO-DO: saved posts function
      */
+    return getSaved(snoowrap);
   } else {
     switch (category) {
       case "Hot": {
@@ -165,6 +166,15 @@ export const getHot = async (
         .catch((error: Error) => console.log("error getting posts", error));
     }
   }
+};
+
+export const getSaved = (snoowrap: snoowrap | undefined | null) => {
+  if (!snoowrap) return [];
+  return snoowrap.getMe().then((me) => {
+    return me.getSavedContent().then((content) => {
+      return content;
+    });
+  });
 };
 
 export const getUserData = (snoowrap: snoowrap | undefined | null) => {

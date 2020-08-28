@@ -51,7 +51,7 @@ const SubPicker: React.FC<Props> = (props) => {
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  marginBottom: 5,
+
                   padding: 10,
                   borderBottomWidth: 2,
                   borderColor: primary_color,
@@ -76,7 +76,7 @@ const SubPicker: React.FC<Props> = (props) => {
                 style={{ width: "100%", maxHeight: 400 }}
                 contentContainerStyle={{ paddingLeft: 10 }}
               >
-                {subs.map((sub) => {
+                {subs.map((sub, index) => {
                   const iconUrl = sub.icon_img
                     ? sub.icon_img
                     : "https://img.favpng.com/4/2/8/computer-icons-reddit-logo-website-png-favpng-hMmUQ5KAUjd27EWLvNwpuvW5Q.jpg";
@@ -89,7 +89,8 @@ const SubPicker: React.FC<Props> = (props) => {
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        marginTop: 5,
+                        marginBottom: 5,
+                        marginTop: index === 0 ? 5 : 0,
                       }}
                       onPress={() => {
                         setCurrentSub(sub);
