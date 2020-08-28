@@ -18,12 +18,16 @@ const HomeListHeader: React.FC = (props) => {
     MainNavigationContext
   );
 
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   const iconUrl = currentSub.icon_img
     ? currentSub.icon_img
     : "https://img.favpng.com/4/2/8/computer-icons-reddit-logo-website-png-favpng-hMmUQ5KAUjd27EWLvNwpuvW5Q.jpg";
 
   return (
-    <View style={s.homeHeaderContainer}>
+    <View style={[s.homeHeaderContainer, { borderColor: primary_color }]}>
       <SubPicker
         isVisible={showSubPicker}
         close={() => setShowSubPicker(false)}
@@ -46,11 +50,25 @@ const HomeListHeader: React.FC = (props) => {
         }}
         onPress={() => setShowSubPicker(true)}
       >
-        <Image source={{ uri: iconUrl }} style={s.headerSubIcon} />
-        <Text style={{ maxWidth: 100 }} numberOfLines={1}>
-          {currentSub.display_name ? currentSub.display_name : currentSub}
-        </Text>
-        <Icon name="expand-more" color="grey" />
+        <Image
+          source={{ uri: iconUrl }}
+          style={[s.headerSubIcon, { borderColor: primary_color }]}
+        />
+        <View style={[s.headerDropdown, { borderColor: primary_color }]}>
+          <Text
+            style={{ maxWidth: 100, color: primary_color }}
+            numberOfLines={1}
+          >
+            {currentSub.display_name ? currentSub.display_name : currentSub}
+          </Text>
+          <Icon
+            name="arrow-down"
+            color={primary_color}
+            type="simple-line-icon"
+            size={13}
+            style={{ marginLeft: 10 }}
+          />
+        </View>
       </TouchableOpacity>
       <View
         style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
@@ -58,23 +76,35 @@ const HomeListHeader: React.FC = (props) => {
       >
         <View style={{ flex: 1, alignItems: "center" }}>
           <TouchableOpacity
-            style={s.headerDropdown}
+            style={[s.headerDropdown, { borderColor: primary_color }]}
             onPress={() => setShowCatPicker(!showCatPicker)}
           >
-            <Text style={{ color: "grey" }}>{currentCategory}</Text>
-            <Icon name="expand-more" color={"grey"} />
+            <Text style={{ color: primary_color }}>{currentCategory}</Text>
+            <Icon
+              name="arrow-down"
+              color={primary_color}
+              type="simple-line-icon"
+              size={13}
+              style={{ marginLeft: 10 }}
+            />
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1, alignItems: "center" }}>
           <TouchableOpacity
-            style={s.headerDropdown}
+            style={[s.headerDropdown, { borderColor: primary_color }]}
             onPress={() => setShowTimeframePicker(!showTimeframePicker)}
           >
-            <Text style={{ color: "grey" }}>
+            <Text style={{ color: primary_color }}>
               {currentTimeframe.charAt(0).toUpperCase() +
                 currentTimeframe.slice(1)}
             </Text>
-            <Icon name="expand-more" color={"grey"} />
+            <Icon
+              name="arrow-down"
+              color={primary_color}
+              type="simple-line-icon"
+              size={13}
+              style={{ marginLeft: 10 }}
+            />
           </TouchableOpacity>
         </View>
       </View>

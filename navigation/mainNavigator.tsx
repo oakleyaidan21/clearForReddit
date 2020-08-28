@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 import MainNavigationContext from "../context/MainNavigationContext";
-import SubPicker from "../components/SubPicker";
 import Login from "../screens/Login";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -11,7 +11,6 @@ import {
   initializeSnoowrap,
   initializeDefaultSnoowrap,
   initializeUserSnoowrap,
-  getHot,
   getUserSubs,
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
@@ -19,6 +18,7 @@ import ClearContext from "../context/Clear";
 import Snoowrap, { Submission } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
+import HomeListHeader from "../components/HomeListHeader";
 
 export type MainStackParamList = {
   Tabs: undefined;
@@ -129,7 +129,14 @@ const MainNavigator: React.FC = () => {
       <>
         {/* NAVIGATION CONTAINER */}
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={({ route, navigation }) => ({
+              headerShown: true,
+              header: () => {
+                return <></>;
+              },
+            })}
+          >
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Post" component={Post} />

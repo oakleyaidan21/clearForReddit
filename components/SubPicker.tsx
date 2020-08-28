@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
 
 const s = require("../assets/styles/mainStyles.js");
@@ -22,6 +21,10 @@ const SubPicker: React.FC<Props> = (props) => {
     MainNavigationContext
   );
 
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>
@@ -32,7 +35,9 @@ const SubPicker: React.FC<Props> = (props) => {
           }}
         >
           <TouchableWithoutFeedback>
-            <View style={s.subPickerContainer}>
+            <View
+              style={[s.subPickerContainer, { borderColor: primary_color }]}
+            >
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>Subs</Text>
               <ScrollView style={{ width: "100%", maxHeight: 400 }}>
                 {userSubs.map((sub) => {

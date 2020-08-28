@@ -9,18 +9,24 @@ const CustomTabBar: React.FC<any> = (props) => {
   const { state, navigation } = props;
   const { index } = state;
 
+  const { currentSub } = useContext(MainNavigationContext);
+
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   return (
-    <View style={s.tabBarContainer}>
+    <View style={[s.tabBarContainer, { borderColor: primary_color }]}>
       {state.routes.map((route: { name: any }, i: any) => {
         const focused = index === i;
         const { name } = route;
         const iconName = () => {
           switch (name) {
             case "Home": {
-              return "bars";
+              return "menu";
             }
             case "Search": {
-              return "search";
+              return "magnifier";
             }
             case "User": {
               return "user";
@@ -40,8 +46,8 @@ const CustomTabBar: React.FC<any> = (props) => {
             <View style={s.tabBarIconContainer}>
               <Icon
                 name={iconName()}
-                color={focused ? "blue" : "black"}
-                type="font-awesome"
+                color={focused ? primary_color : "grey"}
+                type="simple-line-icon"
               />
             </View>
           </TouchableWithoutFeedback>

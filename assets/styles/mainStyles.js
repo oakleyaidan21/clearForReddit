@@ -9,6 +9,8 @@ import { Dimensions, Platform } from "react-native";
 export const screenWidth = Dimensions.get("window").width;
 export const screenHeight = Dimensions.get("window").height;
 
+const pickerYLocation = Platform.OS === "ios" ? 85 : 65;
+
 function elevationShadowStyle(elevation) {
   //large elevation values look good on Android but not on iOS,
   //so we set the elevation value to 1 on ios
@@ -72,7 +74,7 @@ module.exports = StyleSheet.create({
     borderWidth: 2,
     borderColor: "lightgrey",
     borderRadius: 5,
-    marginTop: 120,
+    marginTop: pickerYLocation,
     marginLeft: 5,
     padding: 10,
     maxWidth: screenWidth * 0.7,
@@ -87,7 +89,7 @@ module.exports = StyleSheet.create({
     borderWidth: 2,
     borderColor: "lightgrey",
     borderRadius: 5,
-    top: 120,
+    top: pickerYLocation,
   },
 
   categoryItem: {
@@ -103,7 +105,7 @@ module.exports = StyleSheet.create({
    */
   timeframePickerContainer: {
     position: "absolute",
-    top: 120,
+    top: pickerYLocation,
     backgroundColor: "white",
     borderWidth: 2,
     borderColor: "lightgrey",
@@ -121,6 +123,7 @@ module.exports = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 2,
     borderColor: "lightgrey",
+    backgroundColor: "white",
   },
 
   /**
@@ -130,7 +133,7 @@ module.exports = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    borderWidth: 3,
+    borderWidth: 2,
     borderColor: "grey",
     marginRight: 10,
   },
@@ -140,7 +143,9 @@ module.exports = StyleSheet.create({
     borderWidth: 2,
     borderColor: "grey",
     borderRadius: 20,
-    padding: 10,
+    padding: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
@@ -152,11 +157,22 @@ module.exports = StyleSheet.create({
   postListItemContainer: {
     padding: 10,
     margin: 10,
-    borderWidth: 1,
+    marginBottom: 0,
+    borderWidth: 2,
     borderColor: "grey",
     flexDirection: "row",
     borderRadius: 5,
     overflow: "hidden",
+    backgroundColor: "white",
     flex: 1,
+  },
+
+  postItemIconContainer: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

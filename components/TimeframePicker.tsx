@@ -32,7 +32,7 @@ const TimeframePicker: React.FC<Props> = (props) => {
           }}
         >
           <TouchableWithoutFeedback>
-            <View style={[s.timeframePickerContainer, { right: 10 }]}>
+            <View style={[s.timeframePickerContainer, { right: 5 }]}>
               {timeframes.map((t, index) => {
                 return (
                   <TouchableOpacity

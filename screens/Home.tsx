@@ -1,27 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
-  Text,
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  TouchableOpacity,
 } from "react-native";
-import { getHot, getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
+import { getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import MainNavigationContext from "../context/MainNavigationContext";
-import {
-  BottomTabScreenProps,
-  BottomTabNavigationProp,
-} from "@react-navigation/bottom-tabs";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { TabParamList } from "../navigation/tabNavigator";
 import { RouteProp, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../navigation/mainNavigator";
 import HomeListHeader from "../components/HomeListHeader";
 import PostListItem from "../components/PostListItem";
-
-const s = require("../assets/styles/mainStyles");
 
 type HomeScreenNavProps = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList, "Home">,
@@ -62,8 +55,12 @@ const Home: React.FC<Props> = (props) => {
     }
   };
 
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1 }}>
       <HomeListHeader />
       {currentPosts.length > 0 ? (
         <View style={{ flex: 1 }}>
@@ -88,10 +85,7 @@ const Home: React.FC<Props> = (props) => {
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <ActivityIndicator size={"large"} />
-          <TouchableOpacity onPress={getMainPosts}>
-            <Text>Get Posts</Text>
-          </TouchableOpacity>
+          <ActivityIndicator size={"large"} color={primary_color} />
         </View>
       )}
     </View>
