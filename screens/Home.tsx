@@ -19,6 +19,7 @@ import { RouteProp, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../navigation/mainNavigator";
 import HomeListHeader from "../components/HomeListHeader";
+import PostListItem from "../components/PostListItem";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -62,27 +63,16 @@ const Home: React.FC<Props> = (props) => {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: "center", backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <HomeListHeader />
       {currentPosts.length > 0 ? (
         <View style={{ flex: 1 }}>
           <FlatList
             data={currentPosts}
             style={{ flex: 1 }}
-            renderItem={({ item }) => {
-              return (
-                <TouchableOpacity
-                  style={{ margin: 10 }}
-                  onPress={() =>
-                    props.navigation.navigate("Post", {
-                      data: item,
-                    })
-                  }
-                >
-                  <Text numberOfLines={1}>{item.title}</Text>
-                </TouchableOpacity>
-              );
-            }}
+            renderItem={({ item }) => (
+              <PostListItem data={item} navigation={props.navigation} />
+            )}
             refreshControl={
               <RefreshControl
                 onRefresh={() => {
@@ -95,7 +85,9 @@ const Home: React.FC<Props> = (props) => {
           />
         </View>
       ) : (
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <ActivityIndicator size={"large"} />
           <TouchableOpacity onPress={getMainPosts}>
             <Text>Get Posts</Text>

@@ -81,17 +81,39 @@ export const getGeneralPosts = async (
         /**
          * TO-DO: top posts function
          */
+        return [];
       }
       case "Controversial": {
         /**
          * TO-DO: cont. posts function
          */
+        return [];
       }
       case "New": {
         /**
          * TO-DO: new posts function
          */
+        return getNew(snoowrap, name);
       }
+    }
+  }
+};
+
+export const getNew = async (
+  snoowrap: snoowrap | undefined | null,
+  subName: string
+) => {
+  if (!snoowrap) return [];
+  switch (subName) {
+    case "Front Page": {
+      return snoowrap.getNew().then((posts: Listing<Submission>) => {
+        return posts;
+      });
+    }
+    default: {
+      return snoowrap.getNew().then((posts: Listing<Submission>) => {
+        return posts;
+      });
     }
   }
 };

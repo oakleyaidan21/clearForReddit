@@ -64,9 +64,11 @@ const MainNavigator: React.FC = () => {
 
   const getPosts = (r: Snoowrap | null) => {
     const snoo = r;
-    getGeneralPosts(snoo, currentSub, "Hot", "").then((posts: any) => {
-      setCurrentPosts(posts);
-    });
+    getGeneralPosts(snoo, currentSub, currentCategory, "").then(
+      (posts: any) => {
+        setCurrentPosts(posts);
+      }
+    );
   };
 
   const getSubs = (r: Snoowrap | null) => {
@@ -79,7 +81,7 @@ const MainNavigator: React.FC = () => {
   useDidUpdateEffect(() => {
     setCurrentPosts([]);
     getPosts(context.clear.snoowrap);
-  }, [currentSub]);
+  }, [currentSub, currentCategory]);
 
   //when the user changes
   useEffect(() => {

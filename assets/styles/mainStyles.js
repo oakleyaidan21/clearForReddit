@@ -79,6 +79,26 @@ module.exports = StyleSheet.create({
   },
 
   /**
+   * *********CATPICKER*********
+   */
+  categoryPickerContainer: {
+    position: "absolute",
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "lightgrey",
+    borderRadius: 5,
+    top: 120,
+  },
+
+  categoryItem: {
+    padding: 10,
+    width: 150,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: "lightgrey",
+  },
+
+  /**
    * *******HOME***********
    */
   homeHeaderContainer: {
@@ -106,11 +126,25 @@ module.exports = StyleSheet.create({
   headerDropdown: {
     alignItems: "center",
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: "grey",
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
+  },
+
+  /**
+   * *******POSTLISTITEM**********
+   */
+  postListItemContainer: {
+    padding: 10,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+    flexDirection: "row",
+    borderRadius: 5,
+    overflow: "hidden",
+    flex: 1,
   },
 });

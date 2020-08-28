@@ -1,13 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { Icon } from "react-native-elements";
 import SubPicker from "./SubPicker";
+import CategoryPicker from "./CategoryPicker";
 
 const s = require("../assets/styles/mainStyles");
 
 const HomeListHeader: React.FC = (props) => {
   const [showSubPicker, setShowSubPicker] = useState(false);
+  const [showCatPicker, setShowCatPicker] = useState(false);
+  const [categoryLocation, setCategoryLocation] = useState(0);
 
   const { currentSub, currentCategory } = useContext(MainNavigationContext);
 
@@ -21,6 +24,11 @@ const HomeListHeader: React.FC = (props) => {
         isVisible={showSubPicker}
         close={() => setShowSubPicker(false)}
       />
+      <CategoryPicker
+        isVisible={showCatPicker}
+        close={() => setShowCatPicker(false)}
+        xPos={categoryLocation}
+      />
       <TouchableOpacity
         style={{
           flexDirection: "row",
@@ -30,23 +38,28 @@ const HomeListHeader: React.FC = (props) => {
         onPress={() => setShowSubPicker(true)}
       >
         <Image source={{ uri: iconUrl }} style={s.headerSubIcon} />
-
-        <Text>
+        <Text style={{ maxWidth: 100 }} numberOfLines={1}>
           {currentSub.display_name ? currentSub.display_name : currentSub}
         </Text>
         <Icon name="expand-more" color="grey" />
       </TouchableOpacity>
-      <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
+      <View
+        style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+        onLayout={(e) => setCategoryLocation(e.nativeEvent.layout.x)}
+      >
         <View style={{ flex: 1, alignItems: "center" }}>
-          <TouchableOpacity style={s.headerDropdown}>
-            <Text>{currentCategory}</Text>
-            <Icon name="expand-more" />
+          <TouchableOpacity
+            style={s.headerDropdown}
+            onPress={() => setShowCatPicker(!showCatPicker)}
+          >
+            <Text style={{ color: "grey" }}>{currentCategory}</Text>
+            <Icon name="expand-more" color={"grey"} />
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1, alignItems: "center" }}>
           <TouchableOpacity style={s.headerDropdown}>
-            <Text>Time</Text>
-            <Icon name="expand-more" />
+            <Text style={{ color: "grey" }}>Time</Text>
+            <Icon name="expand-more" color={"grey"} />
           </TouchableOpacity>
         </View>
       </View>
