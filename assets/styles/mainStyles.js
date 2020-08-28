@@ -76,7 +76,6 @@ module.exports = StyleSheet.create({
     borderRadius: 5,
     marginTop: pickerYLocation,
     marginLeft: 5,
-    padding: 10,
     maxWidth: screenWidth * 0.7,
   },
 

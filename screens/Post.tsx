@@ -16,14 +16,18 @@ import PostItem from "../components/PostItem";
 import { Comment, Submission } from "snoowrap";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
+import { SwiperScreenNavProp } from "./PostSwiper";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
 type PostScreenRouteProp = RouteProp<MainStackParamList, "Post">;
 
 type Props = {
-  navigation: PostScreenNavProp;
-  route: PostScreenRouteProp;
+  navigation: PostScreenNavProp | SwiperScreenNavProp;
+  route: PostScreenRouteProp | null;
+  data: Submission;
+  openPosts: boolean;
+  setOpenPosts: any;
 };
 
 const s = require("../assets/styles/mainStyles");
@@ -31,7 +35,9 @@ const s = require("../assets/styles/mainStyles");
 const Post: React.FC<Props> = (props) => {
   const [comments, setComments] = useState<null | Array<Comment>>(null);
   const [refreshingPost, setRefreshingPost] = useState<boolean>(false);
-  const [data, setData] = useState<Submission>(props.route.params.data);
+  const [data, setData] = useState<Submission>(
+    props.route?.params.data ? props.route.params.data : props.data
+  );
   const [saving, setSaving] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
@@ -84,7 +90,14 @@ const Post: React.FC<Props> = (props) => {
         }
       >
         {/* MAIN POST HEADER */}
-        <PostItem data={data} onPress={() => {}} inList={false} />
+        <PostItem
+          data={data}
+          onPress={() => {}}
+          inList={false}
+          navigation={props.navigation}
+          openPosts={props.openPosts}
+          setOpenPosts={props.setOpenPosts}
+        />
         {/* OTHER POST FUNCTIONS */}
         <View
           style={{
@@ -140,6 +153,7 @@ const Post: React.FC<Props> = (props) => {
             <ActivityIndicator
               style={{ marginTop: 200 }}
               color={primary_color}
+              size={"large"}
             />
           )}
         </View>

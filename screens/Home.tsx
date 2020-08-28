@@ -3,6 +3,7 @@ import {
   View,
   ActivityIndicator,
   FlatList,
+  Text,
   RefreshControl,
 } from "react-native";
 import { getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
@@ -15,6 +16,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../navigation/mainNavigator";
 import HomeListHeader from "../components/HomeListHeader";
 import PostItem from "../components/PostItem";
+import { Listing, Submission } from "snoowrap";
 
 type HomeScreenNavProps = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList, "Home">,
@@ -65,15 +67,41 @@ const Home: React.FC<Props> = (props) => {
       {currentPosts.length > 0 ? (
         <View style={{ flex: 1 }}>
           <FlatList
+            keyExtractor={(item, index) => item.id + index.toString()}
+            ListFooterComponent={
+              <View
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              >
+                <Text style={{ color: "grey", marginBottom: 10 }}>
+                  Getting more posts...
+                </Text>
+                <ActivityIndicator color={primary_color} />
+              </View>
+            }
             data={currentPosts}
+            onEndReached={() => {
+              (currentPosts as any)
+                .fetchMore({ amount: 25, append: true })
+                .then((list: Listing<Submission>) => {
+                  updateCurrentPosts(list);
+                });
+            }}
             style={{ flex: 1 }}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <PostItem
                 data={item}
                 onPress={() =>
-                  props.navigation.navigate("Post", { data: item })
+                  props.navigation.navigate("PostSwiper", { index: index })
                 }
                 inList={true}
+                navigation={props.navigation}
+                openPosts={false}
+                setOpenPosts={() => {}}
               />
             )}
             refreshControl={

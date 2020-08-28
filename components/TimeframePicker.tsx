@@ -21,7 +21,11 @@ interface Props {
 }
 
 const TimeframePicker: React.FC<Props> = (props) => {
-  const { setCurrentTimeframe } = useContext(MainNavigationContext);
+  const { setCurrentTimeframe, currentSub } = useContext(MainNavigationContext);
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>
@@ -32,21 +36,29 @@ const TimeframePicker: React.FC<Props> = (props) => {
           }}
         >
           <TouchableWithoutFeedback>
-            <View style={[s.timeframePickerContainer, { right: 5 }]}>
+            <View
+              style={[
+                s.timeframePickerContainer,
+                { right: 5, borderColor: primary_color },
+              ]}
+            >
               {timeframes.map((t, index) => {
                 return (
                   <TouchableOpacity
                     key={t}
                     style={[
                       s.categoryItem,
-                      { borderTopWidth: index === 0 ? 0 : 2 },
+                      {
+                        borderTopWidth: index === 0 ? 0 : 2,
+                        borderColor: primary_color,
+                      },
                     ]}
                     onPress={() => {
                       setCurrentTimeframe(t);
                       props.close();
                     }}
                   >
-                    <Text style={{ color: "grey" }}>{t}</Text>
+                    <Text style={{ color: primary_color }}>{t}</Text>
                   </TouchableOpacity>
                 );
               })}

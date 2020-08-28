@@ -22,7 +22,12 @@ interface Props {
 }
 
 const CategoryPicker: React.FC<Props> = (props) => {
-  const { setCurrentCategory } = useContext(MainNavigationContext);
+  const { setCurrentCategory, currentSub } = useContext(MainNavigationContext);
+
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : "rgb(243,68,35)";
+
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>
@@ -31,7 +36,10 @@ const CategoryPicker: React.FC<Props> = (props) => {
             <View
               style={[
                 s.categoryPickerContainer,
-                { left: props.xPos + props.pad - 37.5 },
+                {
+                  left: props.xPos + props.pad - 37.5,
+                  borderColor: primary_color,
+                },
               ]}
             >
               {categories.map((cat, index) => {
@@ -40,14 +48,17 @@ const CategoryPicker: React.FC<Props> = (props) => {
                     key={cat}
                     style={[
                       s.categoryItem,
-                      { borderTopWidth: index === 0 ? 0 : 2 },
+                      {
+                        borderTopWidth: index === 0 ? 0 : 2,
+                        borderColor: primary_color,
+                      },
                     ]}
                     onPress={() => {
                       setCurrentCategory(cat);
                       props.close();
                     }}
                   >
-                    <Text style={{ color: "grey" }}>{cat}</Text>
+                    <Text style={{ color: primary_color }}>{cat}</Text>
                   </TouchableOpacity>
                 );
               })}

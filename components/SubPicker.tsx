@@ -6,10 +6,13 @@ import {
   Modal,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import MainNavigationContext from "../context/MainNavigationContext";
 
 const s = require("../assets/styles/mainStyles.js");
+
+const staticPages = ["Front Page", "All", "Popular", "Saved"];
 
 interface Props {
   isVisible: boolean;
@@ -25,6 +28,11 @@ const SubPicker: React.FC<Props> = (props) => {
     ? currentSub.primary_color
     : "rgb(243,68,35)";
 
+  const subs = userSubs;
+  subs.sort((a, b) =>
+    a.display_name.toLowerCase().localeCompare(b.display_name.toLowerCase())
+  );
+
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>
@@ -38,19 +46,70 @@ const SubPicker: React.FC<Props> = (props) => {
             <View
               style={[s.subPickerContainer, { borderColor: primary_color }]}
             >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>Subs</Text>
-              <ScrollView style={{ width: "100%", maxHeight: 400 }}>
-                {userSubs.map((sub) => {
+              {/* FRONT PAGE, ALL, ETC */}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginBottom: 5,
+                  padding: 10,
+                  borderBottomWidth: 2,
+                  borderColor: primary_color,
+                }}
+              >
+                {staticPages.map((p) => (
+                  <TouchableOpacity
+                    key={p}
+                    onPress={() => {
+                      setCurrentSub(p);
+                      props.close();
+                    }}
+                  >
+                    <Text style={{ fontWeight: "bold", color: primary_color }}>
+                      {p}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              {/* YOUR SUBS */}
+              <ScrollView
+                style={{ width: "100%", maxHeight: 400 }}
+                contentContainerStyle={{ paddingLeft: 10 }}
+              >
+                {subs.map((sub) => {
+                  const iconUrl = sub.icon_img
+                    ? sub.icon_img
+                    : "https://img.favpng.com/4/2/8/computer-icons-reddit-logo-website-png-favpng-hMmUQ5KAUjd27EWLvNwpuvW5Q.jpg";
+                  const icon_color = sub.primary_color
+                    ? sub.primary_color
+                    : "rgb(243,68,35)";
                   return (
                     <TouchableOpacity
                       key={sub.name}
-                      style={{ margin: 10 }}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: 5,
+                      }}
                       onPress={() => {
                         setCurrentSub(sub);
                         props.close();
                       }}
                     >
-                      <Text>{sub.display_name}</Text>
+                      <Image
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderRadius: 15,
+                          marginRight: 10,
+                          borderWidth: 2,
+                          borderColor: icon_color,
+                        }}
+                        source={{ uri: iconUrl }}
+                      />
+                      <Text style={{ fontWeight: "bold" }}>
+                        {sub.display_name}
+                      </Text>
                     </TouchableOpacity>
                   );
                 })}

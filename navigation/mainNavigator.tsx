@@ -18,11 +18,15 @@ import ClearContext from "../context/Clear";
 import Snoowrap, { Submission } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
+import PostSwiper from "../screens/PostSwiper";
+import Web from "../screens/Web";
 
 export type MainStackParamList = {
   Tabs: undefined;
   Login: undefined;
   Post: { data: Submission };
+  PostSwiper: { index: number };
+  Web: { url: string };
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -136,6 +140,8 @@ const MainNavigator: React.FC = () => {
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Post" component={Post} />
+            <Stack.Screen name="PostSwiper" component={PostSwiper} />
+            <Stack.Screen name="Web" component={Web} />
           </Stack.Navigator>
         </NavigationContainer>
       </>
