@@ -5,7 +5,7 @@ import MainNavigator from "./navigation/mainNavigator";
 
 const s = require("./assets/styles/mainStyles.js");
 
-const RedditClear: React.FC = () => {
+const ClearForReddit: React.FC = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <MainNavigator />
@@ -13,4 +13,4 @@ const RedditClear: React.FC = () => {
   );
 };
 
-export default RedditClear;
+export default ClearForReddit;

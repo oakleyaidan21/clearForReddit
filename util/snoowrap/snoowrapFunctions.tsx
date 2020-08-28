@@ -105,7 +105,6 @@ export const getTop = async (
   timeframe: any
 ) => {
   if (!snoowrap) return [];
-  if (!snoowrap) return [];
   switch (subName) {
     case "Front Page": {
       return snoowrap

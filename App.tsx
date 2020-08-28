@@ -1,9 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { YellowBox } from "react-native";
 import ClearContext from "./context/Clear";
 import { Provider } from "react-redux";
-import RedditClear from "./RedditClear";
+import ClearForReddit from "./ClearForReddit";
 import { store, persistor } from "./redux/store";
 import { decode, encode } from "base-64";
 import { PersistGate } from "redux-persist/integration/react";
@@ -29,7 +28,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ClearContext.Provider value={{ clear: clear, updateClear: setClear }}>
-          <RedditClear />
+          <ClearForReddit />
         </ClearContext.Provider>
       </PersistGate>
     </Provider>
