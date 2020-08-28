@@ -14,7 +14,7 @@ import { RouteProp, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { MainStackParamList } from "../navigation/mainNavigator";
 import HomeListHeader from "../components/HomeListHeader";
-import PostListItem from "../components/PostListItem";
+import PostItem from "../components/PostItem";
 
 type HomeScreenNavProps = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList, "Home">,
@@ -68,7 +68,13 @@ const Home: React.FC<Props> = (props) => {
             data={currentPosts}
             style={{ flex: 1 }}
             renderItem={({ item }) => (
-              <PostListItem data={item} navigation={props.navigation} />
+              <PostItem
+                data={item}
+                onPress={() =>
+                  props.navigation.navigate("Post", { data: item })
+                }
+                inList={true}
+              />
             )}
             refreshControl={
               <RefreshControl

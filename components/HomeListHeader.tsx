@@ -9,10 +9,13 @@ import TimeframePicker from "./TimeframePicker";
 const s = require("../assets/styles/mainStyles");
 
 const HomeListHeader: React.FC = (props) => {
-  const [showSubPicker, setShowSubPicker] = useState(false);
-  const [showCatPicker, setShowCatPicker] = useState(false);
-  const [showTimeframePicker, setShowTimeframePicker] = useState(false);
-  const [categoryLocation, setCategoryLocation] = useState(0);
+  const [showSubPicker, setShowSubPicker] = useState<boolean>(false);
+  const [showCatPicker, setShowCatPicker] = useState<boolean>(false);
+  const [showTimeframePicker, setShowTimeframePicker] = useState<boolean>(
+    false
+  );
+  const [categoryLocation, setCategoryLocation] = useState<number>(0);
+  const [preciseLocation, setPreciseLocation] = useState<number>(0);
 
   const { currentSub, currentCategory, currentTimeframe } = useContext(
     MainNavigationContext
@@ -36,6 +39,7 @@ const HomeListHeader: React.FC = (props) => {
         isVisible={showCatPicker}
         close={() => setShowCatPicker(false)}
         xPos={categoryLocation}
+        pad={preciseLocation}
       />
       <TimeframePicker
         isVisible={showTimeframePicker}
@@ -71,42 +75,48 @@ const HomeListHeader: React.FC = (props) => {
         </View>
       </TouchableOpacity>
       <View
-        style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
         onLayout={(e) => setCategoryLocation(e.nativeEvent.layout.x)}
       >
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <TouchableOpacity
-            style={[s.headerDropdown, { borderColor: primary_color }]}
-            onPress={() => setShowCatPicker(!showCatPicker)}
-          >
-            <Text style={{ color: primary_color }}>{currentCategory}</Text>
-            <Icon
-              name="arrow-down"
-              color={primary_color}
-              type="simple-line-icon"
-              size={13}
-              style={{ marginLeft: 10 }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <TouchableOpacity
-            style={[s.headerDropdown, { borderColor: primary_color }]}
-            onPress={() => setShowTimeframePicker(!showTimeframePicker)}
-          >
-            <Text style={{ color: primary_color }}>
-              {currentTimeframe.charAt(0).toUpperCase() +
-                currentTimeframe.slice(1)}
-            </Text>
-            <Icon
-              name="arrow-down"
-              color={primary_color}
-              type="simple-line-icon"
-              size={13}
-              style={{ marginLeft: 10 }}
-            />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[
+            s.headerDropdown,
+            { borderColor: primary_color, marginRight: 10 },
+          ]}
+          onPress={() => setShowCatPicker(!showCatPicker)}
+          onLayout={(e) => setPreciseLocation(e.nativeEvent.layout.x)}
+        >
+          <Text style={{ color: primary_color }}>{currentCategory}</Text>
+          <Icon
+            name="arrow-down"
+            color={primary_color}
+            type="simple-line-icon"
+            size={13}
+            style={{ marginLeft: 10 }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[s.headerDropdown, { borderColor: primary_color }]}
+          onPress={() => setShowTimeframePicker(!showTimeframePicker)}
+        >
+          <Text style={{ color: primary_color }}>
+            {currentTimeframe.charAt(0).toUpperCase() +
+              currentTimeframe.slice(1)}
+          </Text>
+          <Icon
+            name="arrow-down"
+            color={primary_color}
+            type="simple-line-icon"
+            size={13}
+            style={{ marginLeft: 10 }}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -18,12 +18,11 @@ import ClearContext from "../context/Clear";
 import Snoowrap, { Submission } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
-import HomeListHeader from "../components/HomeListHeader";
 
 export type MainStackParamList = {
   Tabs: undefined;
   Login: undefined;
-  Post: { data: Object };
+  Post: { data: Submission };
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -131,10 +130,7 @@ const MainNavigator: React.FC = () => {
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={({ route, navigation }) => ({
-              headerShown: true,
-              header: () => {
-                return <></>;
-              },
+              headerShown: route.name !== "Tabs",
             })}
           >
             <Stack.Screen name="Tabs" component={TabNavigator} />

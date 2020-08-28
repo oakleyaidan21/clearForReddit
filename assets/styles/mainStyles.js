@@ -152,9 +152,9 @@ module.exports = StyleSheet.create({
   },
 
   /**
-   * *******POSTLISTITEM**********
+   * *******POSTITEM**********
    */
-  postListItemContainer: {
+  postItemContainer: {
     padding: 10,
     margin: 10,
     marginBottom: 0,

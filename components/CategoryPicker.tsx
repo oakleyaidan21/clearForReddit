@@ -12,12 +12,13 @@ import MainNavigationContext from "../context/MainNavigationContext";
 
 const s = require("../assets/styles/mainStyles.js");
 
-const categories = ["Hot", "New", "Top", "Controversial"];
+const categories = ["Hot", "New", "Top", "Cont."];
 
 interface Props {
   isVisible: boolean;
   close: any;
   xPos: number;
+  pad: number;
 }
 
 const CategoryPicker: React.FC<Props> = (props) => {
@@ -28,7 +29,10 @@ const CategoryPicker: React.FC<Props> = (props) => {
         <View style={{ width: "100%", height: "100%" }}>
           <TouchableWithoutFeedback>
             <View
-              style={[s.categoryPickerContainer, { left: props.xPos - 30 }]}
+              style={[
+                s.categoryPickerContainer,
+                { left: props.xPos + props.pad - 37.5 },
+              ]}
             >
               {categories.map((cat, index) => {
                 return (

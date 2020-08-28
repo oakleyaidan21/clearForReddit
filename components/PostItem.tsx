@@ -8,18 +8,14 @@ const s = require("../assets/styles/mainStyles");
 
 interface Props {
   data: Submission;
-  navigation: { navigate: any };
+  onPress: any;
+  inList: boolean;
 }
 
-const PostListItem: React.FC<Props> = (props) => {
-  const { data } = props;
+const PostItem: React.FC<Props> = (props) => {
+  const { data, inList } = props;
 
-  const imgUrl =
-    data.thumbnail === "self" ||
-    data.thumbnail === "spoiler" ||
-    data.thumbnail === "default"
-      ? "https://images-na.ssl-images-amazon.com/images/I/517hFQrVifL._AC_SY355_.jpg"
-      : data.thumbnail;
+  const imgUrl = data.thumbnail;
 
   const useIcon =
     data.thumbnail === "self" ||
@@ -34,8 +30,17 @@ const PostListItem: React.FC<Props> = (props) => {
 
   return (
     <TouchableOpacity
-      style={[s.postListItemContainer, { borderColor: primary_color }]}
-      onPress={() => props.navigation.navigate("Post", { data: data })}
+      style={[
+        s.postItemContainer,
+        {
+          borderColor: primary_color,
+          margin: inList ? 10 : 0,
+          borderRadius: inList ? 5 : 0,
+          borderWidth: inList ? 2 : 0,
+          borderBottomWidth: 2,
+        },
+      ]}
+      onPress={props.onPress}
     >
       {useIcon ? (
         <View
@@ -56,7 +61,7 @@ const PostListItem: React.FC<Props> = (props) => {
       )}
       <View style={{ flex: 3 }}>
         <View style={{ flex: 1 }}>
-          <Text numberOfLines={2} style={{ fontWeight: "bold" }}>
+          <Text numberOfLines={inList ? 3 : 10} style={{ fontWeight: "bold" }}>
             {data.title}
           </Text>
         </View>
@@ -82,4 +87,4 @@ const PostListItem: React.FC<Props> = (props) => {
   );
 };
 
-export default PostListItem;
+export default PostItem;

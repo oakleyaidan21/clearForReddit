@@ -83,7 +83,7 @@ export const getGeneralPosts = async (
          */
         return getTop(snoowrap, name, timeFrame);
       }
-      case "Controversial": {
+      case "Cont.": {
         /**
          * TO-DO: cont. posts function
          */
@@ -179,4 +179,10 @@ export const getUserSubs = async (snoowrap: snoowrap | undefined | null) => {
   if (!snoowrap) return null;
   const subs = snoowrap.getSubscriptions();
   return subs;
+};
+
+export const getPostById = (snoowrap: snoowrap, id: string) => {
+  if (!snoowrap) return null;
+  const post = snoowrap.getSubmission(id);
+  return post;
 };
