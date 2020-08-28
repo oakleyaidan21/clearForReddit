@@ -4,15 +4,19 @@ import MainNavigationContext from "../context/MainNavigationContext";
 import { Icon } from "react-native-elements";
 import SubPicker from "./SubPicker";
 import CategoryPicker from "./CategoryPicker";
+import TimeframePicker from "./TimeframePicker";
 
 const s = require("../assets/styles/mainStyles");
 
 const HomeListHeader: React.FC = (props) => {
   const [showSubPicker, setShowSubPicker] = useState(false);
   const [showCatPicker, setShowCatPicker] = useState(false);
+  const [showTimeframePicker, setShowTimeframePicker] = useState(false);
   const [categoryLocation, setCategoryLocation] = useState(0);
 
-  const { currentSub, currentCategory } = useContext(MainNavigationContext);
+  const { currentSub, currentCategory, currentTimeframe } = useContext(
+    MainNavigationContext
+  );
 
   const iconUrl = currentSub.icon_img
     ? currentSub.icon_img
@@ -27,6 +31,11 @@ const HomeListHeader: React.FC = (props) => {
       <CategoryPicker
         isVisible={showCatPicker}
         close={() => setShowCatPicker(false)}
+        xPos={categoryLocation}
+      />
+      <TimeframePicker
+        isVisible={showTimeframePicker}
+        close={() => setShowTimeframePicker(false)}
         xPos={categoryLocation}
       />
       <TouchableOpacity
@@ -57,8 +66,14 @@ const HomeListHeader: React.FC = (props) => {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <TouchableOpacity style={s.headerDropdown}>
-            <Text style={{ color: "grey" }}>Time</Text>
+          <TouchableOpacity
+            style={s.headerDropdown}
+            onPress={() => setShowTimeframePicker(!showTimeframePicker)}
+          >
+            <Text style={{ color: "grey" }}>
+              {currentTimeframe.charAt(0).toUpperCase() +
+                currentTimeframe.slice(1)}
+            </Text>
             <Icon name="expand-more" color={"grey"} />
           </TouchableOpacity>
         </View>

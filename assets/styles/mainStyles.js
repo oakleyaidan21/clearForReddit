@@ -73,7 +73,7 @@ module.exports = StyleSheet.create({
     borderColor: "lightgrey",
     borderRadius: 5,
     marginTop: 120,
-    marginLeft: 10,
+    marginLeft: 5,
     padding: 10,
     maxWidth: screenWidth * 0.7,
   },
@@ -96,6 +96,18 @@ module.exports = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderColor: "lightgrey",
+  },
+
+  /**
+   * *******TIMEFRAMEPICKER*******
+   */
+  timeframePickerContainer: {
+    position: "absolute",
+    top: 120,
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "lightgrey",
+    borderRadius: 5,
   },
 
   /**

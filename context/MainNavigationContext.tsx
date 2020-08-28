@@ -12,6 +12,8 @@ interface MainNavigationContextInterface {
   setUserSubs: any;
   currentCategory: string;
   setCurrentCategory: any;
+  currentTimeframe: string;
+  setCurrentTimeframe: any;
 }
 
 const MainNavigationContext = createContext<MainNavigationContextInterface>({
@@ -25,6 +27,8 @@ const MainNavigationContext = createContext<MainNavigationContextInterface>({
   setUserSubs: null,
   currentCategory: "Hot",
   setCurrentCategory: null,
+  currentTimeframe: "day",
+  setCurrentTimeframe: null,
 });
 
 export default MainNavigationContext;

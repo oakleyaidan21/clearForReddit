@@ -64,7 +64,7 @@ export const getGeneralPosts = async (
   snoowrap: snoowrap | undefined | null,
   subName: any,
   category: string,
-  time: string
+  timeFrame: string
 ) => {
   if (!snoowrap) return [];
   const name = subName.display_name ? subName.display_name : subName;
@@ -81,7 +81,7 @@ export const getGeneralPosts = async (
         /**
          * TO-DO: top posts function
          */
-        return [];
+        return getTop(snoowrap, name, timeFrame);
       }
       case "Controversial": {
         /**
@@ -99,6 +99,31 @@ export const getGeneralPosts = async (
   }
 };
 
+export const getTop = async (
+  snoowrap: snoowrap | undefined | null,
+  subName: string,
+  timeframe: any
+) => {
+  if (!snoowrap) return [];
+  if (!snoowrap) return [];
+  switch (subName) {
+    case "Front Page": {
+      return snoowrap
+        .getTop("", { time: timeframe })
+        .then((posts: Listing<Submission>) => {
+          return posts;
+        });
+    }
+    default: {
+      return snoowrap
+        .getTop(subName, { time: timeframe })
+        .then((posts: Listing<Submission>) => {
+          return posts;
+        });
+    }
+  }
+};
+
 export const getNew = async (
   snoowrap: snoowrap | undefined | null,
   subName: string
@@ -111,7 +136,7 @@ export const getNew = async (
       });
     }
     default: {
-      return snoowrap.getNew().then((posts: Listing<Submission>) => {
+      return snoowrap.getNew(subName).then((posts: Listing<Submission>) => {
         return posts;
       });
     }

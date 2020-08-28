@@ -43,6 +43,7 @@ const MainNavigator: React.FC = () => {
   const [user, setUser] = useState(null);
   const [currentSub, setCurrentSub] = useState("Front Page");
   const [currentCategory, setCurrentCategory] = useState("Hot");
+  const [currentTimeframe, setCurrentTimeframe] = useState("day");
 
   /**
    * ********CONTEXT******
@@ -64,7 +65,7 @@ const MainNavigator: React.FC = () => {
 
   const getPosts = (r: Snoowrap | null) => {
     const snoo = r;
-    getGeneralPosts(snoo, currentSub, currentCategory, "").then(
+    getGeneralPosts(snoo, currentSub, currentCategory, currentTimeframe).then(
       (posts: any) => {
         setCurrentPosts(posts);
       }
@@ -81,7 +82,7 @@ const MainNavigator: React.FC = () => {
   useDidUpdateEffect(() => {
     setCurrentPosts([]);
     getPosts(context.clear.snoowrap);
-  }, [currentSub, currentCategory]);
+  }, [currentSub, currentCategory, currentTimeframe]);
 
   //when the user changes
   useEffect(() => {
@@ -121,6 +122,8 @@ const MainNavigator: React.FC = () => {
         setUserSubs: setUserSubs,
         currentCategory: currentCategory,
         setCurrentCategory: setCurrentCategory,
+        currentTimeframe: currentTimeframe,
+        setCurrentTimeframe: setCurrentTimeframe,
       }}
     >
       <>
