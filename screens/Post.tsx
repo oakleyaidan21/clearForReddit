@@ -137,11 +137,13 @@ const Post: React.FC<Props> = (props) => {
           <Icon name="share" type="simple-line-icon" />
         </View>
         {/* COMMENTS */}
-        <View style={{ padding: 10, alignItems: "center" }}>
+        <View style={{ padding: 10 }}>
           {comments ? (
             comments.length > 0 ? (
               comments.map((comment: Comment) => {
-                return <CommentThread data={comment} key={comment.id} />;
+                return (
+                  <CommentThread data={comment} key={comment.id} level={0} />
+                );
               })
             ) : (
               <Text style={{ marginTop: 200 }}>No Comments</Text>

@@ -1,9 +1,11 @@
 import React, { useContext, memo, useState } from "react";
-import { View, TouchableOpacity, Text, Image } from "react-native";
+import { View, TouchableOpacity, Text, Image, Modal } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
 import { Video } from "expo-av";
 import { Icon } from "react-native-elements";
 import { Submission } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -18,6 +20,7 @@ interface Props {
 
 const PostItem: React.FC<Props> = (props) => {
   const [showContent, setShowContent] = useState<boolean>(false);
+  const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
   const { data, inList } = props;
 
   const imgUrl = data.thumbnail;
@@ -43,6 +46,18 @@ const PostItem: React.FC<Props> = (props) => {
     <View
       style={{ borderColor: primary_color, borderBottomWidth: inList ? 0 : 2 }}
     >
+      {/* IMAGE VIEWER MODAL */}
+      <Modal
+        visible={showImageViewer}
+        transparent={false}
+        onRequestClose={() => setShowImageViewer(false)}
+      >
+        <ImageViewer
+          imageUrls={[{ url: data.url }]}
+          onSwipeDown={() => setShowImageViewer(false)}
+          enableSwipeDown={true}
+        />
+      </Modal>
       <TouchableOpacity
         style={[
           s.postItemContainer,
@@ -58,8 +73,9 @@ const PostItem: React.FC<Props> = (props) => {
           if (props.inList) {
             props.onPress();
           } else {
-            console.log(data.media?.reddit_video?.scrubber_media_url);
-            isLink ? console.log("link", data.url) : props.setOpenPosts();
+            isLink
+              ? props.navigation.navigate("Web", { url: data.url })
+              : props.setOpenPosts();
           }
         }}
       >
@@ -122,11 +138,13 @@ const PostItem: React.FC<Props> = (props) => {
       )}
       {props.openPosts &&
         (isImage ? (
-          <Image
-            source={{ uri: data.url }}
-            style={{ height: 300, backgroundColor: "white" }}
-            resizeMode={"contain"}
-          />
+          <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
+            <Image
+              source={{ uri: data.url }}
+              style={{ height: 500, backgroundColor: "white" }}
+              resizeMode={"contain"}
+            />
+          </TouchableWithoutFeedback>
         ) : isVideo ? (
           <Video
             shouldPlay={false}
