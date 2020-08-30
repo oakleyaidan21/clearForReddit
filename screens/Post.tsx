@@ -142,7 +142,15 @@ const Post: React.FC<Props> = (props) => {
             comments.length > 0 ? (
               comments.map((comment: Comment) => {
                 return (
-                  <CommentThread data={comment} key={comment.id} level={0} />
+                  <CommentThread
+                    data={comment}
+                    key={comment.id}
+                    level={0}
+                    op={data.author}
+                    onLinkPress={(url: any, href: string) =>
+                      props.navigation.navigate("Web", { url: href })
+                    }
+                  />
                 );
               })
             ) : (

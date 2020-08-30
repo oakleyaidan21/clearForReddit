@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, StatusBar } from "react-native";
+import { SafeAreaView, StatusBar, View } from "react-native";
 
 import MainNavigator from "./navigation/mainNavigator";
 

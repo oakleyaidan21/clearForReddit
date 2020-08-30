@@ -135,6 +135,7 @@ const MainNavigator: React.FC = () => {
           <Stack.Navigator
             screenOptions={({ route, navigation }) => ({
               headerShown: route.name !== "Tabs",
+              cardStyle: { backgroundColor: "black" },
             })}
           >
             <Stack.Screen name="Tabs" component={TabNavigator} />

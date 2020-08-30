@@ -6,6 +6,7 @@ import { Icon } from "react-native-elements";
 import { Submission } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import RedditMD from "./RedditMD";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -132,9 +133,13 @@ const PostItem: React.FC<Props> = (props) => {
       </TouchableOpacity>
 
       {isSelf && (!inList || showContent) && (
-        <View style={{ backgroundColor: "white", padding: 10 }}>
-          <Text>{data.selftext}</Text>
-        </View>
+        <RedditMD
+          body={data.selftext}
+          onLinkPress={(url: any, href: string) =>
+            props.navigation.navigate("Web", { url: href })
+          }
+          styles={{ body: { backgroundColor: "white", padding: 10 } }}
+        />
       )}
       {props.openPosts &&
         (isImage ? (
