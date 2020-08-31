@@ -6,12 +6,7 @@ import MainNavigator from "./navigation/mainNavigator";
 const s = require("./assets/styles/mainStyles.js");
 
 const ClearForReddit: React.FC = () => {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar barStyle={"dark-content"} backgroundColor="white" />
-      <MainNavigator />
-    </SafeAreaView>
-  );
+  return <MainNavigator />;
 };
 
 export default ClearForReddit;

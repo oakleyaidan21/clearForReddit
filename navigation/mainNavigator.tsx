@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StatusBar } from "react-native";
+import { SafeAreaView, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   createStackNavigator,
@@ -140,7 +140,7 @@ const MainNavigator: React.FC = () => {
         setCurrentTimeframe: setCurrentTimeframe,
       }}
     >
-      <>
+      <SafeAreaView style={{ backgroundColor: primary_color, flex: 1 }}>
         {/* STATUS BAR */}
         <StatusBar barStyle={"light-content"} backgroundColor={primary_color} />
         {/* NAVIGATION CONTAINER */}
@@ -162,7 +162,7 @@ const MainNavigator: React.FC = () => {
             <Stack.Screen name="Web" component={Web} />
           </Stack.Navigator>
         </NavigationContainer>
-      </>
+      </SafeAreaView>
     </MainNavigationContext.Provider>
   );
 };
