@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
 import MainNavigationContext from "../context/MainNavigationContext";
 import Login from "../screens/Login";
@@ -21,6 +24,7 @@ import { useDidUpdateEffect } from "../util/util";
 import PostSwiper from "../screens/PostSwiper";
 import Web from "../screens/Web";
 import { defaultColor } from "../assets/styles/palettes";
+import Header from "../components/Header";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -144,7 +148,12 @@ const MainNavigator: React.FC = () => {
           <Stack.Navigator
             screenOptions={({ route, navigation }) => ({
               headerShown: route.name !== "Tabs",
+              headerStyle: { backgroundColor: primary_color },
+              headerBackTitleVisible: false,
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+              header: () => <Header navigation={navigation} />,
             })}
+            headerMode={"screen"}
           >
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Login" component={Login} />

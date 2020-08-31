@@ -4,11 +4,11 @@
     "slug": "clear-for-reddit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/temp_icon_reversed.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#579bfa"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
