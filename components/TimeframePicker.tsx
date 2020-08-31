@@ -5,10 +5,9 @@ import {
   Text,
   Modal,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
+import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles.js");
 
@@ -24,7 +23,7 @@ const TimeframePicker: React.FC<Props> = (props) => {
   const { setCurrentTimeframe, currentSub } = useContext(MainNavigationContext);
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>

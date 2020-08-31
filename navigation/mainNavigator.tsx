@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View } from "react-native";
+import { StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./tabNavigator";
@@ -15,11 +15,14 @@ import {
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
-import Snoowrap, { Submission } from "snoowrap";
+import Snoowrap, { Submission, Subreddit } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
 import PostSwiper from "../screens/PostSwiper";
 import Web from "../screens/Web";
+import { defaultColor } from "../assets/styles/palettes";
+
+const s = require("../assets/styles/mainStyles");
 
 export type MainStackParamList = {
   Tabs: undefined;
@@ -44,7 +47,7 @@ const MainNavigator: React.FC = () => {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [userSubs, setUserSubs] = useState([]);
   const [user, setUser] = useState(null);
-  const [currentSub, setCurrentSub] = useState("Front Page");
+  const [currentSub, setCurrentSub] = useState<any>("Front Page");
   const [currentCategory, setCurrentCategory] = useState("Hot");
   const [currentTimeframe, setCurrentTimeframe] = useState("day");
 
@@ -112,6 +115,10 @@ const MainNavigator: React.FC = () => {
     }
   }, [authCode, refreshToken]);
 
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : defaultColor;
+
   return (
     <MainNavigationContext.Provider
       value={{
@@ -130,12 +137,13 @@ const MainNavigator: React.FC = () => {
       }}
     >
       <>
+        {/* STATUS BAR */}
+        <StatusBar barStyle={"light-content"} backgroundColor={primary_color} />
         {/* NAVIGATION CONTAINER */}
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={({ route, navigation }) => ({
               headerShown: route.name !== "Tabs",
-              cardStyle: { backgroundColor: "black" },
             })}
           >
             <Stack.Screen name="Tabs" component={TabNavigator} />

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { View, TouchableWithoutFeedback } from "react-native";
 import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
+import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -13,7 +14,7 @@ const CustomTabBar: React.FC<any> = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   return (
     <View style={[s.tabBarContainer, { borderColor: primary_color }]}>

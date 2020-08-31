@@ -6,6 +6,7 @@ import { Icon } from "react-native-elements";
 import { Submission } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { defaultColor } from "../assets/styles/palettes";
 import RedditMD from "./RedditMD";
 
 const s = require("../assets/styles/mainStyles");
@@ -41,7 +42,7 @@ const PostItem: React.FC<Props> = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   return (
     <View

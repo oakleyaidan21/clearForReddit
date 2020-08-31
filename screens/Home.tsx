@@ -17,6 +17,7 @@ import { MainStackParamList } from "../navigation/mainNavigator";
 import HomeListHeader from "../components/HomeListHeader";
 import PostItem from "../components/PostItem";
 import { Listing, Submission } from "snoowrap";
+import { defaultColor } from "../assets/styles/palettes";
 
 type HomeScreenNavProps = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList, "Home">,
@@ -59,7 +60,7 @@ const Home: React.FC<Props> = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   return (
     <View style={{ flex: 1 }}>

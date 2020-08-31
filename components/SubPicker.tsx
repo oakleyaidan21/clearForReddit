@@ -8,7 +8,9 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
+import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles.js");
 
@@ -26,7 +28,7 @@ const SubPicker: React.FC<Props> = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   const subs = userSubs;
   subs.sort((a, b) =>
@@ -82,7 +84,7 @@ const SubPicker: React.FC<Props> = (props) => {
                     : "https://img.favpng.com/4/2/8/computer-icons-reddit-logo-website-png-favpng-hMmUQ5KAUjd27EWLvNwpuvW5Q.jpg";
                   const icon_color = sub.primary_color
                     ? sub.primary_color
-                    : "rgb(243,68,35)";
+                    : defaultColor;
                   return (
                     <TouchableOpacity
                       key={sub.name}
@@ -97,17 +99,34 @@ const SubPicker: React.FC<Props> = (props) => {
                         props.close();
                       }}
                     >
-                      <Image
-                        style={{
-                          width: 30,
-                          height: 30,
-                          borderRadius: 15,
-                          marginRight: 10,
-                          borderWidth: 2,
-                          borderColor: icon_color,
-                        }}
-                        source={{ uri: iconUrl }}
-                      />
+                      {sub.icon_img ? (
+                        <Image
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 15,
+                            marginRight: 10,
+                            borderWidth: 2,
+                            borderColor: icon_color,
+                          }}
+                          source={{ uri: iconUrl }}
+                        />
+                      ) : (
+                        <Icon
+                          name="social-reddit"
+                          type="simple-line-icon"
+                          color="white"
+                          size={20}
+                          style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 15,
+                            marginRight: 10,
+                            justifyContent: "center",
+                            backgroundColor: icon_color,
+                          }}
+                        />
+                      )}
                       <Text style={{ fontWeight: "bold" }}>
                         {sub.display_name}
                       </Text>

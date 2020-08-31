@@ -18,6 +18,7 @@ import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { SwiperScreenNavProp } from "./PostSwiper";
 import CommentThread from "../components/CommentThread";
+import { defaultColor } from "../assets/styles/palettes";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -74,7 +75,7 @@ const Post: React.FC<Props> = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
+    : defaultColor;
 
   return (
     <View style={{ flex: 1 }}>

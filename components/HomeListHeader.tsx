@@ -5,6 +5,7 @@ import { Icon } from "react-native-elements";
 import SubPicker from "./SubPicker";
 import CategoryPicker from "./CategoryPicker";
 import TimeframePicker from "./TimeframePicker";
+import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -23,11 +24,7 @@ const HomeListHeader: React.FC = (props) => {
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
-    : "rgb(243,68,35)";
-
-  const iconUrl = currentSub.icon_img
-    ? currentSub.icon_img
-    : "https://img.favpng.com/4/2/8/computer-icons-reddit-logo-website-png-favpng-hMmUQ5KAUjd27EWLvNwpuvW5Q.jpg";
+    : defaultColor;
 
   return (
     <View style={[s.homeHeaderContainer, { borderColor: primary_color }]}>
@@ -54,10 +51,24 @@ const HomeListHeader: React.FC = (props) => {
         }}
         onPress={() => setShowSubPicker(true)}
       >
-        <Image
-          source={{ uri: iconUrl }}
-          style={[s.headerSubIcon, { borderColor: primary_color }]}
-        />
+        {currentSub.icon_img ? (
+          <Image
+            source={{ uri: currentSub.icon_img }}
+            style={[s.headerSubIcon, { borderColor: primary_color }]}
+          />
+        ) : (
+          <Icon
+            name="social-reddit"
+            type="simple-line-icon"
+            color="white"
+            backgroundColor={primary_color}
+            style={{
+              ...s.headerSubIcon,
+              justifyContent: "center",
+              borderColor: primary_color,
+            }}
+          />
+        )}
         <View style={[s.headerDropdown, { borderColor: primary_color }]}>
           <Text
             style={{ maxWidth: 100, color: primary_color }}
