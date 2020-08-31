@@ -1,5 +1,6 @@
 import { createContext } from "react";
-import { Subreddit, Submission, Listing } from "snoowrap";
+import Snoowrap, { Subreddit, Submission, Listing } from "snoowrap";
+import snoowrapConfig from "../util/snoowrap/snoowrapConfig";
 
 interface MainNavigationContextInterface {
   currentPosts: Listing<Submission> | Array<Submission>;

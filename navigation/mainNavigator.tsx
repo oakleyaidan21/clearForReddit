@@ -18,7 +18,7 @@ import {
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
-import Snoowrap, { Submission, Subreddit } from "snoowrap";
+import Snoowrap, { Submission, Subreddit, Listing } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
 import PostSwiper from "../screens/PostSwiper";
@@ -32,7 +32,10 @@ export type MainStackParamList = {
   Tabs: undefined;
   Login: undefined;
   Post: { data: Submission };
-  PostSwiper: { index: number };
+  PostSwiper: {
+    index: number;
+    searchResults: Listing<Submission> | Array<Submission>;
+  };
   Web: { url: string };
 };
 

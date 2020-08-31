@@ -82,7 +82,10 @@ const PostItem: React.FC<Props> = (props) => {
         }}
       >
         <TouchableOpacity
-          style={[s.postItemIconContainer, { backgroundColor: primary_color }]}
+          style={[
+            s.postItemIconContainer,
+            { backgroundColor: useIcon ? primary_color : "transparent" },
+          ]}
           disabled={inList}
           onPress={() => props.navigation.navigate("Web", { url: data.url })}
         >
@@ -92,6 +95,7 @@ const PostItem: React.FC<Props> = (props) => {
               type="simple-line-icon"
               color="white"
               size={50}
+              style={{ backgroundColor: primary_color }}
             />
           ) : (
             <Image

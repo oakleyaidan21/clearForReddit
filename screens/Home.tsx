@@ -97,7 +97,10 @@ const Home: React.FC<Props> = (props) => {
               <PostItem
                 data={item}
                 onPress={() =>
-                  props.navigation.navigate("PostSwiper", { index: index })
+                  props.navigation.navigate("PostSwiper", {
+                    index: index,
+                    searchResults: [],
+                  })
                 }
                 inList={true}
                 navigation={props.navigation}

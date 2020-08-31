@@ -176,4 +176,17 @@ module.exports = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
+  /**
+   * *****SEARCH*******
+   */
+  searchTypeBox: {
+    flex: 1,
+    marginBottom: 5,
+    marginTop: 5,
+    width: "100%",
+    borderWidth: 2,
+    borderRadius: 5,
+    ...centeredContentContainer(),
+  },
 });

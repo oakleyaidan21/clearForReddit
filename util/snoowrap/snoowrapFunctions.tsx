@@ -196,3 +196,32 @@ export const getPostById = (snoowrap: snoowrap, id: string) => {
   const post = snoowrap.getSubmission(id);
   return post;
 };
+
+export const searchPosts = async (
+  snoowrap: snoowrap,
+  subName: string,
+  query: string
+) => {
+  console.log(subName, query);
+  return snoowrap
+    .search({ query, time: "all", subreddit: subName, sort: "relevance" })
+    .then((results) => {
+      return results;
+    })
+    .catch((error) => {
+      console.log("error getting posts", error);
+      return [];
+    });
+};
+
+export const searchForSubs = (snoowrap: snoowrap, query: string) => {
+  return snoowrap
+    .searchSubredditNames({ query })
+    .then((results) => {
+      return results;
+    })
+    .catch((error) => {
+      console.log("error getting sub names", error);
+      return [];
+    });
+};
