@@ -52,6 +52,7 @@ const PostItem: React.FC<Props> = (props) => {
       <Modal
         visible={showImageViewer}
         transparent={false}
+        animationType="none"
         onRequestClose={() => setShowImageViewer(false)}
       >
         <ImageViewer
@@ -59,6 +60,13 @@ const PostItem: React.FC<Props> = (props) => {
           onSwipeDown={() => setShowImageViewer(false)}
           enableSwipeDown={true}
         />
+
+        <TouchableOpacity
+          style={{ position: "absolute", top: 40, left: 10 }}
+          onPress={() => setShowImageViewer(false)}
+        >
+          <Icon name="close" color="white" />
+        </TouchableOpacity>
       </Modal>
       <TouchableOpacity
         style={[

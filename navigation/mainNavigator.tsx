@@ -52,7 +52,7 @@ const MainNavigator: React.FC = () => {
    * ********STATE********
    */
   const [currentPosts, setCurrentPosts] = useState<Array<Submission> | null>(
-    []
+    null
   );
   const [userSubs, setUserSubs] = useState([]);
   const [user, setUser] = useState(null);

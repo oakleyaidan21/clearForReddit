@@ -115,6 +115,7 @@ const SubPicker: React.FC<Props> = (props) => {
                   fontWeight: "bold",
                   color: primary_color,
                 }}
+                numberOfLines={1}
               >
                 r/
                 {subName}
@@ -174,7 +175,7 @@ const SubPicker: React.FC<Props> = (props) => {
                   height: 45,
                   padding: 10,
                   alignItems: "center",
-                  borderBottomWidth: 2,
+                  borderBottomWidth: userSubs.length > 0 || showSearch ? 2 : 0,
                   borderColor: primary_color,
                 }}
               >
@@ -217,12 +218,15 @@ const SubPicker: React.FC<Props> = (props) => {
                   />
                 </TouchableOpacity>
               </View>
-
               <View
-                style={{ width: "100%", maxHeight: 400, position: "relative" }}
+                style={{
+                  width: "100%",
+                  position: "relative",
+                  minHeight: showSearch ? 40 : 0,
+                }}
               >
                 <ScrollView
-                  style={{ width: "100%", height: "100%" }}
+                  style={{ width: "100%", maxHeight: 400 }}
                   contentContainerStyle={{ paddingLeft: 10 }}
                 >
                   {subResults.length > 0

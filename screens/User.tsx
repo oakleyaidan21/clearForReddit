@@ -12,14 +12,12 @@ interface Props {
 
 const User: React.FC<Props> = (props) => {
   const context: any = useContext(ClearContext);
-  const navContext: any = useContext(MainNavigationContext);
+  const { setUser, setUserSubs, user } = useContext(MainNavigationContext);
   /**
    * *********REDUX********
    */
   const { authCode, refreshToken } = useSelector((state: any) => state);
   const dispatch = useDispatch();
-
-  const { user } = navContext;
 
   return (
     <View style={s.screen}>
@@ -29,7 +27,8 @@ const User: React.FC<Props> = (props) => {
           <TouchableOpacity
             onPress={() => {
               dispatch({ type: "LOGOUT" });
-              navContext.setUser(null);
+              setUser(null);
+              setUserSubs([]);
             }}
           >
             <Text>logout</Text>

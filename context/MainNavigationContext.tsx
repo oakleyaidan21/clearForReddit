@@ -18,7 +18,7 @@ interface MainNavigationContextInterface {
 }
 
 const MainNavigationContext = createContext<MainNavigationContextInterface>({
-  currentPosts: [],
+  currentPosts: null,
   updateCurrentPosts: null,
   user: null,
   setUser: null,

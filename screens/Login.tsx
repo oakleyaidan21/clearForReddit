@@ -11,39 +11,34 @@ interface Props {
 
 const s = require("../assets/styles/mainStyles");
 
+const url = Snoowrap.getAuthUrl({
+  clientId: snoowrapConfig.clientId,
+  scope: [
+    "identity",
+    "account",
+    "flair",
+    "edit",
+    "history",
+    "mysubreddits",
+    "privatemessages",
+    "read",
+    "report",
+    "save",
+    "submit",
+    "subscribe",
+    "vote",
+    "wikiread",
+  ],
+  redirectUri: "https://localhost:8080",
+  permanent: true,
+}).replace("https://www.", "https://i.");
+
 const Login: React.FC<Props> = (props) => {
   /**
    * *********REDUX********
    */
   const { authCode } = useSelector((state: any) => state);
   const dispatch = useDispatch();
-
-  /**
-   * ********STATE********
-   */
-  const [url, setUrl] = useState(
-    Snoowrap.getAuthUrl({
-      clientId: snoowrapConfig.clientId,
-      scope: [
-        "identity",
-        "account",
-        "flair",
-        "edit",
-        "history",
-        "mysubreddits",
-        "privatemessages",
-        "read",
-        "report",
-        "save",
-        "submit",
-        "subscribe",
-        "vote",
-        "wikiread",
-      ],
-      redirectUri: "https://localhost:8080",
-      permanent: true,
-    }).replace("https://www.", "https://i.")
-  );
 
   return (
     <View style={{ flex: 1 }}>

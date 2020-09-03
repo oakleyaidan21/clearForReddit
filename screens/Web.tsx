@@ -16,7 +16,19 @@ type Props = {
 };
 
 const Web: React.FC<Props> = (props) => {
-  const webRef = useRef<any>();
+  const webRef = useRef<WebView>(null);
+
+  const goBack = () => {
+    if (webRef.current) webRef.current.goBack();
+  };
+
+  const goForward = () => {
+    if (webRef.current) webRef.current.goForward();
+  };
+
+  const refresh = () => {
+    if (webRef.current) webRef.current.reload();
+  };
   return (
     <View style={{ flex: 1 }}>
       {/* SEARCH FUNCTIONS */}
@@ -30,13 +42,9 @@ const Web: React.FC<Props> = (props) => {
           alignItems: "center",
         }}
       >
-        <Icon name="arrow-back" color="white" onPress={webRef.current.goBack} />
-        <Icon
-          name="arrow-forward"
-          color="white"
-          onPress={webRef.current.goForward}
-        />
-        <Icon name="refresh" color="white" onPress={webRef.current.reload} />
+        <Icon name="arrow-back" color="white" onPress={goBack} />
+        <Icon name="arrow-forward" color="white" onPress={goForward} />
+        <Icon name="refresh" color="white" onPress={refresh} />
         <Icon
           name="link"
           color="white"
@@ -44,6 +52,7 @@ const Web: React.FC<Props> = (props) => {
         />
       </View>
       <WebView
+        javaScriptCanOpenWindowsAutomatically={false}
         style={{ flex: 1 }}
         source={{ uri: props.route.params.url }}
         ref={webRef}
