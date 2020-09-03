@@ -24,11 +24,6 @@ const PostSwiper: React.FC<Props> = (props) => {
   );
 
   const [openPosts, setOpenPosts] = useState<boolean>(false);
-  const [postsToRender, setPostsToRender] = useState(
-    props.route.params.searchResults.length > 0
-      ? props.route.params.searchResults
-      : currentPosts
-  );
 
   return (
     <Swiper
@@ -37,19 +32,18 @@ const PostSwiper: React.FC<Props> = (props) => {
       index={props.route.params.index}
       loop={false}
       onIndexChanged={(index) => {
-        if (index === postsToRender.length - 1) {
-          (postsToRender as any)
+        if (index === currentPosts.length - 1) {
+          (currentPosts as any)
             .fetchMore({ amount: 25, append: true })
             .then((list: Listing<Submission>) => {
               if (props.route.params.searchResults.length === 0) {
                 updateCurrentPosts(list);
               }
-              setPostsToRender(list);
             });
         }
       }}
     >
-      {postsToRender.map((post, index) => (
+      {currentPosts.map((post, index) => (
         <Post
           key={post.id + index.toString()}
           data={post}

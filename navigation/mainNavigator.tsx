@@ -51,7 +51,9 @@ const MainNavigator: React.FC = () => {
   /**
    * ********STATE********
    */
-  const [currentPosts, setCurrentPosts] = useState([]);
+  const [currentPosts, setCurrentPosts] = useState<Array<Submission> | null>(
+    []
+  );
   const [userSubs, setUserSubs] = useState([]);
   const [user, setUser] = useState(null);
   const [currentSub, setCurrentSub] = useState<any>("Front Page");
@@ -93,8 +95,10 @@ const MainNavigator: React.FC = () => {
   };
 
   useDidUpdateEffect(() => {
-    setCurrentPosts([]);
-    getPosts(context.clear.snoowrap);
+    if (currentSub !== "Search Results") {
+      setCurrentPosts(null);
+      getPosts(context.clear.snoowrap);
+    }
   }, [currentSub, currentCategory, currentTimeframe]);
 
   //when the user changes

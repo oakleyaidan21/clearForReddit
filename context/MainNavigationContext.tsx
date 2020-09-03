@@ -3,7 +3,7 @@ import Snoowrap, { Subreddit, Submission, Listing } from "snoowrap";
 import snoowrapConfig from "../util/snoowrap/snoowrapConfig";
 
 interface MainNavigationContextInterface {
-  currentPosts: Listing<Submission> | Array<Submission>;
+  currentPosts: Listing<Submission> | Array<Submission> | null;
   updateCurrentPosts: any;
   user: any;
   setUser: any;

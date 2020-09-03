@@ -65,59 +65,65 @@ const Home: React.FC<Props> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <HomeListHeader />
-      {currentPosts.length > 0 ? (
-        <View style={{ flex: 1 }}>
-          <FlatList
-            keyExtractor={(item, index) => item.id + index.toString()}
-            ListFooterComponent={
-              <View
-                style={{
-                  width: "100%",
-                  alignItems: "center",
-                  marginTop: 20,
-                  marginBottom: 20,
-                }}
-              >
-                <Text style={{ color: "grey", marginBottom: 10 }}>
-                  Getting more posts...
-                </Text>
-                <ActivityIndicator color={primary_color} />
-              </View>
-            }
-            data={currentPosts}
-            onEndReached={() => {
-              (currentPosts as any)
-                .fetchMore({ amount: 25, append: true })
-                .then((list: Listing<Submission>) => {
-                  updateCurrentPosts(list);
-                });
-            }}
-            style={{ flex: 1 }}
-            renderItem={({ item, index }) => (
-              <PostItem
-                data={item}
-                onPress={() =>
-                  props.navigation.navigate("PostSwiper", {
-                    index: index,
-                    searchResults: [],
-                  })
-                }
-                inList={true}
-                navigation={props.navigation}
-                openPosts={false}
-                setOpenPosts={() => {}}
-              />
-            )}
-            refreshControl={
-              <RefreshControl
-                onRefresh={() => {
-                  setGettingPosts(true);
-                  getMainPosts();
-                }}
-                refreshing={gettingPosts}
-              />
-            }
-          />
+      {currentPosts ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          {currentPosts.length > 0 ? (
+            <FlatList
+              keyExtractor={(item, index) => item.id + index.toString()}
+              ListFooterComponent={
+                <View
+                  style={{
+                    width: "100%",
+                    alignItems: "center",
+                    marginTop: 20,
+                    marginBottom: 20,
+                  }}
+                >
+                  <Text style={{ color: "grey", marginBottom: 10 }}>
+                    Getting more posts...
+                  </Text>
+                  <ActivityIndicator color={primary_color} />
+                </View>
+              }
+              data={currentPosts}
+              onEndReached={() => {
+                (currentPosts as any)
+                  .fetchMore({ amount: 25, append: true })
+                  .then((list: Listing<Submission>) => {
+                    updateCurrentPosts(list);
+                  });
+              }}
+              style={{ width: "100%", height: "100%" }}
+              renderItem={({ item, index }) => (
+                <PostItem
+                  data={item}
+                  onPress={() =>
+                    props.navigation.navigate("PostSwiper", {
+                      index: index,
+                      searchResults: [],
+                    })
+                  }
+                  inList={true}
+                  navigation={props.navigation}
+                  openPosts={false}
+                  setOpenPosts={() => {}}
+                />
+              )}
+              refreshControl={
+                <RefreshControl
+                  onRefresh={() => {
+                    setGettingPosts(true);
+                    getMainPosts();
+                  }}
+                  refreshing={gettingPosts}
+                />
+              }
+            />
+          ) : (
+            <Text>No results...</Text>
+          )}
         </View>
       ) : (
         <View

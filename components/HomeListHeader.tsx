@@ -58,7 +58,9 @@ const HomeListHeader: React.FC = (props) => {
           />
         ) : (
           <Icon
-            name="social-reddit"
+            name={
+              currentSub === "Search Results" ? "magnifier" : "social-reddit"
+            }
             type="simple-line-icon"
             color="white"
             backgroundColor={primary_color}

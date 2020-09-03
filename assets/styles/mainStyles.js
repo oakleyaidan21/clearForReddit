@@ -81,6 +81,24 @@ module.exports = StyleSheet.create({
     maxWidth: screenWidth * 0.7,
   },
 
+  searchTypeContainer: {
+    height: 35,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderWidth: 2,
+    backgroundColor: "white",
+    borderTopWidth: 0,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    width: "70%",
+  },
+
+  searchType: {
+    padding: 5,
+    justifyContent: "center",
+    flex: 1,
+  },
+
   /**
    * *********CATPICKER*********
    */
@@ -175,18 +193,5 @@ module.exports = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-  },
-
-  /**
-   * *****SEARCH*******
-   */
-  searchTypeBox: {
-    flex: 1,
-    marginBottom: 5,
-    marginTop: 5,
-    width: "100%",
-    borderWidth: 2,
-    borderRadius: 5,
-    ...centeredContentContainer(),
   },
 });
