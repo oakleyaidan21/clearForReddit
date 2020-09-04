@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import ClearContext from "../context/Clear";
 import { useDispatch, useSelector } from "react-redux";
 import MainNavigationContext from "../context/MainNavigationContext";
+import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -22,22 +23,53 @@ const User: React.FC<Props> = (props) => {
   return (
     <View style={s.screen}>
       {user ? (
-        <View>
-          <Text>{user.name}</Text>
+        <View style={{ alignItems: "center" }}>
+          <Image
+            source={{ uri: user.icon_img }}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 50,
+              borderWidth: 5,
+              borderColor: defaultColor,
+            }}
+          />
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>{user.name}</Text>
           <TouchableOpacity
+            style={{
+              padding: 10,
+              backgroundColor: defaultColor,
+              borderRadius: 10,
+              width: 100,
+              margin: 10,
+            }}
             onPress={() => {
               dispatch({ type: "LOGOUT" });
               setUser(null);
               setUserSubs([]);
             }}
           >
-            <Text>logout</Text>
+            <Text style={{ color: "white", textAlign: "center" }}>Log out</Text>
           </TouchableOpacity>
         </View>
       ) : (
-        <TouchableOpacity onPress={() => props.navigation.navigate("Login")}>
-          <Text>login</Text>
-        </TouchableOpacity>
+        <View style={{ alignItems: "center" }}>
+          <Text style={{ fontSize: 25, textAlign: "center" }}>
+            Log in with your Reddit account!
+          </Text>
+          <TouchableOpacity
+            style={{
+              padding: 10,
+              backgroundColor: defaultColor,
+              borderRadius: 10,
+              width: 100,
+              margin: 10,
+            }}
+            onPress={() => props.navigation.navigate("Login")}
+          >
+            <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
