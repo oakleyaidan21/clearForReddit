@@ -6,6 +6,9 @@ import {
   RefreshControl,
   ActivityIndicator,
   TouchableOpacity,
+  Modal,
+  Share,
+  Platform,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
@@ -19,6 +22,7 @@ import ClearContext from "../context/Clear";
 import { SwiperScreenNavProp } from "./PostSwiper";
 import CommentThread from "../components/CommentThread";
 import { defaultColor } from "../assets/styles/palettes";
+import SlideModal from "../components/SlideModal";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -40,6 +44,9 @@ const Post: React.FC<Props> = (props) => {
   const [data, setData] = useState<Submission>(
     props.route?.params.data ? props.route.params.data : props.data
   );
+  const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
+  const [showReportModal, setShowReportModal] = useState<boolean>(false);
+
   const [saving, setSaving] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
@@ -48,6 +55,37 @@ const Post: React.FC<Props> = (props) => {
     //get comments
     getComments();
   }, []);
+
+  const { currentSub } = useContext(MainNavigationContext);
+
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : defaultColor;
+
+  const _renderModals = () => {
+    return (
+      <>
+        {/* REPLY MODAL */}
+        <SlideModal
+          isVisible={showReplyModal}
+          close={() => setShowReplyModal(false)}
+        >
+          <View style={s.replyModalContainer}>
+            <Text>Reply Modal</Text>
+          </View>
+        </SlideModal>
+        {/* REPORT MODAL */}
+        <SlideModal
+          isVisible={showReportModal}
+          close={() => setShowReportModal(false)}
+        >
+          <View style={s.replyModalContainer}>
+            <Text>Report Modal</Text>
+          </View>
+        </SlideModal>
+      </>
+    );
+  };
 
   const getComments = async () => {
     const comments = await data.comments.fetchMore({
@@ -71,12 +109,6 @@ const Post: React.FC<Props> = (props) => {
     );
   };
 
-  const { currentSub } = useContext(MainNavigationContext);
-
-  const primary_color = currentSub.primary_color
-    ? currentSub.primary_color
-    : defaultColor;
-
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
@@ -90,6 +122,7 @@ const Post: React.FC<Props> = (props) => {
             }}
           />
         }
+        stickyHeaderIndices={[1]}
       >
         {/* MAIN POST HEADER */}
         <PostItem
@@ -101,44 +134,60 @@ const Post: React.FC<Props> = (props) => {
           setOpenPosts={props.setOpenPosts}
         />
         {/* OTHER POST FUNCTIONS */}
-        <View
-          style={{
-            width: "100%",
-            padding: 10,
-            backgroundColor: "white",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity>
-            <Icon name="action-redo" type="simple-line-icon" />
-          </TouchableOpacity>
-          {saving ? (
-            <ActivityIndicator color={primary_color} />
-          ) : (
+        {/* needs this outer view for the sticky header to work */}
+        <View>
+          <View
+            style={{
+              width: "100%",
+              padding: 10,
+              backgroundColor: primary_color,
+              flexDirection: "row",
+              justifyContent: "space-around",
+            }}
+          >
+            <TouchableOpacity onPress={() => setShowReplyModal(true)}>
+              <Icon name="action-redo" type="simple-line-icon" color="white" />
+            </TouchableOpacity>
+            {saving ? (
+              <ActivityIndicator color={"white"} />
+            ) : (
+              <TouchableOpacity
+                onPress={() => {
+                  setSaving(true);
+                  if (data.saved) {
+                    data.unsave().then(() => getPostData());
+                  } else {
+                    data.save().then(() => getPostData());
+                  }
+                }}
+              >
+                <Icon
+                  name="star"
+                  type="simple-line-icon"
+                  color={data.saved ? "yellow" : "white"}
+                />
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity onPress={() => setShowReportModal(true)}>
+              <Icon name="flag" type="simple-line-icon" color="white" />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setSaving(true);
-                if (data.saved) {
-                  data.unsave().then(() => getPostData());
-                } else {
-                  data.save().then(() => getPostData());
-                }
+                Share.share(
+                  {
+                    message: Platform.OS === "ios" ? data.title : data.url,
+                    url: data.url,
+                  },
+                  { dialogTitle: data.title }
+                );
               }}
             >
-              <Icon
-                name="star"
-                type="simple-line-icon"
-                color={data.saved ? "yellow" : "black"}
-              />
+              <Icon name="share" type="simple-line-icon" color="white" />
             </TouchableOpacity>
-          )}
-
-          <Icon name="flag" type="simple-line-icon" />
-          <Icon name="share" type="simple-line-icon" />
+          </View>
         </View>
         {/* COMMENTS */}
-        <View style={{ padding: 10 }}>
+        <View>
           {comments ? (
             comments.length > 0 ? (
               comments.map((comment: Comment) => {
@@ -166,6 +215,7 @@ const Post: React.FC<Props> = (props) => {
           )}
         </View>
       </ScrollView>
+      {_renderModals()}
     </View>
   );
 };

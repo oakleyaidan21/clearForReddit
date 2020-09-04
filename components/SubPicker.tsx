@@ -14,7 +14,6 @@ import { defaultColor } from "../assets/styles/palettes";
 import { TextInput } from "react-native-gesture-handler";
 import { searchPosts, searchForSubs } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
-import { Submission } from "snoowrap";
 
 const s = require("../assets/styles/mainStyles.js");
 

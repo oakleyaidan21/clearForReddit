@@ -176,6 +176,7 @@ module.exports = StyleSheet.create({
   postItemContainer: {
     padding: 10,
     margin: 10,
+
     marginBottom: 0,
     borderWidth: 2,
     borderColor: "grey",
@@ -193,5 +194,19 @@ module.exports = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  /**
+   * *********POST************
+   */
+  replyModalContainer: {
+    width: "98%",
+    height: 200,
+    position: "absolute",
+    bottom: 0,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    ...elevationShadowStyle(5),
+    ...centeredContentContainer(),
   },
 });

@@ -4,6 +4,7 @@ import { Comment, RedditUser } from "snoowrap";
 import { getTimeSincePosted } from "../util/util";
 import HTML from "react-native-render-html";
 import RedditMD from "./RedditMD";
+import { defaultColor } from "../assets/styles/palettes";
 
 const { getParser } = require("../util/snuOwnd.js");
 
@@ -24,19 +25,24 @@ const CommentThread: React.FC<Props> = (props) => {
       {/* THREAD CONTAINER */}
       <View
         style={{
-          borderLeftWidth: 2,
-          marginLeft: level === 0 ? 0 : 5,
           marginBottom: 10,
+          backgroundColor: "white",
         }}
       >
         {/* COMMENT BODY */}
-        <View style={{ paddingLeft: 10, paddingBottom: 10 }}>
+        <View
+          style={{
+            padding: 10,
+            backgroundColor: "white",
+            // borderWidth: 1,
+          }}
+        >
           {/* AUTHOR */}
           <View style={{ flexDirection: "row" }}>
             <Text
               style={{
                 fontWeight: "bold",
-                color: data.author.name === op.name ? "blue" : "black",
+                color: data.author.name === op.name ? defaultColor : "black",
               }}
             >
               {data.author.name}
@@ -61,16 +67,18 @@ const CommentThread: React.FC<Props> = (props) => {
           </View>
         </View>
         {/* REPLIES */}
-        {showReplies &&
-          data.replies.map((reply, index) => (
-            <CommentThread
-              data={reply}
-              key={reply.id}
-              level={level + 1}
-              op={op}
-              onLinkPress={props.onLinkPress}
-            />
-          ))}
+        <View style={{ borderLeftWidth: 2, marginLeft: 5 }}>
+          {showReplies &&
+            data.replies.map((reply, index) => (
+              <CommentThread
+                data={reply}
+                key={reply.id}
+                level={level + 1}
+                op={op}
+                onLinkPress={props.onLinkPress}
+              />
+            ))}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );

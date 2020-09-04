@@ -137,6 +137,7 @@ const PostItem: React.FC<Props> = (props) => {
             flex: 1,
             justifyContent: "space-between",
             alignItems: "center",
+            height: 100,
           }}
         >
           <Icon name="arrow-up" type="simple-line-icon" />
