@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Modal, TouchableWithoutFeedback } from "react-native";
+import { View, Modal, TouchableWithoutFeedback, Platform } from "react-native";
 
 type Props = {
   close: any;
@@ -8,7 +8,11 @@ type Props = {
 
 const SlideModal: React.FC<Props> = (props) => {
   return (
-    <Modal visible={props.isVisible} animationType="slide" transparent={true}>
+    <Modal
+      visible={props.isVisible}
+      animationType={Platform.OS === "ios" ? "slide" : "fade"}
+      transparent={true}
+    >
       <TouchableWithoutFeedback onPress={props.close}>
         <View
           style={{
