@@ -14,6 +14,7 @@ import { defaultColor } from "../assets/styles/palettes";
 import { TextInput } from "react-native-gesture-handler";
 import { searchPosts, searchForSubs } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
+import { Subreddit } from "snoowrap";
 
 const s = require("../assets/styles/mainStyles.js");
 
@@ -231,7 +232,21 @@ const SubPicker: React.FC<Props> = (props) => {
                   {subResults.length > 0
                     ? // SUB SEARCH RESULTS
                       subResults.map((sub) => (
-                        <TouchableOpacity key={sub}>
+                        <TouchableOpacity
+                          key={sub}
+                          style={{ padding: 10 }}
+                          onPress={() => {
+                            props.close();
+                            context.clear.snoowrap
+                              .getSubreddit(sub)
+                              .fetch()
+                              .then((sub: Subreddit) => {
+                                setCurrentSub(sub);
+                                setShowSearch(false);
+                                setSubResults([]);
+                              });
+                          }}
+                        >
                           <Text>{sub}</Text>
                         </TouchableOpacity>
                       ))

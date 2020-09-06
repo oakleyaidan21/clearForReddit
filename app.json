@@ -19,6 +19,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.carrotcake.clearforreddit",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/temp_adaptive_icon.png",
+        "backgroundColor": "#579bfa"
+      }
     }
   }
 }

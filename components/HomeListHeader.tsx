@@ -9,7 +9,11 @@ import { defaultColor } from "../assets/styles/palettes";
 
 const s = require("../assets/styles/mainStyles");
 
-const HomeListHeader: React.FC = (props) => {
+type Props = {
+  showSubModal: any;
+};
+
+const HomeListHeader: React.FC<Props> = (props) => {
   const [showSubPicker, setShowSubPicker] = useState<boolean>(false);
   const [showCatPicker, setShowCatPicker] = useState<boolean>(false);
   const [showTimeframePicker, setShowTimeframePicker] = useState<boolean>(
@@ -43,35 +47,42 @@ const HomeListHeader: React.FC = (props) => {
         close={() => setShowTimeframePicker(false)}
         xPos={categoryLocation}
       />
-      <TouchableOpacity
+      <View
         style={{
           flexDirection: "row",
           flex: 1,
           alignItems: "center",
         }}
-        onPress={() => setShowSubPicker(true)}
       >
-        {currentSub.icon_img ? (
-          <Image
-            source={{ uri: currentSub.icon_img }}
-            style={[s.headerSubIcon, { borderColor: primary_color }]}
-          />
-        ) : (
-          <Icon
-            name={
-              currentSub === "Search Results" ? "magnifier" : "social-reddit"
-            }
-            type="simple-line-icon"
-            color="white"
-            backgroundColor={primary_color}
-            style={{
-              ...s.headerSubIcon,
-              justifyContent: "center",
-              borderColor: primary_color,
-            }}
-          />
-        )}
-        <View style={[s.headerDropdown, { borderColor: primary_color }]}>
+        <TouchableOpacity
+          disabled={!currentSub.display_name}
+          onPress={props.showSubModal}
+        >
+          {currentSub.icon_img ? (
+            <Image
+              source={{ uri: currentSub.icon_img }}
+              style={[s.headerSubIcon, { borderColor: primary_color }]}
+            />
+          ) : (
+            <Icon
+              name={
+                currentSub === "Search Results" ? "magnifier" : "social-reddit"
+              }
+              type="simple-line-icon"
+              color="white"
+              backgroundColor={primary_color}
+              style={{
+                ...s.headerSubIcon,
+                justifyContent: "center",
+                borderColor: primary_color,
+              }}
+            />
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[s.headerDropdown, { borderColor: primary_color }]}
+          onPress={() => setShowSubPicker(true)}
+        >
           <Text
             style={{ maxWidth: 100, color: primary_color }}
             numberOfLines={1}
@@ -85,8 +96,8 @@ const HomeListHeader: React.FC = (props) => {
             size={13}
             style={{ marginLeft: 10 }}
           />
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           flex: 1,

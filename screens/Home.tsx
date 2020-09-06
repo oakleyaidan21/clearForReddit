@@ -18,6 +18,7 @@ import HomeListHeader from "../components/HomeListHeader";
 import PostItem from "../components/PostItem";
 import { Listing, Submission } from "snoowrap";
 import { defaultColor } from "../assets/styles/palettes";
+import SubModal from "../components/SubModal";
 
 type HomeScreenNavProps = CompositeNavigationProp<
   BottomTabNavigationProp<TabParamList, "Home">,
@@ -35,10 +36,12 @@ const Home: React.FC<Props> = (props) => {
    * *******STATE********
    */
   const [gettingPosts, setGettingPosts] = useState(false);
+  const [showSubModal, setShowSubModal] = useState<boolean>(false);
   const clearContext: any = useContext(ClearContext);
   const {
     currentPosts,
     updateCurrentPosts,
+    setCurrentSub,
     currentSub,
     currentCategory,
   } = useContext(MainNavigationContext);
@@ -64,7 +67,7 @@ const Home: React.FC<Props> = (props) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <HomeListHeader />
+      <HomeListHeader showSubModal={() => setShowSubModal(true)} />
       {currentPosts ? (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
@@ -132,6 +135,15 @@ const Home: React.FC<Props> = (props) => {
           <ActivityIndicator size={"large"} color={primary_color} />
         </View>
       )}
+      <SubModal
+        isVisible={showSubModal}
+        close={() => {
+          setShowSubModal(false);
+        }}
+        updateSub={setCurrentSub}
+        currentSub={currentSub}
+        navigation={props.navigation}
+      />
     </View>
   );
 };

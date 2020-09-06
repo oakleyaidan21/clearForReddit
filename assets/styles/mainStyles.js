@@ -209,4 +209,29 @@ module.exports = StyleSheet.create({
     ...elevationShadowStyle(5),
     ...centeredContentContainer(),
   },
+
+  /**
+   * ********SUBMODAL*********
+   */
+
+  subModalContainer: {
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.75,
+    backgroundColor: "white",
+    alignItems: "center",
+  },
+
+  subscribeButton: {
+    width: 150,
+    height: 50,
+    ...centeredContentContainer(),
+    borderRadius: 10,
+  },
+
+  subModalHeader: {
+    height: 150,
+    width: screenWidth * 0.9,
+    position: "absolute",
+    top: 0,
+  },
 });
