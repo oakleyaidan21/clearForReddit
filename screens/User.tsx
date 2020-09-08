@@ -26,6 +26,8 @@ const User: React.FC<Props> = (props) => {
    */
   const [showUsers, setShowUsers] = useState(false);
 
+  const usersToRender = users ? JSON.parse(users) : [];
+
   return (
     <>
       <View style={s.screen}>
@@ -88,7 +90,7 @@ const User: React.FC<Props> = (props) => {
             <Text style={{ margin: 10, fontSize: 20, fontWeight: "bold" }}>
               Accounts
             </Text>
-            {users.map((u: { name: string; token: string }) => {
+            {usersToRender.map((u: { name: string; token: string }) => {
               return (
                 <TouchableOpacity
                   key={u.name}

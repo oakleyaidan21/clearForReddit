@@ -119,10 +119,11 @@ const MainNavigator: React.FC = () => {
       } else {
         console.log("creating new user snoowrap");
         initializeSnoowrap(authCode).then((r: any) => {
-          const newUsers = users;
-          r.getMe().then((me: RedditUser) => {
+          const newUsers = users ? JSON.parse(users) : [];
+          r.getMe().then((me: any) => {
             newUsers.push({ name: me.name, token: r.refreshToken });
-            dispatch({ type: "SET_USERS", users: newUsers });
+            setUser(me);
+            dispatch({ type: "SET_USERS", users: JSON.stringify(newUsers) });
             dispatch({
               type: "SET_REFRESH_TOKEN",
               refreshToken: r.refreshToken,

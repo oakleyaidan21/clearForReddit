@@ -49,6 +49,7 @@ const Login: React.FC<Props> = (props) => {
           if (newNavState.url.includes("https://localhost:8080")) {
             const start_i = newNavState.url.indexOf("code");
             const code = newNavState.url.slice(start_i + 5);
+            dispatch({ type: "SET_REFRESH_TOKEN", refreshToken: "none" });
             dispatch({ type: "SET_AUTH_CODE", authCode: code });
             props.navigation.navigate("Tabs");
           }

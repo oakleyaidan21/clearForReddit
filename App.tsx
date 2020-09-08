@@ -16,9 +16,6 @@ if (!global.btoa) {
 if (!global.atob) {
   global.atob = decode;
 }
-
-const s = require("./assets/styles/mainStyles.js");
-
 YellowBox.ignoreWarnings(["Setting a timer"]);
 
 export default function App() {
