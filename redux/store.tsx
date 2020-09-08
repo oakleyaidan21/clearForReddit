@@ -8,7 +8,6 @@ import { createStore } from "redux";
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  // whitelist: ["persistingReducer"],
 };
 
 const persistingReducer = persistReducer(persistConfig, reducer);

@@ -15,6 +15,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+import GeneralModal from "./GeneralModal";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -40,128 +41,112 @@ const SubModal: React.FC<Props> = (props) => {
     ? currentSub.primary_color
     : defaultColor;
 
-  const topImage = currentSub.banner_img
-    ? currentSub.banner_img
-    : currentSub.header_img;
+  const topImage = currentSub.banner_img;
 
   return (
-    <Modal visible={props.isVisible} animationType="fade" transparent={true}>
-      <TouchableWithoutFeedback onPress={props.close}>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(230,230,230,0.5)",
-          }}
-        >
-          <TouchableWithoutFeedback>
-            <View style={s.subModalContainer}>
-              <ScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={{ padding: 10 }}
-              >
-                {topImage ? (
-                  <Image
-                    source={{ uri: topImage as string }}
-                    style={s.subModalHeader}
-                    resizeMode="stretch"
-                  />
-                ) : (
-                  <View
-                    style={[s.subModalHeader, { backgroundColor: icon_color }]}
-                  ></View>
-                )}
+    <GeneralModal
+      {...props}
+      disableClose={false}
+      content={
+        <View style={s.subModalContainer}>
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{ padding: 10 }}
+          >
+            {topImage ? (
+              <Image
+                source={{ uri: topImage as string }}
+                style={s.subModalHeader}
+                resizeMode="stretch"
+              />
+            ) : (
+              <View
+                style={[s.subModalHeader, { backgroundColor: icon_color }]}
+              />
+            )}
 
-                <View style={{ marginTop: 100 }}>
-                  {currentSub.icon_img ? (
-                    <Image
-                      source={{ uri: iconUrl }}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 50,
-                        borderWidth: 5,
-                        backgroundColor: "white",
-                        borderColor: icon_color,
-                      }}
-                    />
-                  ) : (
-                    <Icon
-                      name="social-reddit"
-                      type="simple-line-icon"
-                      color="white"
-                      size={50}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 50,
-                        justifyContent: "center",
-                        backgroundColor: icon_color,
-                      }}
-                    />
-                  )}
-                </View>
-                <View
+            <View style={{ marginTop: 100 }}>
+              {currentSub.icon_img ? (
+                <Image
+                  source={{ uri: iconUrl }}
                   style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
+                    width: 100,
+                    height: 100,
+                    borderRadius: 50,
+                    borderWidth: 5,
+                    backgroundColor: "white",
+                    borderColor: icon_color,
                   }}
-                >
-                  <Text
-                    style={{ margin: 10, fontWeight: "bold", fontSize: 28 }}
-                  >
-                    {currentSub.display_name}
-                  </Text>
-                  <Text>{currentSub.subscribers} subscribers</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    setChangingSubStatus(true);
-                    if (currentSub.user_is_subscriber) {
-                      currentSub.unsubscribe().then(() => {
-                        currentSub.fetch().then((sub) => {
-                          props.updateSub(sub);
-                          setChangingSubStatus(false);
-                        });
-                      });
-                    } else {
-                      currentSub.subscribe().then(() => {
-                        currentSub.fetch().then((sub) => {
-                          props.updateSub(sub);
-                          setChangingSubStatus(false);
-                        });
-                      });
-                    }
-                  }}
-                  style={[s.subscribeButton, { backgroundColor: icon_color }]}
-                >
-                  {changingSubStatus ? (
-                    <ActivityIndicator color="white" />
-                  ) : (
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      {currentSub.user_is_subscriber
-                        ? "Unsubscribe"
-                        : "Subscribe"}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-                <RedditMD
-                  body={currentSub.description}
-                  onLinkPress={(url: any, href: string) => {
-                    props.close();
-                    props.navigation.navigate("Web", { url: href });
-                  }}
-                  styles={{}}
                 />
-              </ScrollView>
+              ) : (
+                <Icon
+                  name="social-reddit"
+                  type="simple-line-icon"
+                  color="white"
+                  size={50}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 50,
+                    justifyContent: "center",
+                    backgroundColor: icon_color,
+                  }}
+                />
+              )}
             </View>
-          </TouchableWithoutFeedback>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ margin: 10, fontWeight: "bold", fontSize: 28 }}>
+                {currentSub.display_name}
+              </Text>
+              <Text>{currentSub.subscribers} subscribers</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                setChangingSubStatus(true);
+                if (currentSub.user_is_subscriber) {
+                  currentSub.unsubscribe().then(() => {
+                    currentSub.fetch().then((sub) => {
+                      props.updateSub(sub);
+                      setChangingSubStatus(false);
+                    });
+                  });
+                } else {
+                  currentSub.subscribe().then(() => {
+                    currentSub.fetch().then((sub) => {
+                      props.updateSub(sub);
+                      setChangingSubStatus(false);
+                    });
+                  });
+                }
+              }}
+              style={[s.subscribeButton, { backgroundColor: icon_color }]}
+            >
+              {changingSubStatus ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <Text style={{ color: "white", fontWeight: "bold" }}>
+                  {currentSub.user_is_subscriber ? "Unsubscribe" : "Subscribe"}
+                </Text>
+              )}
+            </TouchableOpacity>
+            <RedditMD
+              body={currentSub.description}
+              onLinkPress={(url: any, href: string) => {
+                props.close();
+                props.navigation.navigate("Web", { url: href });
+              }}
+              styles={{}}
+            />
+          </ScrollView>
         </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+      }
+    ></GeneralModal>
   );
 };
 

@@ -18,7 +18,7 @@ import {
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
-import Snoowrap, { Submission, Subreddit, Listing } from "snoowrap";
+import Snoowrap, { Submission, Subreddit, Listing, RedditUser } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
 import PostSwiper from "../screens/PostSwiper";
@@ -45,7 +45,7 @@ const MainNavigator: React.FC = () => {
   /**
    * *******REDUX*********
    */
-  const { authCode, refreshToken } = useSelector((state: any) => state);
+  const { authCode, refreshToken, users } = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   /**
@@ -117,10 +117,19 @@ const MainNavigator: React.FC = () => {
           getPosts(r);
         });
       } else {
+        console.log("creating new user snoowrap");
         initializeSnoowrap(authCode).then((r: any) => {
-          dispatch({ type: "SET_REFRESH_TOKEN", refreshToken: r.refreshToken });
-          context.updateClear({ ...context.clear, snoowrap: r });
-          getPosts(r);
+          const newUsers = users;
+          r.getMe().then((me: RedditUser) => {
+            newUsers.push({ name: me.name, token: r.refreshToken });
+            dispatch({ type: "SET_USERS", users: newUsers });
+            dispatch({
+              type: "SET_REFRESH_TOKEN",
+              refreshToken: r.refreshToken,
+            });
+            context.updateClear({ ...context.clear, snoowrap: r });
+            getPosts(r);
+          });
         });
       }
     }

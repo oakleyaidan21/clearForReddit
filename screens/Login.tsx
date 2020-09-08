@@ -37,7 +37,6 @@ const Login: React.FC<Props> = (props) => {
   /**
    * *********REDUX********
    */
-  const { authCode } = useSelector((state: any) => state);
   const dispatch = useDispatch();
 
   return (
@@ -45,6 +44,7 @@ const Login: React.FC<Props> = (props) => {
       <WebView
         source={{ uri: url }}
         renderLoading={() => <ActivityIndicator />}
+        incognito={true}
         onNavigationStateChange={(newNavState) => {
           if (newNavState.url.includes("https://localhost:8080")) {
             const start_i = newNavState.url.indexOf("code");

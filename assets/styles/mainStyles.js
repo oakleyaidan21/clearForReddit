@@ -234,4 +234,17 @@ module.exports = StyleSheet.create({
     position: "absolute",
     top: 0,
   },
+  /**
+   * ********GENERALMODAL*****
+   */
+  genModalHeader: {
+    width: "100%",
+    height: 60,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderColor: "lightgrey",
+  },
 });
