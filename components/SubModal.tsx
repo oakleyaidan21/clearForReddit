@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Modal,
-  Text,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Image, TouchableOpacity, ActivityIndicator } from "react-native";
+import Text from "../components/Text";
 import { Subreddit } from "snoowrap";
 import { defaultColor } from "../assets/styles/palettes";
 import { Icon } from "react-native-elements";
 import RedditMD from "./RedditMD";
-import {
-  ScrollView,
-  TouchableWithoutFeedback,
-} from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import GeneralModal from "./GeneralModal";
 
 const s = require("../assets/styles/mainStyles");
@@ -141,7 +132,7 @@ const SubModal: React.FC<Props> = (props) => {
                 props.close();
                 props.navigation.navigate("Web", { url: href });
               }}
-              styles={{}}
+              styles={{ body: { color: "black" } }}
             />
           </ScrollView>
         </View>

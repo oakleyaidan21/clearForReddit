@@ -1,6 +1,7 @@
 import React, { useState, memo } from "react";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, TouchableWithoutFeedback } from "react-native";
 import { Comment, RedditUser } from "snoowrap";
+import Text from "../components/Text";
 import { getTimeSincePosted } from "../util/util";
 import HTML from "react-native-render-html";
 import RedditMD from "./RedditMD";
@@ -55,7 +56,7 @@ const CommentThread: React.FC<Props> = (props) => {
           <RedditMD
             body={data.body}
             onLinkPress={props.onLinkPress}
-            styles={{}}
+            styles={{ body: { color: "black" } }}
           />
           <View style={{ flexDirection: "row" }}>
             {data.replies.length > 0 && (

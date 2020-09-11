@@ -3,10 +3,10 @@ import {
   View,
   ActivityIndicator,
   FlatList,
-  Text,
   RefreshControl,
 } from "react-native";
 import { getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
+import Text from "../components/Text";
 import ClearContext from "../context/Clear";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";

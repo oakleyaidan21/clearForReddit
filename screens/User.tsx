@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import ClearContext from "../context/Clear";
+import { View, TouchableOpacity, Image } from "react-native";
+import Text from "../components/Text";
 import { useDispatch, useSelector } from "react-redux";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";

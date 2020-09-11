@@ -1,7 +1,14 @@
 import React, { useContext, memo, useState } from "react";
-import { View, TouchableOpacity, Text, Image, Modal } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Modal,
+  ActivityIndicator,
+} from "react-native";
+import Text from "../components/Text";
 import ImageViewer from "react-native-image-zoom-viewer";
-import { Video } from "expo-av";
+import Video from "react-native-video";
 import { Icon } from "react-native-elements";
 import { Submission } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
@@ -23,6 +30,8 @@ interface Props {
 const PostItem: React.FC<Props> = (props) => {
   const [showContent, setShowContent] = useState<boolean>(false);
   const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
+  const [showVideo, setShowVideo] = useState<boolean>(false);
+  const [paused, setPaused] = useState<boolean>(true);
   const { data, inList } = props;
 
   const imgUrl = data.thumbnail;
@@ -165,13 +174,45 @@ const PostItem: React.FC<Props> = (props) => {
             />
           </TouchableWithoutFeedback>
         ) : isVideo ? (
-          <Video
-            shouldPlay={false}
-            resizeMode={Video.RESIZE_MODE_CONTAIN}
-            useNativeControls={true}
-            style={{ height: 300, width: "100%", backgroundColor: "white" }}
-            source={{ uri: data.media?.reddit_video?.fallback_url as string }}
-          />
+          <View style={{ height: 300, width: "100%" }}>
+            <Video
+              source={{ uri: data.media?.reddit_video?.hls_url as string }}
+              onError={(e: Error) => console.log(e)}
+              onLoad={() => setShowVideo(true)}
+              paused={paused}
+              resizeMode="contain"
+              controls={false}
+              style={{ width: "100%", height: 300, backgroundColor: "black" }}
+            />
+            {!showVideo ? (
+              <ActivityIndicator
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: 300,
+                }}
+                color="white"
+                size="large"
+              />
+            ) : (
+              <View
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                }}
+              >
+                <Icon
+                  name={paused ? "control-play" : "control-pause"}
+                  type="simple-line-icon"
+                  color="white"
+                  onPress={() => setPaused(!paused)}
+                />
+              </View>
+            )}
+          </View>
         ) : (
           isGif && <Text>gifs currently not supported</Text>
         ))}

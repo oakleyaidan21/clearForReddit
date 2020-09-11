@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import {
   View,
   TouchableWithoutFeedback,
-  Text,
   Modal,
   TouchableOpacity,
   ScrollView,
   Image,
 } from "react-native";
+import Text from "../components/Text";
 import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
@@ -181,7 +181,7 @@ const SubPicker: React.FC<Props> = (props) => {
               >
                 {showSearch ? (
                   <TextInput
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, height: 50 }}
                     placeholder="Search..."
                     autoFocus={true}
                     onChangeText={setQuery}

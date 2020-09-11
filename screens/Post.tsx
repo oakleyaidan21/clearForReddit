@@ -1,15 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import {
   View,
-  Text,
   ScrollView,
   RefreshControl,
   ActivityIndicator,
   TouchableOpacity,
-  Modal,
   Share,
   Platform,
 } from "react-native";
+import Text from "../components/Text";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { MainStackParamList } from "../navigation/mainNavigator";
