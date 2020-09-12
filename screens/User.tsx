@@ -1,11 +1,17 @@
 import React, { useContext, useState } from "react";
-import { View, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import Text from "../components/Text";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
-import GeneralModal from "../components/GeneralModal";
-import { Icon } from "react-native-elements";
+import UserHeader from "../components/UserHeader";
+import CommentThread from "../components/CommentThread";
+import { Listing } from "snoowrap";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -14,110 +20,101 @@ interface Props {
 }
 
 const User: React.FC<Props> = (props) => {
-  const { user, updateCurrentPosts } = useContext(MainNavigationContext);
+  const { user, setUser, currentSub } = useContext(MainNavigationContext);
   /**
    * *********REDUX********
    */
   const { users } = useSelector((state: any) => state);
-  const dispatch = useDispatch();
 
   /**
-   * ********STATE*********
+   * ********STATE********
    */
-  const [showUsers, setShowUsers] = useState(false);
 
-  const usersToRender = users ? JSON.parse(users) : [];
+  const [refreshingUser, setRefreshingUser] = useState<boolean>(false);
+  const [comments, setComments] = useState<Listing<Comment>>();
+
+  const primary_color = currentSub.primary_color
+    ? currentSub.primary_color
+    : defaultColor;
 
   return (
     <>
-      <View style={s.screen}>
-        {user ? (
-          <View style={{ alignItems: "center" }}>
-            <Image
-              source={{ uri: user.icon_img }}
+      <View style={{ flex: 1 }}>
+        {users !== "" && (
+          <UserHeader addUser={() => props.navigation.navigate("Login")} />
+        )}
+        {users === "" ? (
+          <View style={{ flex: 1 }}>
+            <View
               style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-                borderWidth: 5,
-                borderColor: defaultColor,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "white",
               }}
-            />
-            <TouchableOpacity
-              onPress={() => setShowUsers(true)}
-              style={{ flexDirection: "row", alignItems: "center" }}
             >
-              <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                {user.name}
+              <Text style={{ fontSize: 25, textAlign: "center" }}>
+                Log in with your Reddit account!
               </Text>
-              <Icon name="expand-more" style={{ marginLeft: 5 }} size={30} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  padding: 10,
+                  backgroundColor: defaultColor,
+                  borderRadius: 10,
+                  width: 100,
+                  margin: 10,
+                }}
+                onPress={() => props.navigation.navigate("Login")}
+              >
+                <Text style={{ color: "white", textAlign: "center" }}>
+                  Login
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : (
-          <View style={{ alignItems: "center" }}>
-            <Text style={{ fontSize: 25, textAlign: "center" }}>
-              Log in with your Reddit account!
-            </Text>
+          <ScrollView
+            style={{
+              flex: 1,
+              backgroundColor: "white",
+            }}
+            contentContainerStyle={{ alignItems: "center", padding: 10 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshingUser}
+                onRefresh={() => {
+                  setRefreshingUser(true);
+                  user?.fetch().then((newUser) => {
+                    setUser(newUser);
+                    setRefreshingUser(false);
+                  });
+                }}
+              />
+            }
+          >
+            <View style={{ width: "100%", flexDirection: "row" }}>
+              <View style={[s.karmaBox, { borderColor: primary_color }]}>
+                <Text style={{ fontSize: 25, fontWeight: "bold" }}>LINK</Text>
+                <Text>{user?.link_karma}</Text>
+              </View>
+              <View style={[s.karmaBox, { borderColor: primary_color }]}>
+                <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                  COMMENT
+                </Text>
+                <Text>{user?.comment_karma}</Text>
+              </View>
+            </View>
             <TouchableOpacity
-              style={{
-                padding: 10,
-                backgroundColor: defaultColor,
-                borderRadius: 10,
-                width: 100,
-                margin: 10,
-              }}
-              onPress={() => props.navigation.navigate("Login")}
+              onPress={() =>
+                user?.getComments().then((comments: any) => {
+                  setComments(comments);
+                })
+              }
             >
-              <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
+              <Text>get comments</Text>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
         )}
       </View>
-      <GeneralModal
-        isVisible={showUsers}
-        close={() => setShowUsers(false)}
-        disableClose={false}
-        content={
-          <View
-            style={{
-              padding: 10,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-              maxHeight: 400,
-            }}
-          >
-            <Text style={{ margin: 10, fontSize: 20, fontWeight: "bold" }}>
-              Accounts
-            </Text>
-            {usersToRender.map((u: { name: string; token: string }) => {
-              return (
-                <TouchableOpacity
-                  key={u.name}
-                  onPress={() => {
-                    setShowUsers(false);
-                    updateCurrentPosts(null);
-                    dispatch({
-                      type: "SET_REFRESH_TOKEN",
-                      refreshToken: u.token,
-                    });
-                  }}
-                >
-                  <Text>{u.name}</Text>
-                </TouchableOpacity>
-              );
-            })}
-            <TouchableOpacity
-              onPress={() => {
-                setShowUsers(false);
-                props.navigation.navigate("Login");
-              }}
-            >
-              <Icon name="plus" type="simple-line-icon" />
-            </TouchableOpacity>
-          </View>
-        }
-      />
     </>
   );
 };

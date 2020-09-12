@@ -155,6 +155,8 @@ module.exports = StyleSheet.create({
     borderWidth: 2,
     borderColor: "grey",
     marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   headerDropdown: {
@@ -246,5 +248,32 @@ module.exports = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderColor: "lightgrey",
+  },
+
+  /**
+   * *******USERPICKER*********
+   */
+  userPickerContainer: {
+    position: "absolute",
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "lightgrey",
+    borderRadius: 5,
+    marginTop: pickerYLocation,
+    marginLeft: 5,
+    maxWidth: screenWidth * 0.7,
+  },
+
+  /**
+   * *******USER**********
+   */
+  karmaBox: {
+    flex: 1,
+    height: 100,
+    borderWidth: 2,
+    margin: 10,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

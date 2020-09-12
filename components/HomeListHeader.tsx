@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Image, Modal } from "react-native";
+import React, { useContext, useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { Icon } from "react-native-elements";
 import SubPicker from "./SubPicker";

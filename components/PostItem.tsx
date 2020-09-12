@@ -165,7 +165,7 @@ const PostItem: React.FC<Props> = (props) => {
         />
       )}
       {props.openPosts &&
-        (isImage ? (
+        (isImage || isGif ? (
           <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
             <Image
               source={{ uri: data.url }}
@@ -177,7 +177,7 @@ const PostItem: React.FC<Props> = (props) => {
           <View style={{ height: 300, width: "100%" }}>
             <Video
               source={{ uri: data.media?.reddit_video?.hls_url as string }}
-              onError={(e: Error) => console.log(e)}
+              onError={(e: any) => console.log(e)}
               onLoad={() => setShowVideo(true)}
               paused={paused}
               resizeMode="contain"
@@ -214,7 +214,7 @@ const PostItem: React.FC<Props> = (props) => {
             )}
           </View>
         ) : (
-          isGif && <Text>gifs currently not supported</Text>
+          <Text>Unknown post type</Text>
         ))}
     </View>
   );
