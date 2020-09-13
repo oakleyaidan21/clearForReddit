@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -11,9 +11,18 @@ import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
 import UserHeader from "../components/UserHeader";
 import CommentThread from "../components/CommentThread";
-import { Listing } from "snoowrap";
+import { Comment, Listing, RedditUser } from "snoowrap";
 
 const s = require("../assets/styles/mainStyles");
+
+const contentTypes = [
+  "Comments",
+  "Posts",
+  "Awards",
+  "Gilded",
+  "Upvoted",
+  "Downvoted",
+];
 
 interface Props {
   navigation: any;
@@ -32,10 +41,40 @@ const User: React.FC<Props> = (props) => {
 
   const [refreshingUser, setRefreshingUser] = useState<boolean>(false);
   const [comments, setComments] = useState<Listing<Comment>>();
+  const [contentType, setContentType] = useState<String>("Comments");
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const getUserComments = () => {
+    user?.getComments().then((comments: any) => {
+      setComments(comments);
+    });
+  };
+
+  const getUserPosts = () => {
+    user?.getSubmissions().then((submissions) => {});
+  };
+
+  const getContentType = () => {
+    switch (contentType) {
+      case "Comments": {
+        getUserComments();
+      }
+      case "Posts": {
+        getUserPosts();
+      }
+      default: {
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      getContentType();
+    }
+  }, [user]);
 
   return (
     <>
@@ -73,11 +112,7 @@ const User: React.FC<Props> = (props) => {
           </View>
         ) : (
           <ScrollView
-            style={{
-              flex: 1,
-              backgroundColor: "white",
-            }}
-            contentContainerStyle={{ alignItems: "center", padding: 10 }}
+            style={{ flex: 1, width: "100%" }}
             refreshControl={
               <RefreshControl
                 refreshing={refreshingUser}
@@ -86,12 +121,19 @@ const User: React.FC<Props> = (props) => {
                   user?.fetch().then((newUser) => {
                     setUser(newUser);
                     setRefreshingUser(false);
+                    getContentType();
                   });
                 }}
               />
             }
           >
-            <View style={{ width: "100%", flexDirection: "row" }}>
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                backgroundColor: "white",
+              }}
+            >
               <View style={[s.karmaBox, { borderColor: primary_color }]}>
                 <Text style={{ fontSize: 25, fontWeight: "bold" }}>LINK</Text>
                 <Text>{user?.link_karma}</Text>
@@ -103,15 +145,50 @@ const User: React.FC<Props> = (props) => {
                 <Text>{user?.comment_karma}</Text>
               </View>
             </View>
-            <TouchableOpacity
-              onPress={() =>
-                user?.getComments().then((comments: any) => {
-                  setComments(comments);
-                })
-              }
+            <ScrollView
+              style={{
+                width: "100%",
+                height: 50,
+                borderColor: primary_color,
+                borderBottomWidth: 2,
+                backgroundColor: "white",
+              }}
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              contentContainerStyle={{
+                alignItems: "center",
+              }}
             >
-              <Text>get comments</Text>
-            </TouchableOpacity>
+              {contentTypes.map((t) => {
+                return (
+                  <TouchableOpacity
+                    key={t}
+                    onPress={() => setContentType(t)}
+                    style={{
+                      width: 100,
+                      height: 50,
+                      justifyContent: "center",
+                      borderBottomWidth: t === contentType ? 5 : 0,
+                      borderColor: primary_color,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text>{t}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+            {comments?.map((comment) => {
+              return (
+                <CommentThread
+                  key={comment.id}
+                  data={comment}
+                  level={0}
+                  onLinkPress={() => {}}
+                  op={user as RedditUser}
+                />
+              );
+            })}
           </ScrollView>
         )}
       </View>
