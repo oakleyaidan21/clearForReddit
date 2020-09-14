@@ -26,37 +26,39 @@ const PostSwiper: React.FC<Props> = (props) => {
   const [openPosts, setOpenPosts] = useState<boolean>(false);
 
   return (
-    <Swiper
-      loadMinimal={true}
-      showsPagination={false}
-      index={props.route.params.index}
-      loop={false}
-      onIndexChanged={(index) => {
-        if (currentPosts) {
-          if (index === currentPosts.length - 1) {
-            (currentPosts as any)
-              .fetchMore({ amount: 25, append: true })
-              .then((list: Listing<Submission>) => {
-                if (props.route.params.searchResults.length === 0) {
-                  updateCurrentPosts(list);
-                }
-              });
+    currentPosts && (
+      <Swiper
+        loadMinimal={true}
+        showsPagination={false}
+        index={props.route.params.index}
+        loop={false}
+        onIndexChanged={(index) => {
+          if (currentPosts) {
+            if (index === currentPosts.length - 1) {
+              (currentPosts as any)
+                .fetchMore({ amount: 25, append: true })
+                .then((list: Listing<Submission>) => {
+                  if (props.route.params.searchResults.length === 0) {
+                    updateCurrentPosts(list);
+                  }
+                });
+            }
           }
-        }
-      }}
-    >
-      {currentPosts &&
-        currentPosts.map((post, index) => (
-          <Post
-            key={post.id + index.toString()}
-            data={post}
-            navigation={props.navigation}
-            route={null}
-            openPosts={openPosts}
-            setOpenPosts={() => setOpenPosts(!openPosts)}
-          />
-        ))}
-    </Swiper>
+        }}
+      >
+        {currentPosts &&
+          currentPosts.map((post, index) => (
+            <Post
+              key={post.id + index.toString()}
+              data={post}
+              navigation={props.navigation}
+              route={null}
+              openPosts={openPosts}
+              setOpenPosts={() => setOpenPosts(!openPosts)}
+            />
+          ))}
+      </Swiper>
+    )
   );
 };
 

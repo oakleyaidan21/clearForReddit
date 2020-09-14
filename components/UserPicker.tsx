@@ -82,27 +82,69 @@ const UserPicker: React.FC<Props> = (props) => {
               </View>
               {usersToRender.map(
                 (u: { name: string; token: string }, index: number) => (
-                  <TouchableOpacity
+                  <View
                     key={u.name}
                     style={[
                       s.categoryItem,
                       {
                         borderTopWidth: index === 0 ? 0 : 2,
                         borderColor: primary_color,
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        width: 200,
                       },
                     ]}
-                    onPress={() => {
-                      props.close();
-                      setUser(null);
-                      updateCurrentPosts(null);
-                      dispatch({
-                        type: "SET_REFRESH_TOKEN",
-                        refreshToken: u.token,
-                      });
-                    }}
                   >
-                    <Text style={{ color: primary_color }}>{u.name}</Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        props.close();
+                        setUser(null);
+                        updateCurrentPosts(null);
+                        dispatch({
+                          type: "SET_REFRESH_TOKEN",
+                          refreshToken: u.token,
+                        });
+                      }}
+                    >
+                      <Text style={{ color: primary_color }} numberOfLines={1}>
+                        {u.name}
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (u.name === user?.name) {
+                          dispatch({ type: "SET_AUTH_CODE", authCode: "none" });
+                          dispatch({
+                            type: "SET_REFRESH_TOKEN",
+                            refreshToken: "none",
+                          });
+                          setUser(null);
+                        }
+                        const newUsers = JSON.parse(users);
+                        const toSet = newUsers.filter(
+                          (us: { token: string }) => us.token !== u.token
+                        );
+                        dispatch({
+                          type: "SET_USERS",
+                          users: JSON.stringify(toSet),
+                        });
+                        if (u.name === user?.name) {
+                          dispatch({ type: "SET_AUTH_CODE", authCode: "none" });
+                          dispatch({
+                            type: "SET_REFRESH_TOKEN",
+                            refreshToken: "none",
+                          });
+                          setUser(null);
+                        }
+                      }}
+                    >
+                      <Icon
+                        name="close"
+                        type="simple-line-icons"
+                        color={primary_color}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 )
               )}
             </View>

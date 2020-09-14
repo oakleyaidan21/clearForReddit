@@ -10,11 +10,12 @@ import Text from "../components/Text";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Video from "react-native-video";
 import { Icon } from "react-native-elements";
-import { Submission } from "snoowrap";
+import { Submission, Subreddit } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { defaultColor } from "../assets/styles/palettes";
 import RedditMD from "./RedditMD";
+import ClearContext from "../context/Clear";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -47,7 +48,10 @@ const PostItem: React.FC<Props> = (props) => {
   const isGif = data.url.includes(".gif");
   const isLink = !isImage && !isVideo && !isGif && !isSelf;
 
-  const { currentSub } = useContext(MainNavigationContext);
+  const { currentSub, setCurrentSub, updateCurrentPosts } = useContext(
+    MainNavigationContext
+  );
+  const context = useContext(ClearContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
@@ -136,9 +140,22 @@ const PostItem: React.FC<Props> = (props) => {
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <Text style={{ color: "grey" }}>{data.author.name}</Text>
-            <Text style={{ color: "grey", fontWeight: "bold" }}>
-              {data.subreddit_name_prefixed}
-            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+                context.clear?.snoowrap
+                  ?.getSubreddit(data.subreddit.display_name)
+                  .fetch()
+                  .then((sub: Subreddit) => {
+                    setCurrentSub(sub);
+                  });
+              }}
+              disabled={inList}
+            >
+              <Text style={{ color: "grey", fontWeight: "bold" }}>
+                {data.subreddit_name_prefixed}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View

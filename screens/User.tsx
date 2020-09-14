@@ -76,39 +76,61 @@ const User: React.FC<Props> = (props) => {
     }
   }, [user]);
 
+  const _renderContent = () => {
+    switch (contentType) {
+      case "Comments": {
+        return comments?.map((comment) => {
+          return (
+            <CommentThread
+              key={comment.id}
+              data={comment}
+              level={0}
+              onLinkPress={() => {}}
+              op={user as RedditUser}
+            />
+          );
+        });
+      }
+      // TO-DO: the rest of these views
+      case "Posts": {
+        return <Text>Posts</Text>;
+      }
+      default: {
+        return <Text>TO-DO: {contentType}</Text>;
+      }
+    }
+  };
+
   return (
     <>
       <View style={{ flex: 1 }}>
-        {users !== "" && (
+        {users !== "[]" && (
           <UserHeader addUser={() => props.navigation.navigate("Login")} />
         )}
-        {users === "" ? (
-          <View style={{ flex: 1 }}>
-            <View
+        {users === "[]" ? (
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "white",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Log in with your Reddit account!
+            </Text>
+            <TouchableOpacity
               style={{
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "white",
+                padding: 10,
+                backgroundColor: defaultColor,
+                borderRadius: 10,
+                width: 100,
+                margin: 10,
               }}
+              onPress={() => props.navigation.navigate("Login")}
             >
-              <Text style={{ fontSize: 25, textAlign: "center" }}>
-                Log in with your Reddit account!
-              </Text>
-              <TouchableOpacity
-                style={{
-                  padding: 10,
-                  backgroundColor: defaultColor,
-                  borderRadius: 10,
-                  width: 100,
-                  margin: 10,
-                }}
-                onPress={() => props.navigation.navigate("Login")}
-              >
-                <Text style={{ color: "white", textAlign: "center" }}>
-                  Login
-                </Text>
-              </TouchableOpacity>
-            </View>
+              <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <ScrollView
@@ -126,6 +148,7 @@ const User: React.FC<Props> = (props) => {
                 }}
               />
             }
+            stickyHeaderIndices={[1]}
           >
             <View
               style={{
@@ -178,17 +201,7 @@ const User: React.FC<Props> = (props) => {
                 );
               })}
             </ScrollView>
-            {comments?.map((comment) => {
-              return (
-                <CommentThread
-                  key={comment.id}
-                  data={comment}
-                  level={0}
-                  onLinkPress={() => {}}
-                  op={user as RedditUser}
-                />
-              );
-            })}
+            {user && _renderContent()}
           </ScrollView>
         )}
       </View>
