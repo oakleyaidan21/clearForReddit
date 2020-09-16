@@ -63,6 +63,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app does not use the microphone, this is solely here for app store requirements</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
