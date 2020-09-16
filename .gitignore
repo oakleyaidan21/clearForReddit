@@ -79,3 +79,5 @@ buck-out/
 .expo/*
 web-build/
 
+util/snoowrap/snoowrapConfig.tsx
+
