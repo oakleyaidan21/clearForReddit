@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Text from "../components/Text";
 import ImageViewer from "react-native-image-zoom-viewer";
-import Video from "react-native-video";
+import VideoPlayer from "react-native-video-controls";
 import { Icon } from "react-native-elements";
 import { Submission, Subreddit } from "snoowrap";
 import MainNavigationContext from "../context/MainNavigationContext";
@@ -195,43 +195,16 @@ const PostItem: React.FC<Props> = (props) => {
         ) : (
           isVideo && (
             <View style={{ height: 300, width: "100%" }}>
-              <Video
+              <VideoPlayer
                 source={{ uri: data.media?.reddit_video?.hls_url as string }}
                 onError={(e: any) => console.log(e)}
                 onLoad={() => setShowVideo(true)}
                 paused={paused}
                 resizeMode="contain"
                 controls={false}
+                disableBack={true}
                 style={{ width: "100%", height: 300, backgroundColor: "black" }}
               />
-              {!showVideo ? (
-                <ActivityIndicator
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: 300,
-                  }}
-                  color="white"
-                  size="large"
-                />
-              ) : (
-                <View
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    right: 10,
-                  }}
-                >
-                  <Icon
-                    name={paused ? "control-play" : "control-pause"}
-                    type="simple-line-icon"
-                    color="white"
-                    onPress={() => setPaused(!paused)}
-                  />
-                </View>
-              )}
             </View>
           )
         ))}
