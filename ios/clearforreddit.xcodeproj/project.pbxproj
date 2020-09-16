@@ -151,7 +151,7 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 56N3L955LZ;
+						DevelopmentTeam = 5REV96SL6H;
 						LastSwiftMigration = 1120;
 					};
 				};
@@ -279,7 +279,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = clearforreddit/clearforreddit.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 56N3L955LZ;
+				DEVELOPMENT_TEAM = 5REV96SL6H;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -293,7 +293,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.carrotcake.clearforreddit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carrotcake.clear4reddit;
 				PRODUCT_NAME = clearforreddit;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -310,7 +310,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = clearforreddit/clearforreddit.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 56N3L955LZ;
+				DEVELOPMENT_TEAM = 5REV96SL6H;
 				INFOPLIST_FILE = clearforreddit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -319,7 +319,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.carrotcake.clearforreddit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.carrotcake.clear4reddit;
 				PRODUCT_NAME = clearforreddit;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
