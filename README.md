@@ -14,7 +14,7 @@ Simply run `npm install` in the root directory
 
 ### iOS
 
-Run `pod install` in the `ios` folder, then `npm install` in the root directory,
+run `npm install` in the root directory, then run `pod install` in the `ios` directory
 
 ### Creating a Reddit Application
 
