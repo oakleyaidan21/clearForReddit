@@ -130,7 +130,11 @@ const Post: React.FC<Props> = (props) => {
           inList={false}
           navigation={props.navigation}
           openPosts={props.openPosts}
-          setOpenPosts={props.setOpenPosts}
+          setOpenPosts={
+            props.setOpenPosts
+              ? props.setOpenPosts
+              : console.log("not implemented yet...")
+          }
         />
         {/* OTHER POST FUNCTIONS */}
         {/* needs this outer view for the sticky header to work */}

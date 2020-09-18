@@ -11,7 +11,8 @@ import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
 import UserHeader from "../components/UserHeader";
 import CommentThread from "../components/CommentThread";
-import { Comment, Listing, RedditUser } from "snoowrap";
+import { Comment, Listing, RedditUser, Submission } from "snoowrap";
+import PostItem from "../components/PostItem";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -41,7 +42,9 @@ const User: React.FC<Props> = (props) => {
 
   const [refreshingUser, setRefreshingUser] = useState<boolean>(false);
   const [comments, setComments] = useState<Listing<Comment>>();
+  const [posts, setPosts] = useState<Listing<Submission>>();
   const [contentType, setContentType] = useState<String>("Comments");
+  const [openPosts, setOpenPosts] = useState<boolean>(false);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
@@ -54,7 +57,9 @@ const User: React.FC<Props> = (props) => {
   };
 
   const getUserPosts = () => {
-    user?.getSubmissions().then((submissions) => {});
+    user?.getSubmissions().then((submissions) => {
+      setPosts(submissions);
+    });
   };
 
   const getContentType = () => {
@@ -93,7 +98,21 @@ const User: React.FC<Props> = (props) => {
       }
       // TO-DO: the rest of these views
       case "Posts": {
-        return <Text>Posts</Text>;
+        return posts?.map((post) => {
+          return (
+            <PostItem
+              key={post.id}
+              data={post}
+              navigation={props.navigation}
+              inList={true}
+              onPress={() => {
+                props.navigation.navigate("Post", { data: post });
+              }}
+              openPosts={openPosts}
+              setOpenPosts={() => setOpenPosts(!openPosts)}
+            />
+          );
+        });
       }
       default: {
         return <Text>TO-DO: {contentType}</Text>;
@@ -186,7 +205,9 @@ const User: React.FC<Props> = (props) => {
                 return (
                   <TouchableOpacity
                     key={t}
-                    onPress={() => setContentType(t)}
+                    onPress={() => {
+                      setContentType(t);
+                    }}
                     style={{
                       width: 100,
                       height: 50,

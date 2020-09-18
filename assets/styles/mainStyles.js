@@ -54,11 +54,10 @@ module.exports = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     padding: 10,
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    borderTopWidth: 1,
-    borderColor: "lightgrey",
-    ...elevationShadowStyle(5),
+
+    // ...elevationShadowStyle(5),
   },
 
   tabBarIconContainer: {

@@ -1,11 +1,5 @@
 import React, { useContext, memo, useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  Modal,
-  ActivityIndicator,
-} from "react-native";
+import { View, TouchableOpacity, Image, Modal } from "react-native";
 import Text from "../components/Text";
 import ImageViewer from "react-native-image-zoom-viewer";
 import VideoPlayer from "react-native-video-controls";
@@ -29,9 +23,7 @@ interface Props {
 }
 
 const PostItem: React.FC<Props> = (props) => {
-  const [showContent, setShowContent] = useState<boolean>(false);
   const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
-  const [showVideo, setShowVideo] = useState<boolean>(false);
   const [paused, setPaused] = useState<boolean>(true);
   const { data, inList } = props;
 
@@ -142,7 +134,7 @@ const PostItem: React.FC<Props> = (props) => {
             <Text style={{ color: "grey" }}>{data.author.name}</Text>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.goBack();
+                props.navigation.navigate("Home");
                 context.clear?.snoowrap
                   ?.getSubreddit(data.subreddit.display_name)
                   .fetch()
@@ -172,7 +164,7 @@ const PostItem: React.FC<Props> = (props) => {
         </View>
       </TouchableOpacity>
 
-      {isSelf && (!inList || showContent) && (
+      {isSelf && !inList && (
         <RedditMD
           body={data.selftext}
           onLinkPress={(url: any, href: string) =>
@@ -198,7 +190,6 @@ const PostItem: React.FC<Props> = (props) => {
               <VideoPlayer
                 source={{ uri: data.media?.reddit_video?.hls_url as string }}
                 onError={(e: any) => console.log(e)}
-                onLoad={() => setShowVideo(true)}
                 paused={paused}
                 resizeMode="contain"
                 controls={false}
