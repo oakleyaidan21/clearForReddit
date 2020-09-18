@@ -29,6 +29,7 @@ type HomeScreenRouteProp = RouteProp<TabParamList, "Home">;
 type Props = {
   navigation: HomeScreenNavProps;
   route: HomeScreenRouteProp;
+  scrollRef: any;
 };
 
 const Home: React.FC<Props> = (props) => {
@@ -74,6 +75,7 @@ const Home: React.FC<Props> = (props) => {
         >
           {currentPosts.length > 0 ? (
             <FlatList
+              ref={props.scrollRef}
               keyExtractor={(item, index) => item.id + index.toString()}
               ListFooterComponent={
                 <View

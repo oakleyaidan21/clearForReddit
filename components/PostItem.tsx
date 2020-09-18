@@ -173,14 +173,13 @@ const PostItem: React.FC<Props> = (props) => {
         <View
           style={{
             flex: 1,
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
-            height: 60,
-            alignSelf: "center",
+            height: 100,
           }}
         >
           <Icon name="arrow-up" type="simple-line-icon" size={15} />
-          <Text>{data.score}</Text>
+          <Text style={{ margin: 10 }}>{data.score}</Text>
           <Icon name="arrow-down" type="simple-line-icon" size={15} />
         </View>
       </TouchableOpacity>
