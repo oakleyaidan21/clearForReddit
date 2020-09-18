@@ -56,8 +56,8 @@ module.exports = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-
-    // ...elevationShadowStyle(5),
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   tabBarIconContainer: {

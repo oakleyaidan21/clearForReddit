@@ -31,6 +31,7 @@ const SubPicker: React.FC<Props> = (props) => {
     setCurrentSub,
     currentSub,
     updateCurrentPosts,
+    user,
   } = useContext(MainNavigationContext);
 
   const context: any = useContext(ClearContext);
@@ -313,46 +314,56 @@ const SubPicker: React.FC<Props> = (props) => {
                 style={{
                   width: "100%",
                   flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
                   height: 40,
                   borderTopWidth: 2,
                   borderColor: primary_color,
                 }}
               >
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    borderRightWidth: 2,
-                    borderColor: primary_color,
-                    padding: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      color: primary_color,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Add sub
+                {user ? (
+                  <>
+                    <TouchableOpacity
+                      style={{
+                        flex: 1,
+                        borderRightWidth: 2,
+                        borderColor: primary_color,
+                        padding: 10,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          color: primary_color,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Add sub
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        flex: 1,
+                        borderColor: primary_color,
+                        padding: 10,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          color: primary_color,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Create sub
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <Text style={{ color: primary_color }}>
+                    Log in in order to view your subs!
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    borderColor: primary_color,
-                    padding: 10,
-                  }}
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      color: primary_color,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Create sub
-                  </Text>
-                </TouchableOpacity>
+                )}
               </View>
             </View>
           </TouchableWithoutFeedback>

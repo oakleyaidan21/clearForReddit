@@ -134,7 +134,7 @@ const User: React.FC<Props> = (props) => {
         {users !== "[]" && isClient && (
           <UserHeader addUser={() => props.navigation.navigate("Login")} />
         )}
-        {users === "[]" ? (
+        {users === "[]" && isClient ? (
           <View
             style={{
               flex: 1,

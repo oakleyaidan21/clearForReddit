@@ -48,7 +48,7 @@ const CustomTabBar: React.FC<any> = (props) => {
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate(name);
-                if (name === "Home" && focused) {
+                if (name === "Home" && focused && props.scrollRef.current) {
                   props.scrollRef.current.scrollToOffset({
                     animated: true,
                     offset: 0,

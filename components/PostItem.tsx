@@ -11,6 +11,7 @@ import { defaultColor } from "../assets/styles/palettes";
 import RedditMD from "./RedditMD";
 import ClearContext from "../context/Clear";
 import { getTimeSincePosted } from "../util/util";
+import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -26,7 +27,8 @@ interface Props {
 const PostItem: React.FC<Props> = (props) => {
   const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
   const [paused, setPaused] = useState<boolean>(true);
-  const { data, inList } = props;
+  const [data, setData] = useState(props.data);
+  const { inList } = props;
 
   const imgUrl = data.thumbnail;
 
@@ -45,11 +47,20 @@ const PostItem: React.FC<Props> = (props) => {
   const { currentSub, setCurrentSub, updateCurrentPosts } = useContext(
     MainNavigationContext
   );
-  const context = useContext(ClearContext);
+  const context: any = useContext(ClearContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const getPostData = async () => {
+    getPostById(context.clear.snoowrap, data.id)
+      ?.fetch()
+      .then((post) => {
+        setData(post);
+        // setSaving(false);
+      });
+  };
 
   return (
     <View
@@ -178,9 +189,21 @@ const PostItem: React.FC<Props> = (props) => {
             height: 100,
           }}
         >
-          <Icon name="arrow-up" type="simple-line-icon" size={15} />
+          <Icon
+            name="arrow-up"
+            type="simple-line-icon"
+            size={15}
+            onPress={() => data.upvote().then(() => getPostData())}
+            color={data.likes ? "orange" : "black"}
+          />
           <Text style={{ margin: 10 }}>{data.score}</Text>
-          <Icon name="arrow-down" type="simple-line-icon" size={15} />
+          <Icon
+            name="arrow-down"
+            type="simple-line-icon"
+            size={15}
+            onPress={() => data.downvote().then(() => getPostData())}
+            color={!data.likes && data.likes !== null ? "purple" : "black"}
+          />
         </View>
       </TouchableOpacity>
 
