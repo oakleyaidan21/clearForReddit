@@ -80,10 +80,8 @@ const PostItem: React.FC<Props> = (props) => {
         style={[
           s.postItemContainer,
           {
-            borderColor: primary_color,
             margin: inList ? 10 : 0,
             borderRadius: inList ? 5 : 0,
-            borderWidth: inList ? 2 : 0,
           },
         ]}
         disabled={!inList && isSelf}
@@ -134,6 +132,7 @@ const PostItem: React.FC<Props> = (props) => {
             </Text>
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            {data.over_18 && <Text style={{ color: "red" }}>NSFW</Text>}
             <TouchableOpacity
               disabled={inList}
               onPress={() => {

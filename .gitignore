@@ -81,3 +81,5 @@ web-build/
 
 util/snoowrap/snoowrapConfig.tsx
 
+/android/androidbuilds/
+

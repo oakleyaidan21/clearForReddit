@@ -179,7 +179,7 @@ module.exports = StyleSheet.create({
     margin: 10,
 
     marginBottom: 0,
-    borderWidth: 2,
+    // borderWidth: 2,
     borderColor: "grey",
     flexDirection: "row",
     borderRadius: 5,

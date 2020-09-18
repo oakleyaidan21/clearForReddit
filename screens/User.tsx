@@ -174,7 +174,7 @@ const User: React.FC<Props> = (props) => {
                 }}
               />
             }
-            stickyHeaderIndices={[1]}
+            stickyHeaderIndices={[isClient ? 1 : 2]}
           >
             {!isClient && (
               <View
