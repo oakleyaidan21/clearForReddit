@@ -18,13 +18,14 @@ import {
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
-import Snoowrap, { Submission, Subreddit, Listing, RedditUser } from "snoowrap";
+import Snoowrap, { Submission, Listing, RedditUser } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
 import PostSwiper from "../screens/PostSwiper";
 import Web from "../screens/Web";
 import { defaultColor } from "../assets/styles/palettes";
 import Header from "../components/Header";
+import User from "../screens/User";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -37,6 +38,7 @@ export type MainStackParamList = {
     searchResults: Listing<Submission> | Array<Submission>;
   };
   Web: { url: string };
+  RedditUser: { author: RedditUser };
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -177,6 +179,7 @@ const MainNavigator: React.FC = () => {
             <Stack.Screen name="Post" component={Post} />
             <Stack.Screen name="PostSwiper" component={PostSwiper} />
             <Stack.Screen name="Web" component={Web} />
+            <Stack.Screen name="RedditUser" component={User} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

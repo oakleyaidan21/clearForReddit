@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  Image,
 } from "react-native";
 import Text from "../components/Text";
 import { useSelector } from "react-redux";
@@ -27,10 +28,16 @@ const contentTypes = [
 
 interface Props {
   navigation: any;
+  route: any;
 }
 
 const User: React.FC<Props> = (props) => {
   const { user, setUser, currentSub } = useContext(MainNavigationContext);
+  const userToView: RedditUser = props.route.params
+    ? props.route.params.author
+    : user;
+
+  const isClient = props.route.params ? false : true;
   /**
    * *********REDUX********
    */
@@ -51,13 +58,13 @@ const User: React.FC<Props> = (props) => {
     : defaultColor;
 
   const getUserComments = () => {
-    user?.getComments().then((comments: any) => {
+    userToView?.getComments().then((comments: any) => {
       setComments(comments);
     });
   };
 
   const getUserPosts = () => {
-    user?.getSubmissions().then((submissions) => {
+    userToView?.getSubmissions().then((submissions: Listing<Submission>) => {
       setPosts(submissions);
     });
   };
@@ -76,10 +83,10 @@ const User: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (userToView) {
       getContentType();
     }
-  }, [user]);
+  }, [userToView]);
 
   const _renderContent = () => {
     switch (contentType) {
@@ -91,7 +98,8 @@ const User: React.FC<Props> = (props) => {
               data={comment}
               level={0}
               onLinkPress={() => {}}
-              op={user as RedditUser}
+              navigation={props.navigation}
+              op={userToView as RedditUser}
             />
           );
         });
@@ -123,7 +131,7 @@ const User: React.FC<Props> = (props) => {
   return (
     <>
       <View style={{ flex: 1 }}>
-        {users !== "[]" && (
+        {users !== "[]" && isClient && (
           <UserHeader addUser={() => props.navigation.navigate("Login")} />
         )}
         {users === "[]" ? (
@@ -159,8 +167,7 @@ const User: React.FC<Props> = (props) => {
                 refreshing={refreshingUser}
                 onRefresh={() => {
                   setRefreshingUser(true);
-                  user?.fetch().then((newUser) => {
-                    setUser(newUser);
+                  userToView?.fetch().then((newUser: any) => {
                     setRefreshingUser(false);
                     getContentType();
                   });
@@ -169,6 +176,27 @@ const User: React.FC<Props> = (props) => {
             }
             stickyHeaderIndices={[1]}
           >
+            {!isClient && (
+              <View
+                style={{
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={{ uri: userToView.icon_img }}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    backgroundColor: primary_color,
+                    borderRadius: 25,
+                    margin: 10,
+                  }}
+                />
+                <Text>{userToView.name}</Text>
+              </View>
+            )}
             <View
               style={{
                 width: "100%",
@@ -178,13 +206,13 @@ const User: React.FC<Props> = (props) => {
             >
               <View style={[s.karmaBox, { borderColor: primary_color }]}>
                 <Text style={{ fontSize: 25, fontWeight: "bold" }}>LINK</Text>
-                <Text>{user?.link_karma}</Text>
+                <Text>{userToView?.link_karma}</Text>
               </View>
               <View style={[s.karmaBox, { borderColor: primary_color }]}>
                 <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                   COMMENT
                 </Text>
-                <Text>{user?.comment_karma}</Text>
+                <Text>{userToView?.comment_karma}</Text>
               </View>
             </View>
             <ScrollView
@@ -222,7 +250,7 @@ const User: React.FC<Props> = (props) => {
                 );
               })}
             </ScrollView>
-            {user && _renderContent()}
+            {userToView && _renderContent()}
           </ScrollView>
         )}
       </View>

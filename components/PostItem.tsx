@@ -131,7 +131,17 @@ const PostItem: React.FC<Props> = (props) => {
             </Text>
           </View>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Text style={{ color: "grey" }}>{data.author.name}</Text>
+            <TouchableOpacity
+              disabled={inList}
+              onPress={() => {
+                data.author.fetch().then((author) => {
+                  console.log("author", author);
+                  props.navigation.navigate("RedditUser", { author: author });
+                });
+              }}
+            >
+              <Text style={{ color: "grey" }}>{data.author.name}</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 props.navigation.navigate("Home");

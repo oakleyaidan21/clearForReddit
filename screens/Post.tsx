@@ -200,6 +200,7 @@ const Post: React.FC<Props> = (props) => {
                     key={comment.id}
                     level={0}
                     op={data.author}
+                    navigation={props.navigation}
                     onLinkPress={(url: any, href: string) =>
                       props.navigation.navigate("Web", { url: href })
                     }

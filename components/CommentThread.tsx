@@ -3,9 +3,9 @@ import { View, TouchableWithoutFeedback } from "react-native";
 import { Comment, RedditUser } from "snoowrap";
 import Text from "../components/Text";
 import { getTimeSincePosted } from "../util/util";
-import HTML from "react-native-render-html";
 import RedditMD from "./RedditMD";
 import { defaultColor } from "../assets/styles/palettes";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { getParser } = require("../util/snuOwnd.js");
 
@@ -14,6 +14,7 @@ type Props = {
   level: number;
   op: RedditUser;
   onLinkPress: any;
+  navigation: any;
 };
 
 const CommentThread: React.FC<Props> = (props) => {
@@ -40,14 +41,20 @@ const CommentThread: React.FC<Props> = (props) => {
         >
           {/* AUTHOR */}
           <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                color: data.author.name === op.name ? defaultColor : "black",
-              }}
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate("RedditUser", { author: data.author })
+              }
             >
-              {data.author.name}
-            </Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  color: data.author.name === op.name ? defaultColor : "black",
+                }}
+              >
+                {data.author.name}
+              </Text>
+            </TouchableOpacity>
             <Text>
               {" "}
               • {data.score} • {getTimeSincePosted(data.created_utc)}
@@ -76,6 +83,7 @@ const CommentThread: React.FC<Props> = (props) => {
                 key={reply.id}
                 level={level + 1}
                 op={op}
+                navigation={props.navigation}
                 onLinkPress={props.onLinkPress}
               />
             ))}
