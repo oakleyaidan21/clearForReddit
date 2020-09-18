@@ -10,6 +10,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { defaultColor } from "../assets/styles/palettes";
 import RedditMD from "./RedditMD";
 import ClearContext from "../context/Clear";
+import { getTimeSincePosted } from "../util/util";
 
 const s = require("../assets/styles/mainStyles");
 
@@ -38,6 +39,7 @@ const PostItem: React.FC<Props> = (props) => {
   const isImage = data.url.includes(".jpg") || data.url.includes(".png");
   const isVideo = data.url.includes("v.redd.it");
   const isGif = data.url.includes(".gif");
+  const isImgur = data.url.includes("imgur") && data.url.includes("gifv");
   const isLink = !isImage && !isVideo && !isGif && !isSelf;
 
   const { currentSub, setCurrentSub, updateCurrentPosts } = useContext(
@@ -73,6 +75,7 @@ const PostItem: React.FC<Props> = (props) => {
           <Icon name="close" color="white" />
         </TouchableOpacity>
       </Modal>
+      {/* MAIN INFO */}
       <TouchableOpacity
         style={[
           s.postItemContainer,
@@ -142,22 +145,30 @@ const PostItem: React.FC<Props> = (props) => {
             >
               <Text style={{ color: "grey" }}>{data.author.name}</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate("Home");
-                context.clear?.snoowrap
-                  ?.getSubreddit(data.subreddit.display_name)
-                  .fetch()
-                  .then((sub: Subreddit) => {
-                    setCurrentSub(sub);
-                  });
-              }}
-              disabled={inList}
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
-              <Text style={{ color: "grey", fontWeight: "bold" }}>
-                {data.subreddit_name_prefixed}
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate("Home");
+                  context.clear?.snoowrap
+                    ?.getSubreddit(data.subreddit.display_name)
+                    .fetch()
+                    .then((sub: Subreddit) => {
+                      setCurrentSub(sub);
+                    });
+                }}
+                disabled={inList}
+              >
+                <Text style={{ color: "grey", fontWeight: "bold" }}>
+                  {data.subreddit_name_prefixed}
+                </Text>
+              </TouchableOpacity>
+
+              <Text style={{ color: "grey" }}>
+                {getTimeSincePosted(data.created_utc)}
               </Text>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View
@@ -165,12 +176,13 @@ const PostItem: React.FC<Props> = (props) => {
             flex: 1,
             justifyContent: "space-between",
             alignItems: "center",
-            height: 100,
+            height: 60,
+            alignSelf: "center",
           }}
         >
-          <Icon name="arrow-up" type="simple-line-icon" />
+          <Icon name="arrow-up" type="simple-line-icon" size={15} />
           <Text>{data.score}</Text>
-          <Icon name="arrow-down" type="simple-line-icon" />
+          <Icon name="arrow-down" type="simple-line-icon" size={15} />
         </View>
       </TouchableOpacity>
 
@@ -186,7 +198,7 @@ const PostItem: React.FC<Props> = (props) => {
         />
       )}
       {props.openPosts &&
-        (isImage || isGif ? (
+        (isImage || (isGif && !isImgur) ? (
           <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
             <Image
               source={{ uri: data.url }}
@@ -195,10 +207,14 @@ const PostItem: React.FC<Props> = (props) => {
             />
           </TouchableWithoutFeedback>
         ) : (
-          isVideo && (
+          (isVideo || isImgur) && (
             <View style={{ height: 300, width: "100%" }}>
               <VideoPlayer
-                source={{ uri: data.media?.reddit_video?.hls_url as string }}
+                source={{
+                  uri: isImgur
+                    ? data.url.substring(0, data.url.length - 4) + "mp4"
+                    : (data.media?.reddit_video?.hls_url as string),
+                }}
                 onError={(e: any) => console.log(e)}
                 paused={paused}
                 resizeMode="contain"
