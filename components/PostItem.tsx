@@ -1,4 +1,4 @@
-import React, { useContext, memo, useState } from "react";
+import React, { useContext, memo, useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, Modal } from "react-native";
 import Text from "../components/Text";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -22,12 +22,18 @@ interface Props {
   navigation: any;
   openPosts: boolean;
   setOpenPosts: any;
+  selected: boolean;
 }
 
 const PostItem: React.FC<Props> = (props) => {
   const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
   const [paused, setPaused] = useState<boolean>(true);
   const [data, setData] = useState(props.data);
+
+  useEffect(() => {
+    setData(props.data);
+  }, [props.data.id]);
+
   const { inList } = props;
 
   const imgUrl = data.thumbnail;
@@ -93,6 +99,7 @@ const PostItem: React.FC<Props> = (props) => {
           {
             margin: inList ? 10 : 0,
             borderRadius: inList ? 5 : 0,
+            borderColor: props.selected ? primary_color : "transparent",
           },
         ]}
         disabled={!inList && isSelf}
@@ -250,4 +257,4 @@ const PostItem: React.FC<Props> = (props) => {
   );
 };
 
-export default memo(PostItem);
+export default PostItem;

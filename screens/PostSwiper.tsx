@@ -16,6 +16,7 @@ type SwiperScreenRouteProp = RouteProp<MainStackParamList, "PostSwiper">;
 type Props = {
   navigation: SwiperScreenNavProp;
   route: SwiperScreenRouteProp;
+  index: number;
 };
 
 const PostSwiper: React.FC<Props> = (props) => {
@@ -30,7 +31,7 @@ const PostSwiper: React.FC<Props> = (props) => {
       <Swiper
         loadMinimal={true}
         showsPagination={false}
-        index={props.route.params.index}
+        index={props.route.params ? props.route.params.index : props.index}
         loop={false}
         onIndexChanged={(index) => {
           if (currentPosts) {
@@ -38,8 +39,10 @@ const PostSwiper: React.FC<Props> = (props) => {
               (currentPosts as any)
                 .fetchMore({ amount: 25, append: true })
                 .then((list: Listing<Submission>) => {
-                  if (props.route.params.searchResults.length === 0) {
-                    updateCurrentPosts(list);
+                  if (props.route) {
+                    if (props.route.params.searchResults.length === 0) {
+                      updateCurrentPosts(list);
+                    }
                   }
                 });
             }

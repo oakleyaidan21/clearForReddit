@@ -110,6 +110,7 @@ const Home: React.FC<Props> = (props) => {
                       searchResults: [],
                     })
                   }
+                  selected={false}
                   inList={true}
                   navigation={props.navigation}
                   openPosts={false}

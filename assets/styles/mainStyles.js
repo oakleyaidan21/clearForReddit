@@ -177,7 +177,7 @@ module.exports = StyleSheet.create({
   postItemContainer: {
     padding: 10,
     margin: 10,
-
+    borderWidth: 2,
     marginBottom: 0,
     // borderWidth: 2,
     borderColor: "grey",

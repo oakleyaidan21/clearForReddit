@@ -43,12 +43,25 @@ const Post: React.FC<Props> = (props) => {
   const [data, setData] = useState<Submission>(
     props.route?.params.data ? props.route.params.data : props.data
   );
+
   const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
-
   const [saving, setSaving] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
+
+  useEffect(() => {
+    setData(props.data);
+    new Promise((resolve) => {
+      setComments(null);
+      resolve();
+    }).then(async () => {
+      const comments = await props.data.comments.fetchMore({
+        amount: 10,
+      });
+      setComments(comments);
+    });
+  }, [props.data.id]);
 
   useEffect(() => {
     //get comments
@@ -135,6 +148,7 @@ const Post: React.FC<Props> = (props) => {
               ? props.setOpenPosts
               : console.log("not implemented yet...")
           }
+          selected={false}
         />
         {/* OTHER POST FUNCTIONS */}
         {/* needs this outer view for the sticky header to work */}
@@ -208,7 +222,15 @@ const Post: React.FC<Props> = (props) => {
                 );
               })
             ) : (
-              <Text style={{ marginTop: 200 }}>No Comments</Text>
+              <View
+                style={{
+                  height: 200,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "grey" }}>No Comments</Text>
+              </View>
             )
           ) : (
             <ActivityIndicator
