@@ -221,7 +221,11 @@ const PostItem: React.FC<Props> = (props) => {
             size={15}
             onPress={() => data.downvote().then(() => getPostData())}
             color={
-              data.likes ? "purple" : theme === "light" ? "black" : "white"
+              data.likes === false
+                ? "purple"
+                : theme === "light"
+                ? "black"
+                : "white"
             }
           />
         </View>
@@ -247,7 +251,10 @@ const PostItem: React.FC<Props> = (props) => {
           <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
             <Image
               source={{ uri: data.url }}
-              style={{ height: 500, backgroundColor: "white" }}
+              style={{
+                height: 500,
+                backgroundColor: theme === "light" ? "white" : "black",
+              }}
               resizeMode={"contain"}
             />
           </TouchableWithoutFeedback>

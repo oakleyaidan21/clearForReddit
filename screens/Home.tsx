@@ -45,6 +45,7 @@ const Home: React.FC<Props> = (props) => {
     setCurrentSub,
     currentSub,
     currentCategory,
+    theme,
   } = useContext(MainNavigationContext);
 
   const getMainPosts = () => {
@@ -67,7 +68,12 @@ const Home: React.FC<Props> = (props) => {
     : defaultColor;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
+      }}
+    >
       <HomeListHeader showSubModal={() => setShowSubModal(true)} />
       {currentPosts ? (
         <View

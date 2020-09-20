@@ -125,7 +125,12 @@ const Post: React.FC<Props> = (props) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
+      }}
+    >
       <ScrollView
         style={{ flex: 1 }}
         refreshControl={

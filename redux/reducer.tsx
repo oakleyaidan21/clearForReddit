@@ -2,7 +2,7 @@ const initialPersistingState = {
   authCode: "none",
   refreshToken: "none",
   users: "[]",
-  theme: "dark",
+  theme: "light",
 };
 
 const persistingReducer = (state = initialPersistingState, action: any) => {

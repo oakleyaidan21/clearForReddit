@@ -182,8 +182,13 @@ const SubPicker: React.FC<Props> = (props) => {
               >
                 {showSearch ? (
                   <TextInput
-                    style={{ flex: 1, height: 50 }}
+                    style={{
+                      flex: 1,
+                      height: 50,
+                      color: theme === "light" ? "black" : "white",
+                    }}
                     placeholder="Search..."
+                    placeholderTextColor={"grey"}
                     autoFocus={true}
                     onChangeText={setQuery}
                   />

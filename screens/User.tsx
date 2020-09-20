@@ -138,7 +138,7 @@ const User: React.FC<Props> = (props) => {
       <View
         style={{
           flex: 1,
-          backgroundColor: theme === "light" ? "#ebebeb" : "#171717",
+          backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
         }}
       >
         {users !== "[]" && isClient && (
@@ -156,7 +156,13 @@ const User: React.FC<Props> = (props) => {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 25, textAlign: "center" }}>
+            <Text
+              style={{
+                fontSize: 25,
+                textAlign: "center",
+                color: theme === "light" ? "black" : "white",
+              }}
+            >
               Log in with your Reddit account!
             </Text>
             <TouchableOpacity
@@ -207,7 +213,9 @@ const User: React.FC<Props> = (props) => {
                     margin: 10,
                   }}
                 />
-                <Text>{userToView.name}</Text>
+                <Text style={{ color: theme === "light" ? "black" : "white" }}>
+                  {userToView.name}
+                </Text>
               </View>
             )}
             <View

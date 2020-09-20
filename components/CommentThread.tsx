@@ -60,7 +60,7 @@ const CommentThread: React.FC<Props> = (props) => {
                 {data.author.name}
               </Text>
             </TouchableOpacity>
-            <Text>
+            <Text style={{ color: "grey" }}>
               {" "}
               • {data.score} • {getTimeSincePosted(data.created_utc)}
             </Text>
@@ -80,7 +80,13 @@ const CommentThread: React.FC<Props> = (props) => {
           </View>
         </View>
         {/* REPLIES */}
-        <View style={{ borderLeftWidth: 2, marginLeft: 5 }}>
+        <View
+          style={{
+            borderLeftWidth: 2,
+            marginLeft: 5,
+            borderColor: theme === "light" ? "black" : "white",
+          }}
+        >
           {showReplies &&
             data.replies.map((reply, index) => (
               <CommentThread

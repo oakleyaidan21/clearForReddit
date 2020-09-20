@@ -62,7 +62,7 @@ const TabletHome: React.FC<Props> = (props) => {
         width: "100%",
         height: "100%",
         flexDirection: "row",
-        backgroundColor: theme === "light" ? "#ebebeb" : "#171717",
+        backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
       }}
     >
       <View style={{ flex: 2 }}>
