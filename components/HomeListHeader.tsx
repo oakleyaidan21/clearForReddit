@@ -6,8 +6,7 @@ import SubPicker from "./SubPicker";
 import CategoryPicker from "./CategoryPicker";
 import TimeframePicker from "./TimeframePicker";
 import { defaultColor } from "../assets/styles/palettes";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type Props = {
   showSubModal: any;
@@ -22,13 +21,15 @@ const HomeListHeader: React.FC<Props> = (props) => {
   const [categoryLocation, setCategoryLocation] = useState<number>(0);
   const [preciseLocation, setPreciseLocation] = useState<number>(0);
 
-  const { currentSub, currentCategory, currentTimeframe } = useContext(
+  const { currentSub, currentCategory, currentTimeframe, theme } = useContext(
     MainNavigationContext
   );
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const s = createThemedStyle(theme);
 
   return (
     <View style={[s.homeHeaderContainer, { borderColor: primary_color }]}>

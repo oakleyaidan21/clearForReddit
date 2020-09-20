@@ -7,8 +7,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { Icon } from "react-native-elements";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type Props = {
   isVisible: boolean;
@@ -18,6 +17,7 @@ type Props = {
 };
 
 const GeneralModal: React.FC<Props> = (props) => {
+  const s = createThemedStyle("light");
   return (
     <Modal
       visible={props.isVisible}

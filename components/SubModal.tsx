@@ -7,8 +7,7 @@ import { Icon } from "react-native-elements";
 import RedditMD from "./RedditMD";
 import { ScrollView } from "react-native-gesture-handler";
 import GeneralModal from "./GeneralModal";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type Props = {
   currentSub: Subreddit;
@@ -33,6 +32,8 @@ const SubModal: React.FC<Props> = (props) => {
     : defaultColor;
 
   const topImage = currentSub.banner_img;
+
+  const s = createThemedStyle("light");
 
   return (
     <GeneralModal

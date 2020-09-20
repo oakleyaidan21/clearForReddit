@@ -3,18 +3,19 @@ import { View, TouchableWithoutFeedback } from "react-native";
 import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const CustomTabBar: React.FC<any> = (props) => {
   const { state, navigation } = props;
   const { index } = state;
 
-  const { currentSub } = useContext(MainNavigationContext);
+  const { currentSub, theme } = useContext(MainNavigationContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const s = createThemedStyle(theme);
 
   return (
     <View style={[s.tabBarContainer, { backgroundColor: primary_color }]}>

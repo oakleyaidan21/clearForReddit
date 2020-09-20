@@ -15,6 +15,8 @@ interface MainNavigationContextInterface {
   setCurrentCategory: any;
   currentTimeframe: string;
   setCurrentTimeframe: any;
+  theme: string;
+  setTheme: any;
 }
 
 const MainNavigationContext = createContext<MainNavigationContextInterface>({
@@ -30,6 +32,8 @@ const MainNavigationContext = createContext<MainNavigationContextInterface>({
   setCurrentCategory: null,
   currentTimeframe: "day",
   setCurrentTimeframe: null,
+  theme: "light",
+  setTheme: null,
 });
 
 export default MainNavigationContext;

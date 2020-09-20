@@ -10,8 +10,7 @@ import { defaultColor } from "../assets/styles/palettes";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type Props = {
   isVisible: boolean;
@@ -20,9 +19,11 @@ type Props = {
 };
 
 const UserPicker: React.FC<Props> = (props) => {
-  const { currentSub, user, updateCurrentPosts, setUser } = useContext(
+  const { currentSub, user, updateCurrentPosts, setUser, theme } = useContext(
     MainNavigationContext
   );
+
+  const s = createThemedStyle(theme);
 
   const { users } = useSelector((state: any) => state);
   const dispatch = useDispatch();

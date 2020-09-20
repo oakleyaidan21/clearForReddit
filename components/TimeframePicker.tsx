@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
-
-const s = require("../assets/styles/mainStyles.js");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const timeframes = ["hour", "day", "week", "month", "year", "all"];
 
@@ -20,10 +19,14 @@ interface Props {
 }
 
 const TimeframePicker: React.FC<Props> = (props) => {
-  const { setCurrentTimeframe, currentSub } = useContext(MainNavigationContext);
+  const { setCurrentTimeframe, currentSub, theme } = useContext(
+    MainNavigationContext
+  );
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const s = createThemedStyle(theme);
 
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>

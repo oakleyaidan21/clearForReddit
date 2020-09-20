@@ -10,8 +10,7 @@ import {
 import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
-
-const s = require("../assets/styles/mainStyles.js");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const categories = ["Hot", "New", "Top", "Cont."];
 
@@ -29,6 +28,7 @@ const CategoryPicker: React.FC<Props> = (props) => {
     ? currentSub.primary_color
     : defaultColor;
 
+  const s = createThemedStyle("light");
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>

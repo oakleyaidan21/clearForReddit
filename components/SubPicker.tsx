@@ -15,8 +15,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { searchPosts, searchForSubs } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { Subreddit } from "snoowrap";
-
-const s = require("../assets/styles/mainStyles.js");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const staticPages = ["Front Page", "All", "Popular", "Saved"];
 
@@ -32,10 +31,11 @@ const SubPicker: React.FC<Props> = (props) => {
     currentSub,
     updateCurrentPosts,
     user,
+    theme,
   } = useContext(MainNavigationContext);
 
   const context: any = useContext(ClearContext);
-
+  const s = createThemedStyle(theme);
   /**
    * *********STATE***********
    */
@@ -248,7 +248,13 @@ const SubPicker: React.FC<Props> = (props) => {
                               });
                           }}
                         >
-                          <Text>{sub}</Text>
+                          <Text
+                            style={{
+                              color: theme === "light" ? "black" : "white",
+                            }}
+                          >
+                            {sub}
+                          </Text>
                         </TouchableOpacity>
                       ))
                     : // YOUR SUBS
@@ -301,7 +307,12 @@ const SubPicker: React.FC<Props> = (props) => {
                                 }}
                               />
                             )}
-                            <Text style={{ fontWeight: "bold" }}>
+                            <Text
+                              style={{
+                                fontWeight: "bold",
+                                color: theme === "light" ? "black" : "white",
+                              }}
+                            >
                               {sub.display_name}
                             </Text>
                           </TouchableOpacity>

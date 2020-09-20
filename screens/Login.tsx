@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { WebView } from "react-native-webview";
 import Snoowrap from "snoowrap";
 import snoowrapConfig from "../util/snoowrap/snoowrapConfig";
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 interface Props {
   navigation: any;
 }
-
-const s = require("../assets/styles/mainStyles");
 
 const url = Snoowrap.getAuthUrl({
   clientId: snoowrapConfig.clientId,
@@ -38,7 +37,7 @@ const Login: React.FC<Props> = (props) => {
    * *********REDUX********
    */
   const dispatch = useDispatch();
-
+  const s = createThemedStyle("light");
   return (
     <View style={{ flex: 1 }}>
       <WebView

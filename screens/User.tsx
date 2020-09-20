@@ -14,8 +14,7 @@ import UserHeader from "../components/UserHeader";
 import CommentThread from "../components/CommentThread";
 import { Comment, Listing, RedditUser, Submission } from "snoowrap";
 import PostItem from "../components/PostItem";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const contentTypes = [
   "Comments",
@@ -32,7 +31,9 @@ interface Props {
 }
 
 const User: React.FC<Props> = (props) => {
-  const { user, setUser, currentSub } = useContext(MainNavigationContext);
+  const { user, setUser, currentSub, theme } = useContext(
+    MainNavigationContext
+  );
   const userToView: RedditUser = props.route.params
     ? props.route.params.author
     : user;
@@ -69,6 +70,8 @@ const User: React.FC<Props> = (props) => {
     });
   };
 
+  const s = createThemedStyle(theme);
+
   const getContentType = () => {
     switch (contentType) {
       case "Comments": {
@@ -95,6 +98,7 @@ const User: React.FC<Props> = (props) => {
           return (
             <CommentThread
               key={comment.id}
+              theme={theme}
               data={comment}
               level={0}
               onLinkPress={() => {}}
@@ -110,6 +114,7 @@ const User: React.FC<Props> = (props) => {
           return (
             <PostItem
               key={post.id}
+              selected={false}
               data={post}
               navigation={props.navigation}
               inList={true}
@@ -130,15 +135,23 @@ const User: React.FC<Props> = (props) => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: theme === "light" ? "#ebebeb" : "#171717",
+        }}
+      >
         {users !== "[]" && isClient && (
-          <UserHeader addUser={() => props.navigation.navigate("Login")} />
+          <UserHeader
+            addUser={() => props.navigation.navigate("Login")}
+            navigation={props.navigation}
+          />
         )}
         {users === "[]" && isClient ? (
           <View
             style={{
               flex: 1,
-              backgroundColor: "white",
+              backgroundColor: theme === "light" ? "white" : "black",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -179,7 +192,7 @@ const User: React.FC<Props> = (props) => {
             {!isClient && (
               <View
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: theme === "light" ? "white" : "black",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -201,18 +214,36 @@ const User: React.FC<Props> = (props) => {
               style={{
                 width: "100%",
                 flexDirection: "row",
-                backgroundColor: "white",
+                backgroundColor: theme === "light" ? "white" : "black",
               }}
             >
               <View style={[s.karmaBox, { borderColor: primary_color }]}>
-                <Text style={{ fontSize: 25, fontWeight: "bold" }}>LINK</Text>
-                <Text>{userToView?.link_karma}</Text>
+                <Text
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: theme === "light" ? "black" : "white",
+                  }}
+                >
+                  LINK
+                </Text>
+                <Text style={{ color: theme === "light" ? "black" : "white" }}>
+                  {userToView?.link_karma}
+                </Text>
               </View>
               <View style={[s.karmaBox, { borderColor: primary_color }]}>
-                <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                <Text
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: theme === "light" ? "black" : "white",
+                  }}
+                >
                   COMMENT
                 </Text>
-                <Text>{userToView?.comment_karma}</Text>
+                <Text style={{ color: theme === "light" ? "black" : "white" }}>
+                  {userToView?.comment_karma}
+                </Text>
               </View>
             </View>
             <ScrollView
@@ -221,7 +252,7 @@ const User: React.FC<Props> = (props) => {
                 height: 50,
                 borderColor: primary_color,
                 borderBottomWidth: 2,
-                backgroundColor: "white",
+                backgroundColor: theme === "light" ? "white" : "black",
               }}
               showsHorizontalScrollIndicator={false}
               horizontal={true}
@@ -245,7 +276,11 @@ const User: React.FC<Props> = (props) => {
                       alignItems: "center",
                     }}
                   >
-                    <Text>{t}</Text>
+                    <Text
+                      style={{ color: theme === "light" ? "black" : "white" }}
+                    >
+                      {t}
+                    </Text>
                   </TouchableOpacity>
                 );
               })}

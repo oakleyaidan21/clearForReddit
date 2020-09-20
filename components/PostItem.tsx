@@ -12,8 +12,7 @@ import RedditMD from "./RedditMD";
 import ClearContext from "../context/Clear";
 import { getTimeSincePosted } from "../util/util";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 interface Props {
   data: Submission;
@@ -50,9 +49,12 @@ const PostItem: React.FC<Props> = (props) => {
   const isImgur = data.url.includes("imgur") && data.url.includes("gifv");
   const isLink = !isImage && !isVideo && !isGif && !isSelf;
 
-  const { currentSub, setCurrentSub, updateCurrentPosts } = useContext(
+  const { currentSub, setCurrentSub, updateCurrentPosts, theme } = useContext(
     MainNavigationContext
   );
+
+  const s = createThemedStyle(theme);
+
   const context: any = useContext(ClearContext);
 
   const primary_color = currentSub.primary_color
@@ -144,7 +146,10 @@ const PostItem: React.FC<Props> = (props) => {
           <View style={{ flex: 1 }}>
             <Text
               numberOfLines={inList ? 3 : 10}
-              style={{ fontWeight: "bold" }}
+              style={{
+                fontWeight: "bold",
+                color: theme === "light" ? "black" : "white",
+              }}
             >
               {data.title}
             </Text>
@@ -201,15 +206,23 @@ const PostItem: React.FC<Props> = (props) => {
             type="simple-line-icon"
             size={15}
             onPress={() => data.upvote().then(() => getPostData())}
-            color={data.likes ? "orange" : "black"}
+            color={
+              data.likes ? "orange" : theme === "light" ? "black" : "white"
+            }
           />
-          <Text style={{ margin: 10 }}>{data.score}</Text>
+          <Text
+            style={{ margin: 10, color: theme === "light" ? "black" : "white" }}
+          >
+            {data.score}
+          </Text>
           <Icon
             name="arrow-down"
             type="simple-line-icon"
             size={15}
             onPress={() => data.downvote().then(() => getPostData())}
-            color={!data.likes && data.likes !== null ? "purple" : "black"}
+            color={
+              data.likes ? "purple" : theme === "light" ? "black" : "white"
+            }
           />
         </View>
       </TouchableOpacity>
@@ -221,7 +234,11 @@ const PostItem: React.FC<Props> = (props) => {
             props.navigation.navigate("Web", { url: href })
           }
           styles={{
-            body: { backgroundColor: "white", padding: 10, color: "black" },
+            body: {
+              backgroundColor: theme === "light" ? "white" : "black",
+              padding: 10,
+              color: theme === "light" ? "black" : "white",
+            },
           }}
         />
       )}

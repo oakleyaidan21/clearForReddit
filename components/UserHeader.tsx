@@ -5,22 +5,23 @@ import { defaultColor } from "../assets/styles/palettes";
 import MainNavigationContext from "../context/MainNavigationContext";
 import UserPicker from "./UserPicker";
 import { Icon } from "react-native-elements";
-import GeneralModal from "./GeneralModal";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type Props = {
   addUser: any;
+  navigation: any;
 };
 
 const UserHeader: React.FC<Props> = (props) => {
-  const { currentSub, user } = useContext(MainNavigationContext);
+  const { currentSub, user, theme } = useContext(MainNavigationContext);
 
   const [showUserPicker, setShowUserPicker] = useState<boolean>(false);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
+
+  const s = createThemedStyle(theme);
 
   return (
     <View style={[s.homeHeaderContainer, { borderColor: primary_color }]}>
@@ -60,6 +61,13 @@ const UserHeader: React.FC<Props> = (props) => {
           />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity>
+        <Icon
+          name="settings"
+          color={primary_color}
+          onPress={() => props.navigation.navigate("Settings")}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

@@ -15,12 +15,13 @@ type Props = {
   op: RedditUser;
   onLinkPress: any;
   navigation: any;
+  theme: string;
 };
 
 const CommentThread: React.FC<Props> = (props) => {
   const [showReplies, setShowReplies] = useState<boolean>(false);
 
-  const { data, level, op } = props;
+  const { data, level, op, theme } = props;
 
   return (
     <TouchableWithoutFeedback onPress={() => setShowReplies(!showReplies)}>
@@ -28,15 +29,14 @@ const CommentThread: React.FC<Props> = (props) => {
       <View
         style={{
           marginBottom: 10,
-          backgroundColor: "white",
+          backgroundColor: theme === "light" ? "white" : "black",
         }}
       >
         {/* COMMENT BODY */}
         <View
           style={{
             padding: 10,
-            backgroundColor: "white",
-            // borderWidth: 1,
+            backgroundColor: theme === "light" ? "white" : "black",
           }}
         >
           {/* AUTHOR */}
@@ -49,7 +49,12 @@ const CommentThread: React.FC<Props> = (props) => {
               <Text
                 style={{
                   fontWeight: "bold",
-                  color: data.author.name === op.name ? defaultColor : "black",
+                  color:
+                    data.author.name === op.name
+                      ? defaultColor
+                      : theme === "light"
+                      ? "black"
+                      : "white",
                 }}
               >
                 {data.author.name}
@@ -63,7 +68,7 @@ const CommentThread: React.FC<Props> = (props) => {
           <RedditMD
             body={data.body}
             onLinkPress={props.onLinkPress}
-            styles={{ body: { color: "black" } }}
+            styles={{ body: { color: theme === "light" ? "black" : "white" } }}
           />
           <View style={{ flexDirection: "row" }}>
             {data.replies.length > 0 && (
@@ -81,6 +86,7 @@ const CommentThread: React.FC<Props> = (props) => {
               <CommentThread
                 data={reply}
                 key={reply.id}
+                theme={theme}
                 level={level + 1}
                 op={op}
                 navigation={props.navigation}

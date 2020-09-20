@@ -22,6 +22,7 @@ import { SwiperScreenNavProp } from "./PostSwiper";
 import CommentThread from "../components/CommentThread";
 import { defaultColor } from "../assets/styles/palettes";
 import SlideModal from "../components/SlideModal";
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -35,8 +36,6 @@ type Props = {
   setOpenPosts: any;
 };
 
-const s = require("../assets/styles/mainStyles");
-
 const Post: React.FC<Props> = (props) => {
   const [comments, setComments] = useState<null | Array<Comment>>(null);
   const [refreshingPost, setRefreshingPost] = useState<boolean>(false);
@@ -49,6 +48,10 @@ const Post: React.FC<Props> = (props) => {
   const [saving, setSaving] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
+
+  const { theme } = useContext(MainNavigationContext);
+
+  const s = createThemedStyle(theme);
 
   useEffect(() => {
     setData(props.data);
@@ -211,6 +214,7 @@ const Post: React.FC<Props> = (props) => {
                 return (
                   <CommentThread
                     data={comment}
+                    theme={theme}
                     key={comment.id}
                     level={0}
                     op={data.author}

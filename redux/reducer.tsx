@@ -2,6 +2,7 @@ const initialPersistingState = {
   authCode: "none",
   refreshToken: "none",
   users: "[]",
+  theme: "dark",
 };
 
 const persistingReducer = (state = initialPersistingState, action: any) => {
@@ -17,6 +18,9 @@ const persistingReducer = (state = initialPersistingState, action: any) => {
     }
     case "LOGOUT": {
       return { ...state, authCode: "none", refreshToken: "none" };
+    }
+    case "SET_THEME": {
+      return { ...state, theme: action.theme };
     }
     default: {
       return state;

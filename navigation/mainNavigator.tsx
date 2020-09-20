@@ -18,6 +18,7 @@ import {
   getGeneralPosts,
 } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
+import Settings from "../screens/Settings";
 import Snoowrap, { Submission, Listing, RedditUser } from "snoowrap";
 import Post from "../screens/Post";
 import { useDidUpdateEffect } from "../util/util";
@@ -26,8 +27,7 @@ import Web from "../screens/Web";
 import { defaultColor } from "../assets/styles/palettes";
 import Header from "../components/Header";
 import User from "../screens/User";
-
-const s = require("../assets/styles/mainStyles");
+import { createThemedStyle } from "../assets/styles/mainStyles";
 
 export type MainStackParamList = {
   Tabs: undefined;
@@ -47,7 +47,9 @@ const MainNavigator: React.FC = () => {
   /**
    * *******REDUX*********
    */
-  const { authCode, refreshToken, users } = useSelector((state: any) => state);
+  const { authCode, refreshToken, users, theme } = useSelector(
+    (state: any) => state
+  );
   const dispatch = useDispatch();
 
   /**
@@ -61,6 +63,8 @@ const MainNavigator: React.FC = () => {
   const [currentSub, setCurrentSub] = useState<any>("Front Page");
   const [currentCategory, setCurrentCategory] = useState("Hot");
   const [currentTimeframe, setCurrentTimeframe] = useState("day");
+
+  const s = createThemedStyle(theme);
 
   /**
    * ********CONTEXT******
@@ -157,6 +161,8 @@ const MainNavigator: React.FC = () => {
         setCurrentCategory: setCurrentCategory,
         currentTimeframe: currentTimeframe,
         setCurrentTimeframe: setCurrentTimeframe,
+        theme: theme,
+        setTheme: (t: string) => dispatch({ type: "SET_THEME", theme: t }),
       }}
     >
       <SafeAreaView style={{ backgroundColor: primary_color, flex: 1 }}>
@@ -180,6 +186,7 @@ const MainNavigator: React.FC = () => {
             <Stack.Screen name="PostSwiper" component={PostSwiper} />
             <Stack.Screen name="Web" component={Web} />
             <Stack.Screen name="RedditUser" component={User} />
+            <Stack.Screen name="Settings" component={Settings} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>

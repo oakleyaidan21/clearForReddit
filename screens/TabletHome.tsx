@@ -32,6 +32,7 @@ const TabletHome: React.FC<Props> = (props) => {
     currentSub,
     currentCategory,
     updateCurrentPosts,
+    theme,
   } = useContext(MainNavigationContext);
 
   const clearContext: any = useContext(ClearContext);
@@ -56,8 +57,15 @@ const TabletHome: React.FC<Props> = (props) => {
     : defaultColor;
 
   return (
-    <View style={{ width: "100%", height: "100%", flexDirection: "row" }}>
-      <View style={{ flex: 4 }}>
+    <View
+      style={{
+        width: "100%",
+        height: "100%",
+        flexDirection: "row",
+        backgroundColor: theme === "light" ? "#ebebeb" : "#171717",
+      }}
+    >
+      <View style={{ flex: 2 }}>
         <HomeListHeader showSubModal={() => {}} />
         {currentPosts ? (
           currentPosts.length > 0 ? (
@@ -114,7 +122,9 @@ const TabletHome: React.FC<Props> = (props) => {
           </View>
         )}
       </View>
-      <View style={{ flex: 6 }}>
+      <View
+        style={{ flex: 3, borderLeftWidth: 2, borderLeftColor: primary_color }}
+      >
         {currentPosts ? (
           <Post
             navigation={props.navigation}
