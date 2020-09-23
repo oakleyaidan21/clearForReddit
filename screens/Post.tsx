@@ -40,7 +40,7 @@ const Post: React.FC<Props> = (props) => {
   const [comments, setComments] = useState<null | Array<Comment>>(null);
   const [refreshingPost, setRefreshingPost] = useState<boolean>(false);
   const [data, setData] = useState<Submission>(
-    props.route?.params.data ? props.route.params.data : props.data
+    props.route?.params ? props.route.params.data : props.data
   );
 
   const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const Post: React.FC<Props> = (props) => {
       });
       setComments(comments);
     });
-  }, [props.data.id]);
+  }, [props.data?.id]);
 
   useEffect(() => {
     //get comments
@@ -124,7 +124,7 @@ const Post: React.FC<Props> = (props) => {
     );
   };
 
-  return (
+  return data ? (
     <View
       style={{
         flex: 1,
@@ -252,7 +252,7 @@ const Post: React.FC<Props> = (props) => {
       </ScrollView>
       {_renderModals()}
     </View>
-  );
+  ) : null;
 };
 
 export default Post;

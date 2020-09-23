@@ -38,6 +38,7 @@ const SubModal: React.FC<Props> = (props) => {
   return (
     <GeneralModal
       {...props}
+      title={currentSub.display_name}
       disableClose={false}
       content={
         <View style={s.subModalContainer}>

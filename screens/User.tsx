@@ -15,6 +15,8 @@ import CommentThread from "../components/CommentThread";
 import { Comment, Listing, RedditUser, Submission } from "snoowrap";
 import PostItem from "../components/PostItem";
 import { createThemedStyle } from "../assets/styles/mainStyles";
+import GeneralModal from "../components/GeneralModal";
+import Login from "./Login";
 
 const contentTypes = [
   "Comments",
@@ -53,6 +55,7 @@ const User: React.FC<Props> = (props) => {
   const [posts, setPosts] = useState<Listing<Submission>>();
   const [contentType, setContentType] = useState<String>("Comments");
   const [openPosts, setOpenPosts] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
@@ -135,6 +138,20 @@ const User: React.FC<Props> = (props) => {
 
   return (
     <>
+      <GeneralModal
+        title="Login"
+        isVisible={showLogin}
+        close={() => setShowLogin(false)}
+        disableClose={false}
+        content={
+          <View style={{ width: "100%", height: 400, alignSelf: "center" }}>
+            <Login
+              navigation={props.navigation}
+              close={() => setShowLogin(false)}
+            />
+          </View>
+        }
+      />
       <View
         style={{
           flex: 1,
@@ -143,7 +160,7 @@ const User: React.FC<Props> = (props) => {
       >
         {users !== "[]" && isClient && (
           <UserHeader
-            addUser={() => props.navigation.navigate("Login")}
+            addUser={() => setShowLogin(true)}
             navigation={props.navigation}
           />
         )}
@@ -173,7 +190,7 @@ const User: React.FC<Props> = (props) => {
                 width: 100,
                 margin: 10,
               }}
-              onPress={() => props.navigation.navigate("Login")}
+              onPress={() => setShowLogin(true)}
             >
               <Text style={{ color: "white", textAlign: "center" }}>Login</Text>
             </TouchableOpacity>

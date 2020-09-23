@@ -1,6 +1,3 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useContext, useState } from "react";
 import {
   View,
@@ -10,15 +7,13 @@ import {
   RefreshControl,
 } from "react-native";
 import MainNavigationContext from "../context/MainNavigationContext";
-import { MainStackParamList } from "../navigation/mainNavigator";
-import { TabParamList } from "../navigation/tabNavigator";
-import PostSwiper from "./PostSwiper";
 import HomeListHeader from "../components/HomeListHeader";
 import PostItem from "../components/PostItem";
 import Post from "./Post";
 import { getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { defaultColor } from "../assets/styles/palettes";
+import { Listing, Submission } from "snoowrap";
 
 type Props = any;
 
@@ -94,6 +89,13 @@ const TabletHome: React.FC<Props> = (props) => {
                   refreshing={gettingPosts}
                 />
               }
+              onEndReached={() => {
+                (currentPosts as any)
+                  .fetchMore({ amount: 25, append: true })
+                  .then((list: Listing<Submission>) => {
+                    updateCurrentPosts(list);
+                  });
+              }}
               ListFooterComponent={
                 <View
                   style={{

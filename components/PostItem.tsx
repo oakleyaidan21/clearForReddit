@@ -211,7 +211,11 @@ const PostItem: React.FC<Props> = (props) => {
             }
           />
           <Text
-            style={{ margin: 10, color: theme === "light" ? "black" : "white" }}
+            style={{
+              margin: 10,
+              color: theme === "light" ? "black" : "white",
+              fontSize: 12,
+            }}
           >
             {data.score}
           </Text>

@@ -51,20 +51,20 @@ const lightStyling = StyleSheet.create({
    * ******CUSTOMTABBAR*******
    */
   tabBarContainer: {
-    height: 60,
+    height: 50,
     width: "100%",
     flexDirection: "row",
     backgroundColor: "white",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    // borderTopLeftRadius: 10,
-    // borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   tabBarIconContainer: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -141,7 +141,9 @@ const lightStyling = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    borderBottomWidth: 2,
+    // borderBottomWidth: 2,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
     borderColor: "lightgrey",
     backgroundColor: "white",
   },
@@ -185,8 +187,9 @@ const lightStyling = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 5,
     overflow: "hidden",
-    backgroundColor: "white",
+    // backgroundColor: "white",
     flex: 1,
+    ...elevationShadowStyle(3),
   },
 
   postItemIconContainer: {
@@ -248,6 +251,9 @@ const lightStyling = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderColor: "lightgrey",
+    backgroundColor: "white",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   /**
@@ -292,20 +298,20 @@ const darkStyling = StyleSheet.create({
    * ******CUSTOMTABBAR*******
    */
   tabBarContainer: {
-    height: 60,
+    height: 50,
     width: "100%",
     flexDirection: "row",
     backgroundColor: "black",
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    // borderTopLeftRadius: 10,
-    // borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   tabBarIconContainer: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -382,7 +388,8 @@ const darkStyling = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
-    borderBottomWidth: 2,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderColor: "lightgrey",
     backgroundColor: "black",
   },
@@ -426,8 +433,9 @@ const darkStyling = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 5,
     overflow: "hidden",
-    backgroundColor: "black",
     flex: 1,
+    ...elevationShadowStyle(3),
+    backgroundColor: "black",
   },
 
   postItemIconContainer: {
@@ -489,6 +497,9 @@ const darkStyling = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 1,
     borderColor: "lightgrey",
+    backgroundColor: "black",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 
   /**

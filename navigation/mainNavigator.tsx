@@ -39,6 +39,7 @@ export type MainStackParamList = {
   };
   Web: { url: string };
   RedditUser: { author: RedditUser };
+  Settings: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -165,7 +166,7 @@ const MainNavigator: React.FC = () => {
         setTheme: (t: string) => dispatch({ type: "SET_THEME", theme: t }),
       }}
     >
-      <SafeAreaView style={{ backgroundColor: primary_color, flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: primary_color }}>
         {/* STATUS BAR */}
         <StatusBar barStyle={"light-content"} backgroundColor={primary_color} />
         {/* NAVIGATION CONTAINER */}

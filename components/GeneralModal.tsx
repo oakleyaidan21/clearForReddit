@@ -1,4 +1,4 @@
-import React, { cloneElement } from "react";
+import React, { cloneElement, useContext } from "react";
 import {
   View,
   TouchableOpacity,
@@ -6,18 +6,23 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
 } from "react-native";
+import Text from "./Text";
 import { Icon } from "react-native-elements";
 import { createThemedStyle } from "../assets/styles/mainStyles";
+import MainNavigationContext from "../context/MainNavigationContext";
 
 type Props = {
   isVisible: boolean;
   close: any;
   disableClose: boolean;
   content: any;
+  hideHeader?: boolean;
+  title: string;
 };
 
 const GeneralModal: React.FC<Props> = (props) => {
-  const s = createThemedStyle("light");
+  const { theme } = useContext(MainNavigationContext);
+  const s = createThemedStyle(theme);
   return (
     <Modal
       visible={props.isVisible}
@@ -41,11 +46,20 @@ const GeneralModal: React.FC<Props> = (props) => {
             <View
               style={{
                 width: "90%",
+                maxWidth: 400,
+                borderRadius: 10,
+                overflow: "hidden",
               }}
             >
-              {/* {!props.hideHeader && props.title && (
+              {!props.hideHeader && props.title && (
                 <View style={s.genModalHeader}>
-                  <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontWeight: "bold",
+                      color: theme === "light" ? "black" : "white",
+                    }}
+                  >
                     {props.title}
                   </Text>
                   {!props.disableClose && (
@@ -53,11 +67,14 @@ const GeneralModal: React.FC<Props> = (props) => {
                       onPress={props.close}
                       style={{ position: "absolute", right: 10 }}
                     >
-                      <Icon name="close" />
+                      <Icon
+                        name="close"
+                        color={theme === "light" ? "black" : "white"}
+                      />
                     </TouchableOpacity>
                   )}
                 </View>
-              )} */}
+              )}
 
               {cloneElement(props.content, { close: props.close })}
             </View>

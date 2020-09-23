@@ -106,6 +106,7 @@ const UserPicker: React.FC<Props> = (props) => {
                           refreshToken: u.token,
                         });
                       }}
+                      disabled={user?.name === u.name}
                     >
                       <Text style={{ color: primary_color }} numberOfLines={1}>
                         {u.name}
