@@ -182,14 +182,12 @@ const lightStyling = StyleSheet.create({
     margin: 10,
     borderWidth: 2,
     marginBottom: 0,
-    // borderWidth: 2,
     borderColor: "grey",
     flexDirection: "row",
     borderRadius: 5,
     overflow: "hidden",
-    // backgroundColor: "white",
     flex: 1,
-    ...elevationShadowStyle(3),
+    backgroundColor: "white",
   },
 
   postItemIconContainer: {
@@ -234,7 +232,7 @@ const lightStyling = StyleSheet.create({
   },
 
   subModalHeader: {
-    height: 150,
+    height: 120,
     width: screenWidth * 0.9,
     position: "absolute",
     top: 0,
@@ -281,6 +279,18 @@ const lightStyling = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  /**
+   * *******TABLETHOME*******
+   */
+  postControlButton: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    ...centeredContentContainer(),
+    ...elevationShadowStyle(3),
+    margin: 5,
   },
 });
 
@@ -480,7 +490,7 @@ const darkStyling = StyleSheet.create({
   },
 
   subModalHeader: {
-    height: 150,
+    height: 120,
     width: screenWidth * 0.9,
     position: "absolute",
     top: 0,
@@ -527,5 +537,17 @@ const darkStyling = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  /**
+   * *******TABLETHOME*******
+   */
+  postControlButton: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    ...centeredContentContainer(),
+    ...elevationShadowStyle(3),
+    margin: 5,
   },
 });

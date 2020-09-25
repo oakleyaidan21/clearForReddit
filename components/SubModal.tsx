@@ -43,7 +43,7 @@ const SubModal: React.FC<Props> = (props) => {
       content={
         <View style={s.subModalContainer}>
           <ScrollView
-            style={{ flex: 1 }}
+            style={{ flex: 1, width: "100%" }}
             contentContainerStyle={{ padding: 10 }}
           >
             {topImage ? (

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,10 @@ import { getGeneralPosts } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { defaultColor } from "../assets/styles/palettes";
 import { Listing, Submission } from "snoowrap";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Icon } from "react-native-elements";
+import { createThemedStyle } from "../assets/styles/mainStyles";
+import SubModal from "../components/SubModal";
 
 type Props = any;
 
@@ -21,6 +25,9 @@ const TabletHome: React.FC<Props> = (props) => {
   const [currentPostIndex, setCurrentPostIndex] = useState<number>(0);
   const [openPosts, setOpenPosts] = useState<boolean>(false);
   const [gettingPosts, setGettingPosts] = useState<boolean>(false);
+  const [showSubModal, setShowSubModal] = useState<boolean>(false);
+
+  const scrollRef = useRef<any>();
 
   const {
     currentPosts,
@@ -28,9 +35,18 @@ const TabletHome: React.FC<Props> = (props) => {
     currentCategory,
     updateCurrentPosts,
     theme,
+    setCurrentSub,
   } = useContext(MainNavigationContext);
 
   const clearContext: any = useContext(ClearContext);
+
+  useEffect(() => {
+    scrollRef.current.scrollToIndex({
+      animated: true,
+      index: currentPostIndex,
+      viewPosition: 0.5,
+    });
+  }, [currentPostIndex]);
 
   const getMainPosts = () => {
     console.log("getting main posts...");
@@ -51,6 +67,8 @@ const TabletHome: React.FC<Props> = (props) => {
     ? currentSub.primary_color
     : defaultColor;
 
+  const s = createThemedStyle(theme);
+
   return (
     <View
       style={{
@@ -61,12 +79,13 @@ const TabletHome: React.FC<Props> = (props) => {
       }}
     >
       <View style={{ flex: 2 }}>
-        <HomeListHeader showSubModal={() => {}} />
+        <HomeListHeader showSubModal={() => setShowSubModal(true)} />
         {currentPosts ? (
           currentPosts.length > 0 ? (
             <FlatList
               keyExtractor={(item, index) => item.id + index.toString()}
               data={currentPosts}
+              ref={scrollRef}
               renderItem={({ item, index }) => (
                 <PostItem
                   data={item}
@@ -128,13 +147,35 @@ const TabletHome: React.FC<Props> = (props) => {
         style={{ flex: 3, borderLeftWidth: 2, borderLeftColor: primary_color }}
       >
         {currentPosts ? (
-          <Post
-            navigation={props.navigation}
-            route={props.route}
-            data={currentPosts[currentPostIndex]}
-            openPosts={openPosts}
-            setOpenPosts={() => setOpenPosts(!openPosts)}
-          />
+          <View style={{ flex: 1, position: "relative" }}>
+            <Post
+              navigation={props.navigation}
+              route={props.route}
+              data={currentPosts[currentPostIndex]}
+              openPosts={openPosts}
+              setOpenPosts={() => setOpenPosts(!openPosts)}
+            />
+            <View style={{ position: "absolute", bottom: 10, right: 10 }}>
+              <TouchableOpacity
+                style={[
+                  s.postControlButton,
+                  { backgroundColor: primary_color },
+                ]}
+                onPress={() => setCurrentPostIndex(currentPostIndex - 1)}
+              >
+                <Icon name="chevron-left" color={"white"} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  s.postControlButton,
+                  { backgroundColor: primary_color },
+                ]}
+                onPress={() => setCurrentPostIndex(currentPostIndex + 1)}
+              >
+                <Icon name="chevron-right" color={"white"} />
+              </TouchableOpacity>
+            </View>
+          </View>
         ) : (
           <View style={{ flex: 1, justifyContent: "center" }}>
             <ActivityIndicator
@@ -144,6 +185,15 @@ const TabletHome: React.FC<Props> = (props) => {
           </View>
         )}
       </View>
+      <SubModal
+        isVisible={showSubModal}
+        close={() => {
+          setShowSubModal(false);
+        }}
+        updateSub={setCurrentSub}
+        currentSub={currentSub}
+        navigation={props.navigation}
+      />
     </View>
   );
 };
