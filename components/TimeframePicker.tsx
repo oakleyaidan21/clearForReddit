@@ -41,7 +41,7 @@ const TimeframePicker: React.FC<Props> = (props) => {
             <View
               style={[
                 s.timeframePickerContainer,
-                { right: 5, borderColor: primary_color },
+                { left: props.xPos, borderColor: primary_color },
               ]}
             >
               {timeframes.map((t, index) => {

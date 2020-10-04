@@ -142,7 +142,6 @@ const Post: React.FC<Props> = (props) => {
             }}
           />
         }
-        stickyHeaderIndices={[1]}
       >
         {/* MAIN POST HEADER */}
         <PostItem
@@ -159,57 +158,54 @@ const Post: React.FC<Props> = (props) => {
           selected={false}
         />
         {/* OTHER POST FUNCTIONS */}
-        {/* needs this outer view for the sticky header to work */}
-        <View>
-          <View
-            style={{
-              width: "100%",
-              padding: 10,
-              backgroundColor: primary_color,
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <TouchableOpacity onPress={() => setShowReplyModal(true)}>
-              <Icon name="action-redo" type="simple-line-icon" color="white" />
-            </TouchableOpacity>
-            {saving ? (
-              <ActivityIndicator color={"white"} />
-            ) : (
-              <TouchableOpacity
-                onPress={() => {
-                  setSaving(true);
-                  if (data.saved) {
-                    data.unsave().then(() => getPostData());
-                  } else {
-                    data.save().then(() => getPostData());
-                  }
-                }}
-              >
-                <Icon
-                  name="star"
-                  type="simple-line-icon"
-                  color={data.saved ? "yellow" : "white"}
-                />
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity onPress={() => setShowReportModal(true)}>
-              <Icon name="flag" type="simple-line-icon" color="white" />
-            </TouchableOpacity>
+        <View
+          style={{
+            width: "100%",
+            padding: 10,
+            backgroundColor: primary_color,
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <TouchableOpacity onPress={() => setShowReplyModal(true)}>
+            <Icon name="action-redo" type="simple-line-icon" color="white" />
+          </TouchableOpacity>
+          {saving ? (
+            <ActivityIndicator color={"white"} />
+          ) : (
             <TouchableOpacity
               onPress={() => {
-                Share.share(
-                  {
-                    message: Platform.OS === "ios" ? data.title : data.url,
-                    url: data.url,
-                  },
-                  { dialogTitle: data.title }
-                );
+                setSaving(true);
+                if (data.saved) {
+                  data.unsave().then(() => getPostData());
+                } else {
+                  data.save().then(() => getPostData());
+                }
               }}
             >
-              <Icon name="share" type="simple-line-icon" color="white" />
+              <Icon
+                name="star"
+                type="simple-line-icon"
+                color={data.saved ? "yellow" : "white"}
+              />
             </TouchableOpacity>
-          </View>
+          )}
+          <TouchableOpacity onPress={() => setShowReportModal(true)}>
+            <Icon name="flag" type="simple-line-icon" color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Share.share(
+                {
+                  message: Platform.OS === "ios" ? data.title : data.url,
+                  url: data.url,
+                },
+                { dialogTitle: data.title }
+              );
+            }}
+          >
+            <Icon name="share" type="simple-line-icon" color="white" />
+          </TouchableOpacity>
         </View>
         {/* COMMENTS */}
         <View>

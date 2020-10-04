@@ -9,7 +9,8 @@ export const screenHeight = Dimensions.get("window").height;
 
 export const defaultColor = "#579bfa";
 
-const pickerYLocation = Platform.OS === "ios" ? 85 : 65;
+const isIPhoneX = screenHeight === 812 || screenHeight === 896;
+const pickerYLocation = Platform.OS === "ios" ? (isIPhoneX ? 112 : 85) : 65;
 
 function elevationShadowStyle(elevation: number) {
   //large elevation values look good on Android but not on iOS,

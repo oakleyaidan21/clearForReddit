@@ -19,6 +19,7 @@ const HomeListHeader: React.FC<Props> = (props) => {
     false
   );
   const [categoryLocation, setCategoryLocation] = useState<number>(0);
+  const [timeframeLocation, setTimeframeLocation] = useState<number>(0);
   const [preciseLocation, setPreciseLocation] = useState<number>(0);
 
   const { currentSub, currentCategory, currentTimeframe, theme } = useContext(
@@ -46,7 +47,7 @@ const HomeListHeader: React.FC<Props> = (props) => {
       <TimeframePicker
         isVisible={showTimeframePicker}
         close={() => setShowTimeframePicker(false)}
-        xPos={categoryLocation}
+        xPos={timeframeLocation + categoryLocation - 75}
       />
       <View
         style={{
@@ -129,6 +130,7 @@ const HomeListHeader: React.FC<Props> = (props) => {
         <TouchableOpacity
           style={[s.headerDropdown, { borderColor: primary_color }]}
           onPress={() => setShowTimeframePicker(!showTimeframePicker)}
+          onLayout={(e) => setTimeframeLocation(e.nativeEvent.layout.x)}
         >
           <Text style={{ color: primary_color }}>
             {currentTimeframe.charAt(0).toUpperCase() +

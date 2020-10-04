@@ -22,13 +22,15 @@ interface Props {
 }
 
 const CategoryPicker: React.FC<Props> = (props) => {
-  const { setCurrentCategory, currentSub } = useContext(MainNavigationContext);
+  const { setCurrentCategory, currentSub, theme } = useContext(
+    MainNavigationContext
+  );
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
 
-  const s = createThemedStyle("light");
+  const s = createThemedStyle(theme);
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback onPress={props.close}>

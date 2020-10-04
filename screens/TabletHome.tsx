@@ -41,7 +41,7 @@ const TabletHome: React.FC<Props> = (props) => {
   const clearContext: any = useContext(ClearContext);
 
   useEffect(() => {
-    scrollRef.current.scrollToIndex({
+    scrollRef.current?.scrollToIndex({
       animated: true,
       index: currentPostIndex,
       viewPosition: 0.5,
@@ -78,7 +78,7 @@ const TabletHome: React.FC<Props> = (props) => {
         backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
       }}
     >
-      <View style={{ flex: 2 }}>
+      <View style={{ flex: 2, position: "relative" }}>
         <HomeListHeader showSubModal={() => setShowSubModal(true)} />
         {currentPosts ? (
           currentPosts.length > 0 ? (

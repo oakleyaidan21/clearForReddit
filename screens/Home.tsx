@@ -72,6 +72,7 @@ const Home: React.FC<Props> = (props) => {
       style={{
         flex: 1,
         backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
+        position: "relative",
       }}
     >
       <HomeListHeader showSubModal={() => setShowSubModal(true)} />
