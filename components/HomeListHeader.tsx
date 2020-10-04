@@ -47,7 +47,7 @@ const HomeListHeader: React.FC<Props> = (props) => {
       <TimeframePicker
         isVisible={showTimeframePicker}
         close={() => setShowTimeframePicker(false)}
-        xPos={timeframeLocation + categoryLocation - 75}
+        xPos={timeframeLocation + categoryLocation - 80}
       />
       <View
         style={{

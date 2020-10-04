@@ -46,6 +46,7 @@ const Post: React.FC<Props> = (props) => {
   const [showReplyModal, setShowReplyModal] = useState<boolean>(false);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
+  const [postHeight, setPostHeight] = useState<number>(0);
 
   const context: any = useContext(ClearContext);
 
@@ -130,6 +131,7 @@ const Post: React.FC<Props> = (props) => {
         flex: 1,
         backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
       }}
+      onLayout={(e) => setPostHeight(e.nativeEvent.layout.height)}
     >
       <ScrollView
         style={{ flex: 1 }}
@@ -150,6 +152,7 @@ const Post: React.FC<Props> = (props) => {
           inList={false}
           navigation={props.navigation}
           openPosts={props.openPosts}
+          contentHeight={postHeight - 50}
           setOpenPosts={
             props.setOpenPosts
               ? props.setOpenPosts

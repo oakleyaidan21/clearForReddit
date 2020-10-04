@@ -22,12 +22,14 @@ interface Props {
   openPosts: boolean;
   setOpenPosts: any;
   selected: boolean;
+  contentHeight?: number;
 }
 
 const PostItem: React.FC<Props> = (props) => {
   const [showImageViewer, setShowImageViewer] = useState<boolean>(false);
   const [paused, setPaused] = useState<boolean>(true);
   const [data, setData] = useState(props.data);
+  const [postItemHeight, setPostItemHeight] = useState<number>(0);
 
   useEffect(() => {
     setData(props.data);
@@ -104,6 +106,7 @@ const PostItem: React.FC<Props> = (props) => {
             borderColor: props.selected ? primary_color : "transparent",
           },
         ]}
+        onLayout={(e) => setPostItemHeight(e.nativeEvent.layout.height)}
         disabled={!inList && isSelf}
         onPress={() => {
           if (props.inList) {
@@ -256,7 +259,9 @@ const PostItem: React.FC<Props> = (props) => {
             <Image
               source={{ uri: data.url }}
               style={{
-                height: 500,
+                height: props.contentHeight
+                  ? props.contentHeight - postItemHeight + 5
+                  : 500,
                 backgroundColor: theme === "light" ? "white" : "black",
               }}
               resizeMode={"contain"}
@@ -264,7 +269,7 @@ const PostItem: React.FC<Props> = (props) => {
           </TouchableWithoutFeedback>
         ) : (
           (isVideo || isImgur) && (
-            <View style={{ height: 300, width: "100%" }}>
+            <View style={{ width: "100%" }}>
               <VideoPlayer
                 source={{
                   uri: isImgur
@@ -276,7 +281,13 @@ const PostItem: React.FC<Props> = (props) => {
                 resizeMode="contain"
                 controls={false}
                 disableBack={true}
-                style={{ width: "100%", height: 300, backgroundColor: "black" }}
+                style={{
+                  width: "100%",
+                  height: props.contentHeight
+                    ? props.contentHeight - postItemHeight + 5
+                    : 500,
+                  backgroundColor: "black",
+                }}
               />
             </View>
           )
