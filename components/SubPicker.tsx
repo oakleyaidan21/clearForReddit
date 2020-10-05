@@ -17,7 +17,7 @@ import ClearContext from "../context/Clear";
 import { Subreddit } from "snoowrap";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 
-const staticPages = ["Front Page", "All", "Popular", "Saved"];
+const staticPages = ["Front Page", "Popular", "Saved", "All"];
 
 interface Props {
   isVisible: boolean;
@@ -150,6 +150,34 @@ const SubPicker: React.FC<Props> = (props) => {
     );
   };
 
+  const renderStaticSub = (type: string) => {
+    switch (type) {
+      case "Front Page": {
+        return (
+          <Icon name="newspaper" type="font-awesome-5" color={primary_color} />
+        );
+      }
+      case "Saved": {
+        return (
+          <Icon name="star" type="simple-line-icon" color={primary_color} />
+        );
+      }
+
+      case "Popular": {
+        return (
+          <Icon name="fire" type="simple-line-icon" color={primary_color} />
+        );
+      }
+      default: {
+        return (
+          <Text style={{ fontWeight: "bold", color: primary_color }}>
+            {type}
+          </Text>
+        );
+      }
+    }
+  };
+
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
       <TouchableWithoutFeedback
@@ -173,7 +201,7 @@ const SubPicker: React.FC<Props> = (props) => {
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  height: 45,
+                  height: 46,
                   padding: 10,
                   alignItems: "center",
                   borderBottomWidth: userSubs.length > 0 || showSearch ? 2 : 0,
@@ -201,11 +229,7 @@ const SubPicker: React.FC<Props> = (props) => {
                         props.close();
                       }}
                     >
-                      <Text
-                        style={{ fontWeight: "bold", color: primary_color }}
-                      >
-                        {p}
-                      </Text>
+                      {renderStaticSub(p)}
                     </TouchableOpacity>
                   ))
                 )}

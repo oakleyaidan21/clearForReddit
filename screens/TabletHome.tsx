@@ -18,6 +18,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-elements";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import SubModal from "../components/SubModal";
+import PostBar from "../components/PostBar";
 
 type Props = any;
 
@@ -155,7 +156,9 @@ const TabletHome: React.FC<Props> = (props) => {
               openPosts={openPosts}
               setOpenPosts={() => setOpenPosts(!openPosts)}
             />
-            <View style={{ position: "absolute", bottom: 10, right: 10 }}>
+            <PostBar data={currentPosts[currentPostIndex]} />
+            {/* Swich post buttons */}
+            <View style={{ position: "absolute", bottom: 60, right: 10 }}>
               <TouchableOpacity
                 style={[
                   s.postControlButton,

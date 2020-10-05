@@ -12,6 +12,8 @@ type Props = {
   showSubModal: any;
 };
 
+const staticPages = ["Front Page", "Popular", "Saved", "All"];
+
 const HomeListHeader: React.FC<Props> = (props) => {
   const [showSubPicker, setShowSubPicker] = useState<boolean>(false);
   const [showCatPicker, setShowCatPicker] = useState<boolean>(false);
@@ -31,6 +33,26 @@ const HomeListHeader: React.FC<Props> = (props) => {
     : defaultColor;
 
   const s = createThemedStyle(theme);
+
+  const renderStaticIcon = (type: string) => {
+    switch (currentSub) {
+      case "Front Page": {
+        return "newspaper";
+      }
+      case "Saved": {
+        return "star";
+      }
+      case "Popular": {
+        return "fire";
+      }
+      case "Search Results": {
+        return "magnifier";
+      }
+      default: {
+        return "social-reddit";
+      }
+    }
+  };
 
   return (
     <View style={[s.homeHeaderContainer, { borderColor: primary_color }]}>
@@ -67,10 +89,12 @@ const HomeListHeader: React.FC<Props> = (props) => {
             />
           ) : (
             <Icon
-              name={
-                currentSub === "Search Results" ? "magnifier" : "social-reddit"
+              name={renderStaticIcon(currentSub)}
+              type={
+                renderStaticIcon(currentSub) === "newspaper"
+                  ? "font-awesome-5"
+                  : "simple-line-icon"
               }
-              type="simple-line-icon"
               color="white"
               backgroundColor={primary_color}
               style={{

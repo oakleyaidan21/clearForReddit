@@ -90,6 +90,7 @@ const User: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (userToView) {
+      console.log("getting content", contentType);
       getContentType();
     }
   }, [userToView]);
