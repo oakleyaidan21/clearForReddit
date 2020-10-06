@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   ScrollView,
@@ -18,6 +18,9 @@ import { SwiperScreenNavProp } from "./PostSwiper";
 import CommentThread from "../components/CommentThread";
 import { defaultColor } from "../assets/styles/palettes";
 import { createThemedStyle } from "../assets/styles/mainStyles";
+import CommentSortPicker from "../components/CommentSortPicker";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Icon } from "react-native-elements";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -32,11 +35,16 @@ type Props = {
 };
 
 const Post: React.FC<Props> = (props) => {
+  const commRef = useRef<any>();
   const [comments, setComments] = useState<null | Array<Comment>>(null);
   const [refreshingPost, setRefreshingPost] = useState<boolean>(false);
   const [data, setData] = useState<Submission>(
     props.route?.params ? props.route.params.data : props.data
   );
+  const [showCommentSort, setShowCommentSort] = useState<boolean>(false);
+  const [commentSortType, setCommentSortType] = useState<string>("Best");
+  const [commentSortPos, setCommentSortPos] = useState<number>(0);
+  const [headerHeight, setHeaderHeight] = useState<number>(0);
 
   const [postHeight, setPostHeight] = useState<number>(0);
 
@@ -91,6 +99,17 @@ const Post: React.FC<Props> = (props) => {
     );
   };
 
+  const changeCommentSorting = (type: string) => {
+    setCommentSortType(type);
+    setComments(null);
+    context.clear.snoowrap
+      .oauthRequest({
+        uri: "/r/" + data.subreddit.display_name + "/comments/" + data.id,
+        qs: { sort: type.toLowerCase() },
+      })
+      .then((d: any) => setComments(d.comments));
+  };
+
   return data ? (
     <View
       style={{
@@ -112,22 +131,63 @@ const Post: React.FC<Props> = (props) => {
         }
       >
         {/* MAIN POST HEADER */}
-        <PostItem
-          data={data}
-          onPress={() => {}}
-          inList={false}
-          navigation={props.navigation}
-          openPosts={props.openPosts}
-          contentHeight={postHeight - 50}
-          setOpenPosts={
-            props.setOpenPosts
-              ? props.setOpenPosts
-              : console.log("not implemented yet...")
-          }
-          selected={false}
-        />
-        {/* OTHER POST FUNCTIONS */}
+        <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
+          <PostItem
+            data={data}
+            onPress={() => {}}
+            inList={false}
+            navigation={props.navigation}
+            openPosts={props.openPosts}
+            contentHeight={postHeight - 50}
+            setOpenPosts={
+              props.setOpenPosts
+                ? props.setOpenPosts
+                : console.log("not implemented yet...")
+            }
+            selected={false}
+          />
+        </View>
         {/* COMMENTS */}
+        <View
+          ref={commRef}
+          style={{
+            flex: 1,
+            height: 40,
+            backgroundColor: primary_color,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingLeft: 10,
+            paddingRight: 10,
+            alignItems: "center",
+            position: "relative",
+          }}
+          onLayout={(e) => {
+            console.log("y:", e.nativeEvent.layout);
+            setCommentSortPos(e.nativeEvent.layout.y);
+          }}
+        >
+          <Text style={{ color: "white" }}>Comments</Text>
+          <TouchableOpacity
+            onPress={() => setShowCommentSort(true)}
+            style={[s.headerDropdown, { borderColor: "white" }]}
+          >
+            <Text style={{ color: "white" }}>{commentSortType}</Text>
+            <Icon
+              name="arrow-down"
+              color={"white"}
+              type="simple-line-icon"
+              size={13}
+              style={{ marginLeft: 10 }}
+            />
+          </TouchableOpacity>
+          <CommentSortPicker
+            isVisible={showCommentSort}
+            close={() => setShowCommentSort(false)}
+            yPos={commentSortPos + headerHeight}
+            setType={(type) => changeCommentSorting(type)}
+          />
+        </View>
+
         <View>
           {comments ? (
             comments.length > 0 ? (
