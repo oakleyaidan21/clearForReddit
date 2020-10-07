@@ -255,7 +255,7 @@ const PostItem: React.FC<Props> = (props) => {
           overflow: "hidden",
         }}
       >
-        {isSelf && listOpenPost && (
+        {isSelf && (listOpenPost || !props.inList) && (
           <RedditMD
             body={data.selftext}
             onLinkPress={(url: any, href: string) =>
