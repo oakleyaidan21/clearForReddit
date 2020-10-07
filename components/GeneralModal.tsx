@@ -31,56 +31,60 @@ const GeneralModal: React.FC<Props> = (props) => {
       statusBarTranslucent={true}
       onRequestClose={props.close}
     >
-      <TouchableWithoutFeedback onPress={() => props.close()}>
-        <KeyboardAvoidingView
-          behavior={"padding"}
-          style={{
-            width: "100%",
-            height: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <TouchableWithoutFeedback onPress={() => {}}>
-            <View
-              style={{
-                width: "90%",
-                maxWidth: 400,
-                borderRadius: 10,
-                overflow: "hidden",
-              }}
-            >
-              {!props.hideHeader && props.title && (
-                <View style={s.genModalHeader}>
-                  <Text
-                    style={{
-                      fontSize: 25,
-                      fontWeight: "bold",
-                      color: theme === "light" ? "black" : "white",
-                    }}
+      <KeyboardAvoidingView
+        behavior={"padding"}
+        style={{ alignItems: "center", justifyContent: "center" }}
+      >
+        <TouchableWithoutFeedback onPress={props.close}>
+          <KeyboardAvoidingView
+            behavior={"padding"}
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          ></KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+        <>
+          <KeyboardAvoidingView
+            behavior={"padding"}
+            style={{
+              position: "absolute",
+              width: "90%",
+              maxWidth: 400,
+              borderRadius: 10,
+              overflow: "hidden",
+            }}
+          >
+            {!props.hideHeader && props.title && (
+              <View style={s.genModalHeader}>
+                <Text
+                  style={{
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: theme === "light" ? "black" : "white",
+                  }}
+                >
+                  {props.title}
+                </Text>
+                {!props.disableClose && (
+                  <TouchableOpacity
+                    onPress={props.close}
+                    style={{ position: "absolute", right: 10 }}
                   >
-                    {props.title}
-                  </Text>
-                  {!props.disableClose && (
-                    <TouchableOpacity
-                      onPress={props.close}
-                      style={{ position: "absolute", right: 10 }}
-                    >
-                      <Icon
-                        name="close"
-                        color={theme === "light" ? "black" : "white"}
-                      />
-                    </TouchableOpacity>
-                  )}
-                </View>
-              )}
+                    <Icon
+                      name="close"
+                      color={theme === "light" ? "black" : "white"}
+                    />
+                  </TouchableOpacity>
+                )}
+              </View>
+            )}
 
-              {cloneElement(props.content, { close: props.close })}
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+            {cloneElement(props.content, { close: props.close })}
+          </KeyboardAvoidingView>
+        </>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
