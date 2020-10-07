@@ -59,8 +59,8 @@ const lightStyling = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    // borderTopLeftRadius: 10,
+    // borderTopRightRadius: 10,
   },
 
   tabBarIconContainer: {
@@ -180,12 +180,8 @@ const lightStyling = StyleSheet.create({
    */
   postItemContainer: {
     padding: 10,
-    margin: 10,
-    borderWidth: 2,
-    marginBottom: 0,
     borderColor: "grey",
     flexDirection: "row",
-    borderRadius: 5,
     overflow: "hidden",
     flex: 1,
     backgroundColor: "white",
@@ -316,8 +312,8 @@ const darkStyling = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    // borderTopLeftRadius: 10,
+    // borderTopRightRadius: 10,
   },
 
   tabBarIconContainer: {
@@ -436,12 +432,8 @@ const darkStyling = StyleSheet.create({
    */
   postItemContainer: {
     padding: 10,
-    margin: 10,
-    marginBottom: 0,
-    borderWidth: 2,
     borderColor: "grey",
     flexDirection: "row",
-    borderRadius: 5,
     overflow: "hidden",
     flex: 1,
     ...elevationShadowStyle(3),

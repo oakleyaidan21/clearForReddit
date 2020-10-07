@@ -49,6 +49,10 @@ const TabletHome: React.FC<Props> = (props) => {
     });
   }, [currentPostIndex]);
 
+  useEffect(() => {
+    setCurrentPostIndex(0);
+  }, [currentSub]);
+
   const getMainPosts = () => {
     console.log("getting main posts...");
     if (clearContext.clear) {
@@ -88,17 +92,19 @@ const TabletHome: React.FC<Props> = (props) => {
               data={currentPosts}
               ref={scrollRef}
               renderItem={({ item, index }) => (
-                <PostItem
-                  data={item}
-                  onPress={() => {
-                    setCurrentPostIndex(index);
-                  }}
-                  inList={true}
-                  navigation={null}
-                  openPosts={false}
-                  selected={currentPostIndex === index}
-                  setOpenPosts={() => {}}
-                />
+                <View style={{ margin: 10, marginBottom: 0 }}>
+                  <PostItem
+                    data={item}
+                    onPress={() => {
+                      setCurrentPostIndex(index);
+                    }}
+                    inList={true}
+                    navigation={null}
+                    openPosts={false}
+                    selected={currentPostIndex === index}
+                    setOpenPosts={() => {}}
+                  />
+                </View>
               )}
               refreshControl={
                 <RefreshControl

@@ -110,20 +110,22 @@ const Home: React.FC<Props> = (props) => {
               }}
               style={{ width: "100%", height: "100%" }}
               renderItem={({ item, index }) => (
-                <PostItem
-                  data={item}
-                  onPress={() =>
-                    props.navigation.navigate("PostSwiper", {
-                      index: index,
-                      searchResults: [],
-                    })
-                  }
-                  selected={false}
-                  inList={true}
-                  navigation={props.navigation}
-                  openPosts={openPosts}
-                  setOpenPosts={() => setOpenPosts(true)}
-                />
+                <View style={{ margin: 10, marginBottom: 0 }}>
+                  <PostItem
+                    data={item}
+                    onPress={() =>
+                      props.navigation.navigate("PostSwiper", {
+                        index: index,
+                        searchResults: [],
+                      })
+                    }
+                    selected={false}
+                    inList={true}
+                    navigation={props.navigation}
+                    openPosts={openPosts}
+                    setOpenPosts={() => setOpenPosts(true)}
+                  />
+                </View>
               )}
               refreshControl={
                 <RefreshControl
