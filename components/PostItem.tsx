@@ -30,6 +30,7 @@ const PostItem: React.FC<Props> = (props) => {
   const [paused, setPaused] = useState<boolean>(true);
   const [data, setData] = useState(props.data);
   const [postItemHeight, setPostItemHeight] = useState<number>(0);
+  const [listOpenPost, setListOpenPost] = useState<boolean>(false);
 
   useEffect(() => {
     setData(props.data);
@@ -68,9 +69,10 @@ const PostItem: React.FC<Props> = (props) => {
       ?.fetch()
       .then((post) => {
         setData(post);
-        // setSaving(false);
       });
   };
+
+  const showContent = props.openPosts || listOpenPost;
 
   return (
     <View
@@ -103,6 +105,8 @@ const PostItem: React.FC<Props> = (props) => {
           {
             margin: inList ? 10 : 0,
             borderRadius: inList ? 5 : 0,
+            borderBottomLeftRadius: listOpenPost ? 0 : 5,
+            borderBottomRightRadius: listOpenPost ? 0 : 5,
             borderColor: props.selected ? primary_color : "transparent",
           },
         ]}
@@ -115,6 +119,11 @@ const PostItem: React.FC<Props> = (props) => {
             isLink
               ? props.navigation.navigate("Web", { url: data.url })
               : props.setOpenPosts();
+          }
+        }}
+        onLongPress={() => {
+          if (props.inList) {
+            setListOpenPost(!listOpenPost);
           }
         }}
       >
@@ -237,61 +246,84 @@ const PostItem: React.FC<Props> = (props) => {
           />
         </View>
       </TouchableOpacity>
-
-      {isSelf && !inList && (
-        <RedditMD
-          body={data.selftext}
-          onLinkPress={(url: any, href: string) =>
-            props.navigation.navigate("Web", { url: href })
-          }
-          styles={{
-            body: {
-              backgroundColor: theme === "light" ? "white" : "black",
-              padding: 10,
-              color: theme === "light" ? "black" : "white",
-            },
-          }}
-        />
-      )}
-      {props.openPosts &&
-        (isImage || (isGif && !isImgur) ? (
-          <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
-            <Image
-              source={{ uri: data.url }}
-              style={{
-                height: props.contentHeight
-                  ? props.contentHeight - postItemHeight + 5
-                  : 500,
+      <View
+        style={{
+          marginLeft: props.inList ? 10 : 0,
+          marginRight: props.inList ? 10 : 0,
+          borderBottomLeftRadius: props.inList ? 5 : 0,
+          borderBottomRightRadius: props.inList ? 5 : 0,
+          overflow: "hidden",
+        }}
+      >
+        {isSelf && listOpenPost && (
+          <RedditMD
+            body={data.selftext}
+            onLinkPress={(url: any, href: string) =>
+              props.navigation.navigate("Web", { url: href })
+            }
+            styles={{
+              body: {
                 backgroundColor: theme === "light" ? "white" : "black",
-              }}
-              resizeMode={"contain"}
-            />
-          </TouchableWithoutFeedback>
-        ) : (
-          (isVideo || isImgur) && (
-            <View style={{ width: "100%" }}>
-              <VideoPlayer
-                source={{
-                  uri: isImgur
-                    ? data.url.substring(0, data.url.length - 4) + "mp4"
-                    : (data.media?.reddit_video?.hls_url as string),
-                }}
-                onError={(e: any) => console.log(e)}
-                paused={paused}
-                resizeMode="contain"
-                controls={false}
-                disableBack={true}
+                padding: 10,
+                color: theme === "light" ? "black" : "white",
+              },
+            }}
+          />
+        )}
+      </View>
+      <View
+        style={{
+          marginLeft: props.inList ? 10 : 0,
+          marginRight: props.inList ? 10 : 0,
+          borderBottomLeftRadius: props.inList ? 5 : 0,
+          borderBottomRightRadius: props.inList ? 5 : 0,
+          overflow: "hidden",
+        }}
+      >
+        {showContent &&
+          (isImage || (isGif && !isImgur) ? (
+            <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
+              <Image
+                source={{ uri: data.url }}
                 style={{
-                  width: "100%",
                   height: props.contentHeight
-                    ? props.contentHeight - postItemHeight + 5
+                    ? props.contentHeight - postItemHeight + 50
+                    : props.inList
+                    ? 300
                     : 500,
-                  backgroundColor: "black",
+                  backgroundColor: theme === "light" ? "white" : "black",
                 }}
+                resizeMode={"contain"}
               />
-            </View>
-          )
-        ))}
+            </TouchableWithoutFeedback>
+          ) : (
+            (isVideo || isImgur) && (
+              <View style={{ width: "100%" }}>
+                <VideoPlayer
+                  source={{
+                    uri: isImgur
+                      ? data.url.substring(0, data.url.length - 4) + "mp4"
+                      : (data.media?.reddit_video?.hls_url as string),
+                  }}
+                  onError={(e: any) => console.log(e)}
+                  paused={paused}
+                  resizeMode="contain"
+                  controls={false}
+                  disableBack={true}
+                  style={{
+                    width: "100%",
+                    height: props.contentHeight
+                      ? props.contentHeight - postItemHeight + 50
+                      : props.inList
+                      ? 300
+                      : 500,
+                    backgroundColor: "black",
+                  }}
+                />
+              </View>
+            )
+          ))}
+      </View>
     </View>
   );
 };

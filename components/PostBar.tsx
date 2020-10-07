@@ -29,7 +29,6 @@ const PostBar: React.FC<Props> = (props) => {
   const context: any = useContext(ClearContext);
 
   useEffect(() => {
-    console.log("changed");
     setData(props.data);
   }, [props.data.id]);
 

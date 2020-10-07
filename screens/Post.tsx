@@ -19,8 +19,6 @@ import CommentThread from "../components/CommentThread";
 import { defaultColor } from "../assets/styles/palettes";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import CommentSortPicker from "../components/CommentSortPicker";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Icon } from "react-native-elements";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
 
@@ -42,7 +40,7 @@ const Post: React.FC<Props> = (props) => {
     props.route?.params ? props.route.params.data : props.data
   );
   const [showCommentSort, setShowCommentSort] = useState<boolean>(false);
-  const [commentSortType, setCommentSortType] = useState<string>("Best");
+  const [commentSortType, setCommentSortType] = useState<string>("Top");
   const [commentSortPos, setCommentSortPos] = useState<number>(0);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
 
@@ -159,32 +157,14 @@ const Post: React.FC<Props> = (props) => {
             paddingLeft: 10,
             paddingRight: 10,
             alignItems: "center",
-            position: "relative",
           }}
           onLayout={(e) => {
-            console.log("y:", e.nativeEvent.layout);
             setCommentSortPos(e.nativeEvent.layout.y);
           }}
         >
-          <Text style={{ color: "white" }}>Comments</Text>
-          <TouchableOpacity
-            onPress={() => setShowCommentSort(true)}
-            style={[s.headerDropdown, { borderColor: "white" }]}
-          >
-            <Text style={{ color: "white" }}>{commentSortType}</Text>
-            <Icon
-              name="arrow-down"
-              color={"white"}
-              type="simple-line-icon"
-              size={13}
-              style={{ marginLeft: 10 }}
-            />
-          </TouchableOpacity>
           <CommentSortPicker
-            isVisible={showCommentSort}
-            close={() => setShowCommentSort(false)}
-            yPos={commentSortPos + headerHeight}
-            setType={(type) => changeCommentSorting(type)}
+            setType={changeCommentSorting}
+            type={commentSortType}
           />
         </View>
 

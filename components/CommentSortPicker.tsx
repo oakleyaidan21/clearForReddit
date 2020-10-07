@@ -10,13 +10,11 @@ import { createThemedStyle } from "../assets/styles/mainStyles";
 import { defaultColor } from "../assets/styles/palettes";
 import MainNavigationContext from "../context/MainNavigationContext";
 
-const sortingTypes = ["Best", "Top", "New", "Controversial"];
+const sortingTypes = ["Top", "Best", "New", "Cont."];
 
 type Props = {
-  isVisible: boolean;
-  close: any;
-  yPos: number;
   setType: any;
+  type: string;
 };
 
 const CommentSortPicker: React.FC<Props> = (props) => {
@@ -29,46 +27,38 @@ const CommentSortPicker: React.FC<Props> = (props) => {
   const s = createThemedStyle(theme);
 
   return (
-    <Modal visible={props.isVisible} animationType="fade" transparent={true}>
-      <TouchableWithoutFeedback onPress={props.close}>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <TouchableWithoutFeedback>
-            <View
-              style={[
-                s.timeframePickerContainer,
-                { right: 5, top: props.yPos, borderColor: primary_color },
-              ]}
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "space-around",
+        flexDirection: "row",
+        paddingLeft: 10,
+        height: "100%",
+      }}
+    >
+      {sortingTypes.map((type) => {
+        return (
+          <TouchableOpacity
+            key={type}
+            style={{
+              borderBottomWidth: props.type === type ? 2 : 0,
+              justifyContent: "center",
+              borderColor: "white",
+            }}
+            onPress={() => props.setType(type)}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontWeight: props.type === type ? "bold" : "normal",
+              }}
             >
-              {sortingTypes.map((t, index) => {
-                return (
-                  <TouchableOpacity
-                    key={t}
-                    style={[
-                      s.categoryItem,
-                      {
-                        borderTopWidth: index === 0 ? 0 : 2,
-                        borderColor: primary_color,
-                      },
-                    ]}
-                    onPress={() => {
-                      props.setType(t);
-                      props.close();
-                    }}
-                  >
-                    <Text style={{ color: primary_color }}>{t}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+              {type}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
   );
 };
 

@@ -47,6 +47,7 @@ const Home: React.FC<Props> = (props) => {
     currentCategory,
     theme,
   } = useContext(MainNavigationContext);
+  const [openPosts, setOpenPosts] = useState<boolean>(false);
 
   const getMainPosts = () => {
     console.log("getting main posts...");
@@ -120,8 +121,8 @@ const Home: React.FC<Props> = (props) => {
                   selected={false}
                   inList={true}
                   navigation={props.navigation}
-                  openPosts={false}
-                  setOpenPosts={() => {}}
+                  openPosts={openPosts}
+                  setOpenPosts={() => setOpenPosts(true)}
                 />
               )}
               refreshControl={

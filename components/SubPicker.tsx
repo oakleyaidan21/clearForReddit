@@ -16,7 +16,6 @@ import { searchPosts, searchForSubs } from "../util/snoowrap/snoowrapFunctions";
 import ClearContext from "../context/Clear";
 import { Subreddit } from "snoowrap";
 import { createThemedStyle } from "../assets/styles/mainStyles";
-import * as Animatable from "react-native-animatable";
 
 const staticPages = ["Front Page", "Popular", "Saved", "All"];
 
@@ -297,61 +296,56 @@ const SubPicker: React.FC<Props> = (props) => {
                           ? sub.primary_color
                           : defaultColor;
                         return (
-                          <Animatable.View
-                            animation="fadeInUp"
-                            delay={index * 10}
+                          <TouchableOpacity
+                            key={sub.name}
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              marginBottom: 5,
+                              marginTop: index === 0 ? 5 : 0,
+                            }}
+                            onPress={() => {
+                              setCurrentSub(sub);
+                              props.close();
+                            }}
                           >
-                            <TouchableOpacity
-                              key={sub.name}
+                            {sub.icon_img ? (
+                              <Image
+                                style={{
+                                  width: 30,
+                                  height: 30,
+                                  borderRadius: 15,
+                                  marginRight: 10,
+                                  borderWidth: 2,
+                                  borderColor: icon_color,
+                                }}
+                                source={{ uri: iconUrl }}
+                              />
+                            ) : (
+                              <Icon
+                                name="social-reddit"
+                                type="simple-line-icon"
+                                color="white"
+                                size={20}
+                                style={{
+                                  width: 30,
+                                  height: 30,
+                                  borderRadius: 15,
+                                  marginRight: 10,
+                                  justifyContent: "center",
+                                  backgroundColor: icon_color,
+                                }}
+                              />
+                            )}
+                            <Text
                               style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginBottom: 5,
-                                marginTop: index === 0 ? 5 : 0,
-                              }}
-                              onPress={() => {
-                                setCurrentSub(sub);
-                                props.close();
+                                fontWeight: "bold",
+                                color: theme === "light" ? "black" : "white",
                               }}
                             >
-                              {sub.icon_img ? (
-                                <Image
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: 15,
-                                    marginRight: 10,
-                                    borderWidth: 2,
-                                    borderColor: icon_color,
-                                  }}
-                                  source={{ uri: iconUrl }}
-                                />
-                              ) : (
-                                <Icon
-                                  name="social-reddit"
-                                  type="simple-line-icon"
-                                  color="white"
-                                  size={20}
-                                  style={{
-                                    width: 30,
-                                    height: 30,
-                                    borderRadius: 15,
-                                    marginRight: 10,
-                                    justifyContent: "center",
-                                    backgroundColor: icon_color,
-                                  }}
-                                />
-                              )}
-                              <Text
-                                style={{
-                                  fontWeight: "bold",
-                                  color: theme === "light" ? "black" : "white",
-                                }}
-                              >
-                                {sub.display_name}
-                              </Text>
-                            </TouchableOpacity>
-                          </Animatable.View>
+                              {sub.display_name}
+                            </Text>
+                          </TouchableOpacity>
                         );
                       })}
                 </ScrollView>
