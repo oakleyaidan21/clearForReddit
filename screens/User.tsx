@@ -116,18 +116,19 @@ const User: React.FC<Props> = (props) => {
       case "Posts": {
         return posts?.map((post) => {
           return (
-            <PostItem
-              key={post.id}
-              selected={false}
-              data={post}
-              navigation={props.navigation}
-              inList={true}
-              onPress={() => {
-                props.navigation.navigate("Post", { data: post });
-              }}
-              openPosts={openPosts}
-              setOpenPosts={() => setOpenPosts(!openPosts)}
-            />
+            <View style={{ margin: 10, marginBottom: 0 }} key={post.id}>
+              <PostItem
+                selected={false}
+                data={post}
+                navigation={props.navigation}
+                inList={true}
+                onPress={() => {
+                  props.navigation.navigate("Post", { data: post });
+                }}
+                openPosts={openPosts}
+                setOpenPosts={() => setOpenPosts(!openPosts)}
+              />
+            </View>
           );
         });
       }

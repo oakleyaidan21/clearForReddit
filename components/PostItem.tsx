@@ -13,6 +13,7 @@ import ClearContext from "../context/Clear";
 import { getTimeSincePosted } from "../util/util";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import { createThemedStyle } from "../assets/styles/mainStyles";
+import GifPlayer from "./GifPlayer";
 
 interface Props {
   data: Submission;
@@ -50,9 +51,10 @@ const PostItem: React.FC<Props> = (props) => {
   const isVideo = data.url.includes("v.redd.it");
   const isGif = data.url.includes(".gif");
   const isImgur = data.url.includes("imgur") && data.url.includes("gifv");
-  const isLink = !isImage && !isVideo && !isGif && !isSelf;
+  const isGallery = data.is_gallery;
+  const isLink = !isImage && !isVideo && !isGif && !isSelf && !isGallery;
 
-  const { currentSub, setCurrentSub, updateCurrentPosts, theme } = useContext(
+  const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
   );
 
@@ -74,6 +76,13 @@ const PostItem: React.FC<Props> = (props) => {
 
   const showContent = props.openPosts || listOpenPost;
 
+  const galleryUrls = [];
+  if (isGallery) {
+    for (const i of Object.entries(data.media_metadata)) {
+      galleryUrls.push({ url: i[1].s.u });
+    }
+  }
+
   return (
     <View
       style={{
@@ -91,7 +100,7 @@ const PostItem: React.FC<Props> = (props) => {
         onRequestClose={() => setShowImageViewer(false)}
       >
         <ImageViewer
-          imageUrls={[{ url: data.url }]}
+          imageUrls={isGallery ? galleryUrls : [{ url: data.url }]}
           onSwipeDown={() => setShowImageViewer(false)}
           enableSwipeDown={true}
         />
@@ -182,7 +191,6 @@ const PostItem: React.FC<Props> = (props) => {
                 disabled={inList}
                 onPress={() => {
                   data.author.fetch().then((author) => {
-                    console.log("author", author);
                     props.navigation.navigate("RedditUser", { author: author });
                   });
                 }}
@@ -279,10 +287,10 @@ const PostItem: React.FC<Props> = (props) => {
           />
         )}
         {showContent &&
-          (isImage || (isGif && !isImgur) ? (
+          (isImage || isGallery ? (
             <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
               <Image
-                source={{ uri: data.url }}
+                source={{ uri: isGallery ? galleryUrls[0].url : data.url }}
                 style={{
                   height: props.contentHeight
                     ? props.contentHeight - postItemHeight + 50
@@ -294,115 +302,47 @@ const PostItem: React.FC<Props> = (props) => {
                 resizeMode={"contain"}
               />
             </TouchableWithoutFeedback>
+          ) : isVideo || isImgur ? (
+            <View style={{ width: "100%" }}>
+              <VideoPlayer
+                source={{
+                  uri: isImgur
+                    ? data.url.substring(0, data.url.length - 4) + "mp4"
+                    : (data.media?.reddit_video?.hls_url as string),
+                }}
+                onError={(e: any) => console.log(e)}
+                paused={paused}
+                resizeMode="contain"
+                controls={false}
+                disableBack={true}
+                style={{
+                  width: "100%",
+                  height: props.contentHeight
+                    ? props.contentHeight - postItemHeight + 50
+                    : props.inList
+                    ? 300
+                    : 500,
+                  backgroundColor: "black",
+                }}
+              />
+            </View>
           ) : (
-            (isVideo || isImgur) && (
-              <View style={{ width: "100%" }}>
-                <VideoPlayer
-                  source={{
-                    uri: isImgur
-                      ? data.url.substring(0, data.url.length - 4) + "mp4"
-                      : (data.media?.reddit_video?.hls_url as string),
-                  }}
-                  onError={(e: any) => console.log(e)}
-                  paused={paused}
-                  resizeMode="contain"
-                  controls={false}
-                  disableBack={true}
-                  style={{
-                    width: "100%",
-                    height: props.contentHeight
-                      ? props.contentHeight - postItemHeight + 50
-                      : props.inList
-                      ? 300
-                      : 500,
-                    backgroundColor: "black",
-                  }}
-                />
-              </View>
+            isGif && (
+              <GifPlayer
+                url={data.url}
+                style={{
+                  height: props.contentHeight
+                    ? props.contentHeight - postItemHeight + 50
+                    : props.inList
+                    ? 300
+                    : 500,
+                  backgroundColor: theme === "light" ? "white" : "black",
+                }}
+              />
             )
           ))}
       </View>
     </View>
-
-    //   <View
-    //     style={{
-    //       marginLeft: props.inList ? 10 : 0,
-    //       marginRight: props.inList ? 10 : 0,
-    //       borderBottomLeftRadius: props.inList ? 5 : 0,
-    //       borderBottomRightRadius: props.inList ? 5 : 0,
-    //       overflow: "hidden",
-    //     }}
-    //   >
-    // {isSelf && (listOpenPost || !props.inList) && (
-    //   <RedditMD
-    //     body={data.selftext}
-    //     onLinkPress={(url: any, href: string) =>
-    //       props.navigation.navigate("Web", { url: href })
-    //     }
-    //     styles={{
-    //       body: {
-    //         backgroundColor: theme === "light" ? "white" : "black",
-    //         padding: 10,
-    //         color: theme === "light" ? "black" : "white",
-    //       },
-    //     }}
-    //   />
-    // )}
-    //   </View>
-    //   <View
-    //     style={{
-    //       marginLeft: props.inList ? 10 : 0,
-    //       marginRight: props.inList ? 10 : 0,
-    //       borderBottomLeftRadius: props.inList ? 5 : 0,
-    //       borderBottomRightRadius: props.inList ? 5 : 0,
-    //       overflow: "hidden",
-    //     }}
-    //   >
-    // {showContent &&
-    //   (isImage || (isGif && !isImgur) ? (
-    //     <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
-    //       <Image
-    //         source={{ uri: data.url }}
-    //         style={{
-    //           height: props.contentHeight
-    //             ? props.contentHeight - postItemHeight + 50
-    //             : props.inList
-    //             ? 300
-    //             : 500,
-    //           backgroundColor: theme === "light" ? "white" : "black",
-    //         }}
-    //         resizeMode={"contain"}
-    //       />
-    //     </TouchableWithoutFeedback>
-    //   ) : (
-    //     (isVideo || isImgur) && (
-    //       <View style={{ width: "100%" }}>
-    //         <VideoPlayer
-    //           source={{
-    //             uri: isImgur
-    //               ? data.url.substring(0, data.url.length - 4) + "mp4"
-    //               : (data.media?.reddit_video?.hls_url as string),
-    //           }}
-    //           onError={(e: any) => console.log(e)}
-    //           paused={paused}
-    //           resizeMode="contain"
-    //           controls={false}
-    //           disableBack={true}
-    //           style={{
-    //             width: "100%",
-    //             height: props.contentHeight
-    //               ? props.contentHeight - postItemHeight + 50
-    //               : props.inList
-    //               ? 300
-    //               : 500,
-    //             backgroundColor: "black",
-    //           }}
-    //         />
-    //       </View>
-    //     )
-    //   ))}
-    //   </View>
-    // </View>
   );
 };
 

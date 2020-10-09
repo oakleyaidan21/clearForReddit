@@ -39,30 +39,29 @@ const Post: React.FC<Props> = (props) => {
   const [data, setData] = useState<Submission>(
     props.route?.params ? props.route.params.data : props.data
   );
-  const [showCommentSort, setShowCommentSort] = useState<boolean>(false);
   const [commentSortType, setCommentSortType] = useState<string>("Top");
-  const [commentSortPos, setCommentSortPos] = useState<number>(0);
-  const [headerHeight, setHeaderHeight] = useState<number>(0);
-
   const [postHeight, setPostHeight] = useState<number>(0);
+  const [showContent, setShowContent] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
 
   const { theme } = useContext(MainNavigationContext);
 
-  const s = createThemedStyle(theme);
+  const showPostContent = props.data ? props.openPosts : showContent;
 
   useEffect(() => {
-    setData(props.data);
-    new Promise((resolve) => {
-      setComments(null);
-      resolve();
-    }).then(async () => {
-      const comments = await props.data.comments.fetchMore({
-        amount: 10,
+    if (props.data) {
+      setData(props.data);
+      new Promise((resolve) => {
+        setComments(null);
+        resolve();
+      }).then(async () => {
+        const comments = await props.data.comments.fetchMore({
+          amount: 10,
+        });
+        setComments(comments);
       });
-      setComments(comments);
-    });
+    }
   }, [props.data?.id]);
 
   useEffect(() => {
@@ -129,19 +128,17 @@ const Post: React.FC<Props> = (props) => {
         }
       >
         {/* MAIN POST HEADER */}
-        <View onLayout={(e) => setHeaderHeight(e.nativeEvent.layout.height)}>
+        <View>
           <PostItem
             data={data}
             onPress={() => {}}
             inList={false}
             navigation={props.navigation}
-            openPosts={props.openPosts}
+            openPosts={showPostContent}
             contentHeight={postHeight - 50}
-            setOpenPosts={
-              props.setOpenPosts
-                ? props.setOpenPosts
-                : console.log("not implemented yet...")
-            }
+            setOpenPosts={() => {
+              props.data ? props.setOpenPosts() : setShowContent(!showContent);
+            }}
             selected={false}
           />
         </View>
@@ -157,9 +154,6 @@ const Post: React.FC<Props> = (props) => {
             paddingLeft: 10,
             paddingRight: 10,
             alignItems: "center",
-          }}
-          onLayout={(e) => {
-            setCommentSortPos(e.nativeEvent.layout.y);
           }}
         >
           <CommentSortPicker
