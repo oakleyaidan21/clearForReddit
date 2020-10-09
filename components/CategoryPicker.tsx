@@ -5,9 +5,7 @@ import {
   Text,
   Modal,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
-import { Icon } from "react-native-elements";
 import MainNavigationContext from "../context/MainNavigationContext";
 import { defaultColor } from "../assets/styles/palettes";
 import { createThemedStyle } from "../assets/styles/mainStyles";

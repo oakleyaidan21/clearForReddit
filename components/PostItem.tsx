@@ -16,6 +16,7 @@ import { createThemedStyle } from "../assets/styles/mainStyles";
 import GifPlayer from "./GifPlayer";
 import YouTube from "react-native-youtube";
 import ImgurAlbumViewer from "./ImgurAlbumViewer";
+import { apiKey } from "../util/youtube/youtubeConfig";
 
 interface Props {
   data: Submission;
@@ -70,8 +71,15 @@ const PostItem: React.FC<Props> = (props) => {
   const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
   );
-
   const s = createThemedStyle(theme);
+  const contentStyle = {
+    height: props.contentHeight
+      ? props.contentHeight - postItemHeight + 50
+      : props.inList
+      ? 300
+      : 500,
+    backgroundColor: theme === "light" ? "white" : "black",
+  };
 
   const context: any = useContext(ClearContext);
 
@@ -304,14 +312,7 @@ const PostItem: React.FC<Props> = (props) => {
             <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
               <Image
                 source={{ uri: isGallery ? galleryUrls[0].url : data.url }}
-                style={{
-                  height: props.contentHeight
-                    ? props.contentHeight - postItemHeight + 50
-                    : props.inList
-                    ? 300
-                    : 500,
-                  backgroundColor: theme === "light" ? "white" : "black",
-                }}
+                style={contentStyle}
                 resizeMode={"contain"}
               />
             </TouchableWithoutFeedback>
@@ -328,57 +329,17 @@ const PostItem: React.FC<Props> = (props) => {
                 resizeMode="contain"
                 controls={false}
                 disableBack={true}
-                style={{
-                  width: "100%",
-                  height: props.contentHeight
-                    ? props.contentHeight - postItemHeight + 50
-                    : props.inList
-                    ? 300
-                    : 500,
-                  backgroundColor: "black",
-                }}
+                style={{ ...contentStyle, backgroundColor: "black" }}
               />
             </View>
           ) : isGif ? (
-            <GifPlayer
-              url={data.url}
-              style={{
-                height: props.contentHeight
-                  ? props.contentHeight - postItemHeight + 50
-                  : props.inList
-                  ? 300
-                  : 500,
-                backgroundColor: theme === "light" ? "white" : "black",
-              }}
-              theme={theme}
-            />
+            <GifPlayer url={data.url} style={contentStyle} theme={theme} />
           ) : isYoutube ? (
-            <View
-              style={{
-                height: props.contentHeight
-                  ? props.contentHeight - postItemHeight + 50
-                  : props.inList
-                  ? 300
-                  : 500,
-                backgroundColor: theme === "light" ? "white" : "black",
-              }}
-            >
-              <YouTube
-                videoId={youtubeID}
-                style={{ width: "100%", height: "100%" }}
-              />
-            </View>
+            <YouTube videoId={youtubeID} apiKey={apiKey} style={contentStyle} />
           ) : (
             isImgur && (
               <ImgurAlbumViewer
-                style={{
-                  height: props.contentHeight
-                    ? props.contentHeight - postItemHeight + 50
-                    : props.inList
-                    ? 300
-                    : 500,
-                  backgroundColor: theme === "light" ? "white" : "black",
-                }}
+                style={contentStyle}
                 hash={imgurHash}
                 theme={theme}
                 color={primary_color}
@@ -390,4 +351,4 @@ const PostItem: React.FC<Props> = (props) => {
   );
 };
 
-export default PostItem;
+export default memo(PostItem);

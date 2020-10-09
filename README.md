@@ -38,6 +38,29 @@ const snoowrapConfig: Config = {
 export default snoowrapConfig;
 ```
 
+### Accessing imgur API
+
+In order to get images from imgur in an album, you'll need to register for imgur api credentials. You can get those
+[here](https://api.imgur.com/oauth2/addclient). Select `Anynymous usage without user authorization`. Place your
+client id and client secret in `util/imgur/` in a file called `imgurConfig.tsx`. It should look like this:
+
+```ts
+const imgurConfig: any = {
+  clientID: "CLIENTID",
+  clientSecret: "CLIENT SECRET",
+};
+
+export default imgurConfig;
+```
+
+### Playing YouTube natively on Android
+
+You'll need a google API key in order to play youtube videos in the app on android. You can find out how to get one [here](https://developers.google.com/youtube/android/player/register). Once you have a key, place it in `util/youtube` in a file titled `youtubeConfig.tsx`. It should ooke like this:
+
+```ts
+export const apiKey = "AIzaSyB56c605jONMlWRn0OzTTvLy6_p00Hgro4";
+```
+
 ## Current Features
 
 - sign users in
@@ -53,11 +76,6 @@ export default snoowrapConfig;
 ## TO-DO (that I currently have thought of)
 
 - add ability to retrieve other sections of a user's page
-- add ability to view non-signed-in user's page
 - add better UI
-- add theming (Dark, light, choose default highlight color, etc)
-- add imgur/gfycat integration
 - add comment functionality
 - add report functionality
-- add voting functionality
-- create tablet version
