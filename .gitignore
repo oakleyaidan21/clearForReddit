@@ -81,7 +81,7 @@ web-build/
 
 # Secrets
 util/snoowrap/snoowrapConfig.tsx
-util/imgurConfig.tsx
+util/imgur/imgurConfig.tsx
 
 /android/androidbuilds/
 

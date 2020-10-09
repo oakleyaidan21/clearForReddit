@@ -15,6 +15,7 @@ import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import GifPlayer from "./GifPlayer";
 import YouTube from "react-native-youtube";
+import ImgurAlbumViewer from "./ImgurAlbumViewer";
 
 interface Props {
   data: Submission;
@@ -51,12 +52,20 @@ const PostItem: React.FC<Props> = (props) => {
   const isImage = data.url.includes(".jpg") || data.url.includes(".png");
   const isVideo = data.url.includes("v.redd.it");
   const isGif = data.url.includes(".gif");
-  const isImgur = data.url.includes("imgur") && data.url.includes("gifv");
+  const isImgur = data.url.includes("imgur");
+  const imgurHash = data.url.substring(data.url.indexOf("a/") + 2);
+  const isImgurGif = isImgur && data.url.includes("gifv");
   const isGallery = data.is_gallery;
   const isYoutube = data.url.includes("youtube");
   const youtubeID = data.url.substring(data.url.indexOf("v=") + 2);
   const isLink =
-    !isImage && !isVideo && !isGif && !isSelf && !isGallery && !isYoutube;
+    !isImage &&
+    !isVideo &&
+    !isGif &&
+    !isSelf &&
+    !isGallery &&
+    !isYoutube &&
+    !isImgur;
 
   const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
@@ -306,11 +315,11 @@ const PostItem: React.FC<Props> = (props) => {
                 resizeMode={"contain"}
               />
             </TouchableWithoutFeedback>
-          ) : isVideo || isImgur ? (
+          ) : isVideo || isImgurGif ? (
             <View style={{ width: "100%" }}>
               <VideoPlayer
                 source={{
-                  uri: isImgur
+                  uri: isImgurGif
                     ? data.url.substring(0, data.url.length - 4) + "mp4"
                     : (data.media?.reddit_video?.hls_url as string),
                 }}
@@ -343,9 +352,25 @@ const PostItem: React.FC<Props> = (props) => {
               }}
               theme={theme}
             />
+          ) : isYoutube ? (
+            <View
+              style={{
+                height: props.contentHeight
+                  ? props.contentHeight - postItemHeight + 50
+                  : props.inList
+                  ? 300
+                  : 500,
+                backgroundColor: theme === "light" ? "white" : "black",
+              }}
+            >
+              <YouTube
+                videoId={youtubeID}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </View>
           ) : (
-            isYoutube && (
-              <View
+            isImgur && (
+              <ImgurAlbumViewer
                 style={{
                   height: props.contentHeight
                     ? props.contentHeight - postItemHeight + 50
@@ -354,12 +379,10 @@ const PostItem: React.FC<Props> = (props) => {
                     : 500,
                   backgroundColor: theme === "light" ? "white" : "black",
                 }}
-              >
-                <YouTube
-                  videoId={youtubeID}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </View>
+                hash={imgurHash}
+                theme={theme}
+                color={primary_color}
+              />
             )
           ))}
       </View>
