@@ -79,7 +79,9 @@ buck-out/
 .expo/*
 web-build/
 
+# Secrets
 util/snoowrap/snoowrapConfig.tsx
+util/imgurConfig.tsx
 
 /android/androidbuilds/
 

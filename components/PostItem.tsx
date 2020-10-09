@@ -14,6 +14,7 @@ import { getTimeSincePosted } from "../util/util";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import GifPlayer from "./GifPlayer";
+import YouTube from "react-native-youtube";
 
 interface Props {
   data: Submission;
@@ -52,7 +53,10 @@ const PostItem: React.FC<Props> = (props) => {
   const isGif = data.url.includes(".gif");
   const isImgur = data.url.includes("imgur") && data.url.includes("gifv");
   const isGallery = data.is_gallery;
-  const isLink = !isImage && !isVideo && !isGif && !isSelf && !isGallery;
+  const isYoutube = data.url.includes("youtube");
+  const youtubeID = data.url.substring(data.url.indexOf("v=") + 2);
+  const isLink =
+    !isImage && !isVideo && !isGif && !isSelf && !isGallery && !isYoutube;
 
   const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
@@ -326,10 +330,22 @@ const PostItem: React.FC<Props> = (props) => {
                 }}
               />
             </View>
+          ) : isGif ? (
+            <GifPlayer
+              url={data.url}
+              style={{
+                height: props.contentHeight
+                  ? props.contentHeight - postItemHeight + 50
+                  : props.inList
+                  ? 300
+                  : 500,
+                backgroundColor: theme === "light" ? "white" : "black",
+              }}
+              theme={theme}
+            />
           ) : (
-            isGif && (
-              <GifPlayer
-                url={data.url}
+            isYoutube && (
+              <View
                 style={{
                   height: props.contentHeight
                     ? props.contentHeight - postItemHeight + 50
@@ -338,7 +354,12 @@ const PostItem: React.FC<Props> = (props) => {
                     : 500,
                   backgroundColor: theme === "light" ? "white" : "black",
                 }}
-              />
+              >
+                <YouTube
+                  videoId={youtubeID}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </View>
             )
           ))}
       </View>

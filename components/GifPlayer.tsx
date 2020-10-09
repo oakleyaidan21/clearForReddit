@@ -6,6 +6,7 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 type Props = {
   style: any;
   url: string;
+  theme: string;
 };
 
 const GifPlayer: React.FC<Props> = (props) => {
@@ -28,7 +29,11 @@ const GifPlayer: React.FC<Props> = (props) => {
               alignItems: "center",
             }}
           >
-            <Text>Tap to show gif</Text>
+            <Text
+              style={{ color: props.theme === "light" ? "black" : "white" }}
+            >
+              Tap to show gif
+            </Text>
           </View>
         )}
       </View>
