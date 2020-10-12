@@ -4,6 +4,8 @@ Clear is an open-sourced, cross-platform mobile application for browsing reddit.
 
 So far, Clear is mostly contained to mass browsing, but features will be added as time goes on.
 
+<img src="https://github.com/oakleyaidan21/clearForReddit/blob/master/screenshots/Simulator%20Screen%20Shot%20-%20iPad%20Pro%20(9.7-inch)%20-%202020-10-12%20at%2017.16.47.png?raw=true"  />
+
 ## Setup
 
 In order to run Clear yourself, you'll need to set it up like any other react-native application.
