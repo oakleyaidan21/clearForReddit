@@ -55,7 +55,7 @@ export default imgurConfig;
 
 ### Playing YouTube natively on Android
 
-You'll need a google API key in order to play youtube videos in the app on android. You can find out how to get one [here](https://developers.google.com/youtube/android/player/register). Once you have a key, place it in `util/youtube` in a file titled `youtubeConfig.tsx`. It should ooke like this:
+You'll need a google API key in order to play youtube videos in the app on android. You can find out how to get one [here](https://developers.google.com/youtube/android/player/register). Once you have a key, place it in `util/youtube` in a file titled `youtubeConfig.tsx`. It should look like this:
 
 ```ts
 export const apiKey = "AIzaSyB56c605jONMlWRn0OzTTvLy6_p00Hgro4";
@@ -72,6 +72,12 @@ export const apiKey = "AIzaSyB56c605jONMlWRn0OzTTvLy6_p00Hgro4";
   - save posts
   - view own user comments
 - search for posts or subs
+- view user pages
+- themeing (just light and dark)
+- imgur and gfycat integration
+- youtube integration
+- tablet version
+- can vote on posts
 
 ## TO-DO (that I currently have thought of)
 
