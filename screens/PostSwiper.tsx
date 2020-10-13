@@ -68,7 +68,7 @@ const PostSwiper: React.FC<Props> = (props) => {
               />
             ))}
         </Swiper>
-        <PostBar data={currentPosts[currIndex]} />
+        {currentPosts[currIndex] && <PostBar data={currentPosts[currIndex]} />}
       </View>
     )
   );
