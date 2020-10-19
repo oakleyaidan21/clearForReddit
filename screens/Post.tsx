@@ -17,7 +17,6 @@ import ClearContext from "../context/Clear";
 import { SwiperScreenNavProp } from "./PostSwiper";
 import CommentThread from "../components/CommentThread";
 import { defaultColor } from "../assets/styles/palettes";
-import { createThemedStyle } from "../assets/styles/mainStyles";
 import CommentSortPicker from "../components/CommentSortPicker";
 
 type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
@@ -65,7 +64,6 @@ const Post: React.FC<Props> = (props) => {
   }, [props.data?.id]);
 
   useEffect(() => {
-    //get comments
     getComments();
   }, []);
 

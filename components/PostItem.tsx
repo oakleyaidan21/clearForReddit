@@ -14,9 +14,7 @@ import { getTimeSincePosted } from "../util/util";
 import { getPostById } from "../util/snoowrap/snoowrapFunctions";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import GifPlayer from "./GifPlayer";
-import YouTube from "react-native-youtube";
 import ImgurAlbumViewer from "./ImgurAlbumViewer";
-import { apiKey } from "../util/youtube/youtubeConfig";
 
 interface Props {
   data: Submission;
@@ -49,24 +47,26 @@ const PostItem: React.FC<Props> = (props) => {
     data.thumbnail === "spoiler" ||
     data.thumbnail === "default";
 
-  const isSelf = data.selftext !== "";
+  //can probably do this much more efficiently
+  const isSelf = data.selftext.length > 0;
   const isImage = data.url.includes(".jpg") || data.url.includes(".png");
   const isVideo = data.url.includes("v.redd.it");
   const isGif = data.url.includes(".gif");
   const isImgur = data.url.includes("imgur");
-  const imgurHash = data.url.substring(data.url.indexOf("a/") + 2);
+  const imgurHashLocation = data.url.indexOf("a/");
+  const imgurHash = data.url.substring(imgurHashLocation + 2);
+  const isImgurGallery = isImgur && imgurHashLocation !== -1;
   const isImgurGif = isImgur && data.url.includes("gifv");
-  const isGallery = data.is_gallery;
-  const isYoutube = data.url.includes("youtube");
-  const youtubeID = data.url.substring(data.url.indexOf("v=") + 2);
+  const isRedditGallery = data.is_gallery;
   const isLink =
     !isImage &&
     !isVideo &&
     !isGif &&
     !isSelf &&
-    !isGallery &&
-    !isYoutube &&
-    !isImgur;
+    !isRedditGallery &&
+    !isImgurGallery;
+
+  console.log(data.url);
 
   const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
@@ -98,7 +98,7 @@ const PostItem: React.FC<Props> = (props) => {
   const showContent = props.openPosts || listOpenPost;
 
   const galleryUrls = [];
-  if (isGallery) {
+  if (isRedditGallery) {
     for (const i of Object.entries(data.media_metadata)) {
       galleryUrls.push({ url: i[1].s.u });
     }
@@ -121,7 +121,7 @@ const PostItem: React.FC<Props> = (props) => {
         onRequestClose={() => setShowImageViewer(false)}
       >
         <ImageViewer
-          imageUrls={isGallery ? galleryUrls : [{ url: data.url }]}
+          imageUrls={isRedditGallery ? galleryUrls : [{ url: data.url }]}
           onSwipeDown={() => setShowImageViewer(false)}
           enableSwipeDown={true}
         />
@@ -308,13 +308,17 @@ const PostItem: React.FC<Props> = (props) => {
           />
         )}
         {showContent &&
-          (isImage || isGallery ? (
+          (isImage || isRedditGallery || isImgur ? (
             <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
-              <Image
-                source={{ uri: isGallery ? galleryUrls[0].url : data.url }}
-                style={contentStyle}
-                resizeMode={"contain"}
-              />
+              <View style={contentStyle}>
+                <Image
+                  source={{
+                    uri: isRedditGallery ? galleryUrls[0].url : data.url,
+                  }}
+                  style={contentStyle}
+                  resizeMode={"contain"}
+                />
+              </View>
             </TouchableWithoutFeedback>
           ) : isVideo || isImgurGif ? (
             <View style={{ width: "100%" }}>
@@ -334,10 +338,8 @@ const PostItem: React.FC<Props> = (props) => {
             </View>
           ) : isGif ? (
             <GifPlayer url={data.url} style={contentStyle} theme={theme} />
-          ) : isYoutube ? (
-            <YouTube videoId={youtubeID} apiKey={apiKey} style={contentStyle} />
           ) : (
-            isImgur && (
+            isImgurGallery && (
               <ImgurAlbumViewer
                 style={contentStyle}
                 hash={imgurHash}

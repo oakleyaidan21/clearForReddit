@@ -19,6 +19,7 @@ const GifPlayer: React.FC<Props> = (props) => {
           <Image
             source={{ uri: props.url }}
             style={{ width: "100%", height: "100%" }}
+            resizeMode="contain"
           />
         ) : (
           <View
