@@ -34,6 +34,7 @@ const TabletHome: React.FC<Props> = (props) => {
   const {
     currentPosts,
     currentSub,
+    user,
     currentCategory,
     updateCurrentPosts,
     theme,
@@ -52,7 +53,7 @@ const TabletHome: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setCurrentPostIndex(0);
-  }, [currentSub]);
+  }, [currentSub, user?.name]);
 
   const getMainPosts = () => {
     console.log("getting main posts...");

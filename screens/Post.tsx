@@ -62,7 +62,7 @@ const Post: React.FC<Props> = (props) => {
         setComments(comments);
       });
     }
-    if (props.scrollRef.current) {
+    if (props.scrollRef?.current) {
       props.scrollRef.current.scrollToOffset({
         animated: true,
         offset: 0,

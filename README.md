@@ -95,4 +95,5 @@ export const apiKey = "AIzaSyB56c605jONMlWRn0OzTTvLy6_p00Hgro4";
 - optimize post rendering
 - add swiper functionality to tablet version
 - add dynamic header to posts
-- improve styling 
+- improve styling
+- combine the two sorting types into one type

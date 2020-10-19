@@ -122,18 +122,6 @@ const lightStyling = StyleSheet.create({
   },
 
   /**
-   * *******TIMEFRAMEPICKER*******
-   */
-  timeframePickerContainer: {
-    position: "absolute",
-    top: pickerYLocation,
-    backgroundColor: "white",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    borderRadius: 5,
-  },
-
-  /**
    * *******HOME***********
    */
   homeHeaderContainer: {
@@ -372,18 +360,6 @@ const darkStyling = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderColor: "lightgrey",
-  },
-
-  /**
-   * *******TIMEFRAMEPICKER*******
-   */
-  timeframePickerContainer: {
-    position: "absolute",
-    top: pickerYLocation,
-    backgroundColor: "black",
-    borderWidth: 2,
-    borderColor: "lightgrey",
-    borderRadius: 5,
   },
 
   /**

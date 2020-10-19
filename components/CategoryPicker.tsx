@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   TouchableWithoutFeedback,
@@ -11,34 +11,44 @@ import { defaultColor } from "../assets/styles/palettes";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 
 const categories = ["Hot", "New", "Top", "Cont."];
+const times = ["hour", "day", "week", "month", "year", "all"];
 
 interface Props {
   isVisible: boolean;
   close: any;
   xPos: number;
-  pad: number;
 }
 
 const CategoryPicker: React.FC<Props> = (props) => {
-  const { setCurrentCategory, currentSub, theme } = useContext(
-    MainNavigationContext
-  );
+  const {
+    setCurrentCategory,
+    currentSub,
+    theme,
+    setCurrentTimeframe,
+  } = useContext(MainNavigationContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
 
+  const [showTimes, setShowTimes] = useState<null | string>(null);
+
   const s = createThemedStyle(theme);
   return (
     <Modal visible={props.isVisible} animationType="fade" transparent={true}>
-      <TouchableWithoutFeedback onPress={props.close}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          setShowTimes(null);
+          props.close();
+        }}
+      >
         <View style={{ width: "100%", height: "100%" }}>
           <TouchableWithoutFeedback>
             <View
               style={[
                 s.categoryPickerContainer,
                 {
-                  left: props.xPos + props.pad - 37.5,
+                  left: props.xPos - 160,
                   borderColor: primary_color,
                 },
               ]}
@@ -51,15 +61,49 @@ const CategoryPicker: React.FC<Props> = (props) => {
                       s.categoryItem,
                       {
                         borderTopWidth: index === 0 ? 0 : 2,
+                        height: 40,
                         borderColor: primary_color,
                       },
                     ]}
                     onPress={() => {
-                      setCurrentCategory(cat);
-                      props.close();
+                      if (cat === "Top" || cat === "Cont.") {
+                        setShowTimes(cat);
+                      } else {
+                        setShowTimes(null);
+                        setCurrentCategory(cat);
+                        props.close();
+                      }
                     }}
                   >
-                    <Text style={{ color: primary_color }}>{cat}</Text>
+                    {showTimes && cat === showTimes ? (
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {times.map((time) => {
+                          return (
+                            <TouchableOpacity
+                              key={time}
+                              onPress={() => {
+                                setShowTimes(null);
+                                setCurrentCategory(cat);
+                                setCurrentTimeframe(time);
+                                props.close();
+                              }}
+                            >
+                              <Text style={{ color: primary_color }}>
+                                {time[0].toUpperCase()}
+                              </Text>
+                            </TouchableOpacity>
+                          );
+                        })}
+                      </View>
+                    ) : (
+                      <Text style={{ color: primary_color }}>{cat}</Text>
+                    )}
                   </TouchableOpacity>
                 );
               })}
