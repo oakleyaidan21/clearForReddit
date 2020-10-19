@@ -90,5 +90,9 @@ export const apiKey = "AIzaSyB56c605jONMlWRn0OzTTvLy6_p00Hgro4";
 
 - add ability to retrieve other sections of a user's page
 - add better UI
-- add comment functionality
+- add comment/reply functionality
 - add report functionality
+- optimize post rendering
+- add swiper functionality to tablet version
+- add dynamic header to posts
+- improve styling 
