@@ -29,6 +29,7 @@ type Props = {
   data: Submission;
   openPosts: boolean;
   setOpenPosts: any;
+  scrollRef?: any;
 };
 
 const Post: React.FC<Props> = (props) => {
@@ -59,6 +60,12 @@ const Post: React.FC<Props> = (props) => {
           amount: 10,
         });
         setComments(comments);
+      });
+    }
+    if (props.scrollRef.current) {
+      props.scrollRef.current.scrollToOffset({
+        animated: true,
+        offset: 0,
       });
     }
   }, [props.data?.id]);

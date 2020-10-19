@@ -66,8 +66,6 @@ const PostItem: React.FC<Props> = (props) => {
     !isRedditGallery &&
     !isImgurGallery;
 
-  console.log(data.url);
-
   const { currentSub, setCurrentSub, theme } = useContext(
     MainNavigationContext
   );

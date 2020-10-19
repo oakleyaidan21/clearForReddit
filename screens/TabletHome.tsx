@@ -29,6 +29,7 @@ const TabletHome: React.FC<Props> = (props) => {
   const [showSubModal, setShowSubModal] = useState<boolean>(false);
 
   const scrollRef = useRef<any>();
+  const postScrollRef = useRef<any>();
 
   const {
     currentPosts,
@@ -161,6 +162,7 @@ const TabletHome: React.FC<Props> = (props) => {
               data={currentPosts[currentPostIndex]}
               openPosts={openPosts}
               setOpenPosts={() => setOpenPosts(!openPosts)}
+              scrollRef={postScrollRef}
             />
             <PostBar data={currentPosts[currentPostIndex]} />
             {/* Swich post buttons */}
