@@ -51,12 +51,12 @@ const PostItem: React.FC<Props> = (props) => {
   const isSelf = data.selftext.length > 0;
   const isImage = data.url.includes(".jpg") || data.url.includes(".png");
   const isVideo = data.url.includes("v.redd.it");
-  const isGif = data.url.includes(".gif");
   const isImgur = data.url.includes("imgur");
+  const isImgurGif = isImgur && data.url.includes("gifv");
+  const isGif = !isImgurGif && data.url.includes(".gif");
   const imgurHashLocation = data.url.indexOf("a/");
   const imgurHash = data.url.substring(imgurHashLocation + 2);
   const isImgurGallery = isImgur && imgurHashLocation !== -1;
-  const isImgurGif = isImgur && data.url.includes("gifv");
   const isRedditGallery = data.is_gallery;
   const isLink =
     !isImage &&
@@ -64,6 +64,7 @@ const PostItem: React.FC<Props> = (props) => {
     !isGif &&
     !isSelf &&
     !isRedditGallery &&
+    !isImgurGif &&
     !isImgurGallery;
 
   const { currentSub, setCurrentSub, theme } = useContext(
@@ -306,7 +307,7 @@ const PostItem: React.FC<Props> = (props) => {
           />
         )}
         {showContent &&
-          (isImage || isRedditGallery || isImgur ? (
+          (isImage || isRedditGallery || (isImgur && !isImgurGif) ? (
             <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
               <View style={contentStyle}>
                 <Image
@@ -332,6 +333,7 @@ const PostItem: React.FC<Props> = (props) => {
                 controls={false}
                 disableBack={true}
                 style={{ ...contentStyle, backgroundColor: "black" }}
+                poster={"../assets/images/play1.png"}
               />
             </View>
           ) : isGif ? (
