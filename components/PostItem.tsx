@@ -101,6 +101,7 @@ const PostItem: React.FC<Props> = (props) => {
     for (const i of Object.entries(data.media_metadata)) {
       galleryUrls.push({ url: i[1].s.u });
     }
+    // console.log(Object.keys(data.media_metadata));
   }
 
   return (
@@ -307,8 +308,15 @@ const PostItem: React.FC<Props> = (props) => {
           />
         )}
         {showContent &&
-          (isImage || isRedditGallery || (isImgur && !isImgurGif) ? (
-            <TouchableWithoutFeedback onPress={() => setShowImageViewer(true)}>
+          (isImage ||
+          isRedditGallery ||
+          (isImgur && !isImgurGif && !isImgurGallery) ? (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                console.log(data.media_metadata, galleryUrls);
+                setShowImageViewer(true);
+              }}
+            >
               <View style={contentStyle}>
                 <Image
                   source={{

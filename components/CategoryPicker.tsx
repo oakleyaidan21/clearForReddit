@@ -57,6 +57,7 @@ const CategoryPicker: React.FC<Props> = (props) => {
                 return (
                   <TouchableOpacity
                     key={cat}
+                    disabled={showTimes !== null}
                     style={[
                       s.categoryItem,
                       {
