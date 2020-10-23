@@ -10,6 +10,7 @@ import Text from "./Text";
 import { Icon } from "react-native-elements";
 import { createThemedStyle } from "../assets/styles/mainStyles";
 import MainNavigationContext from "../context/MainNavigationContext";
+import * as Animatable from "react-native-animatable";
 
 type Props = {
   isVisible: boolean;
@@ -26,7 +27,7 @@ const GeneralModal: React.FC<Props> = (props) => {
   return (
     <Modal
       visible={props.isVisible}
-      animationType="fade"
+      animationType="none"
       transparent={true}
       statusBarTranslucent={true}
       onRequestClose={props.close}
@@ -56,32 +57,34 @@ const GeneralModal: React.FC<Props> = (props) => {
               overflow: "hidden",
             }}
           >
-            {!props.hideHeader && props.title && (
-              <View style={s.genModalHeader}>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    fontWeight: "bold",
-                    color: theme === "light" ? "black" : "white",
-                  }}
-                >
-                  {props.title}
-                </Text>
-                {!props.disableClose && (
-                  <TouchableOpacity
-                    onPress={props.close}
-                    style={{ position: "absolute", right: 10 }}
+            <Animatable.View animation="zoomIn" duration={300}>
+              {!props.hideHeader && props.title && (
+                <View style={s.genModalHeader}>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontWeight: "bold",
+                      color: theme === "light" ? "black" : "white",
+                    }}
                   >
-                    <Icon
-                      name="close"
-                      color={theme === "light" ? "black" : "white"}
-                    />
-                  </TouchableOpacity>
-                )}
-              </View>
-            )}
+                    {props.title}
+                  </Text>
+                  {!props.disableClose && (
+                    <TouchableOpacity
+                      onPress={props.close}
+                      style={{ position: "absolute", right: 10 }}
+                    >
+                      <Icon
+                        name="close"
+                        color={theme === "light" ? "black" : "white"}
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
 
-            {cloneElement(props.content, { close: props.close })}
+              {cloneElement(props.content, { close: props.close })}
+            </Animatable.View>
           </KeyboardAvoidingView>
         </>
       </KeyboardAvoidingView>
