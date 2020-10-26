@@ -1,12 +1,12 @@
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { persistStore, persistReducer } from "redux-persist";
+import {persistStore, persistReducer} from 'redux-persist';
 
-import reducer from "./reducer";
-import { createStore } from "redux";
+import reducer from './reducer';
+import {createStore} from 'redux';
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage: AsyncStorage,
 };
 
@@ -16,4 +16,4 @@ const store = createStore(persistingReducer);
 
 const persistor = persistStore(store);
 
-export { store, persistor };
+export {store, persistor};
