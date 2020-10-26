@@ -1,12 +1,14 @@
-import { createContext } from "react";
-import Snoowrap from "snoowrap";
+import {createContext} from 'react';
+import Snoowrap from 'snoowrap';
 
 interface ClearContextInferface {
-  clear: { snoowrap: Snoowrap | null };
+  clear: any;
+  updateClear: any;
 }
 
 const ClearContext = createContext<ClearContextInferface>({
-  clear: { snoowrap: null },
+  clear: {snoowrap: null},
+  updateClear: null,
 });
 
 export default ClearContext;

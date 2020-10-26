@@ -1,20 +1,20 @@
-import React, { useContext, memo, useState, useEffect } from "react";
-import { View, TouchableOpacity, Image, Modal } from "react-native";
-import Text from "../components/Text";
-import ImageViewer from "react-native-image-zoom-viewer";
-import VideoPlayer from "react-native-video-controls";
-import { Icon } from "react-native-elements";
-import { Submission, Subreddit } from "snoowrap";
-import MainNavigationContext from "../context/MainNavigationContext";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { defaultColor } from "../assets/styles/palettes";
-import RedditMD from "./RedditMD";
-import ClearContext from "../context/Clear";
-import { getTimeSincePosted } from "../util/util";
-import { getPostById } from "../util/snoowrap/snoowrapFunctions";
-import { createThemedStyle } from "../assets/styles/mainStyles";
-import GifPlayer from "./GifPlayer";
-import ImgurAlbumViewer from "./ImgurAlbumViewer";
+import React, {useContext, memo, useState, useEffect} from 'react';
+import {View, TouchableOpacity, Image, Modal} from 'react-native';
+import Text from '../components/Text';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import VideoPlayer from 'react-native-video-controls';
+import {Icon} from 'react-native-elements';
+import {Submission, Subreddit} from 'snoowrap';
+import MainNavigationContext from '../context/MainNavigationContext';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {defaultColor} from '../assets/styles/palettes';
+import RedditMD from './RedditMD';
+import ClearContext from '../context/Clear';
+import {getTimeSincePosted} from '../util/util';
+import {getPostById} from '../util/snoowrap/snoowrapFunctions';
+import {createThemedStyle} from '../assets/styles/mainStyles';
+import GifPlayer from './GifPlayer';
+import ImgurAlbumViewer from './ImgurAlbumViewer';
 
 interface Props {
   data: Submission;
@@ -38,23 +38,23 @@ const PostItem: React.FC<Props> = (props) => {
     setData(props.data);
   }, [props.data.id]);
 
-  const { inList } = props;
+  const {inList} = props;
 
   const imgUrl = data.thumbnail;
 
   const useIcon =
-    data.thumbnail === "self" ||
-    data.thumbnail === "spoiler" ||
-    data.thumbnail === "default";
+    data.thumbnail === 'self' ||
+    data.thumbnail === 'spoiler' ||
+    data.thumbnail === 'default';
 
   //can probably do this much more efficiently
   const isSelf = data.selftext.length > 0;
-  const isImage = data.url.includes(".jpg") || data.url.includes(".png");
-  const isVideo = data.url.includes("v.redd.it");
-  const isImgur = data.url.includes("imgur");
-  const isImgurGif = isImgur && data.url.includes("gifv");
-  const isGif = !isImgurGif && data.url.includes(".gif");
-  const imgurHashLocation = data.url.indexOf("a/");
+  const isImage = data.url.includes('.jpg') || data.url.includes('.png');
+  const isVideo = data.url.includes('v.redd.it');
+  const isImgur = data.url.includes('imgur');
+  const isImgurGif = isImgur && data.url.includes('gifv');
+  const isGif = !isImgurGif && data.url.includes('.gif');
+  const imgurHashLocation = data.url.indexOf('a/');
   const imgurHash = data.url.substring(imgurHashLocation + 2);
   const isImgurGallery = isImgur && imgurHashLocation !== -1;
   const isRedditGallery = data.is_gallery;
@@ -67,9 +67,7 @@ const PostItem: React.FC<Props> = (props) => {
     !isImgurGif &&
     !isImgurGallery;
 
-  const { currentSub, setCurrentSub, theme } = useContext(
-    MainNavigationContext
-  );
+  const {currentSub, setCurrentSub, theme} = useContext(MainNavigationContext);
   const s = createThemedStyle(theme);
   const contentStyle = {
     height: props.contentHeight
@@ -77,7 +75,7 @@ const PostItem: React.FC<Props> = (props) => {
       : props.inList
       ? 300
       : 500,
-    backgroundColor: theme === "light" ? "white" : "black",
+    backgroundColor: theme === 'light' ? 'white' : 'black',
   };
 
   const context: any = useContext(ClearContext);
@@ -96,10 +94,10 @@ const PostItem: React.FC<Props> = (props) => {
 
   const showContent = props.openPosts || listOpenPost;
 
-  const galleryUrls = [];
+  const galleryUrls: Array<Object> = [];
   if (isRedditGallery) {
     for (const i of Object.entries(data.media_metadata)) {
-      galleryUrls.push({ url: i[1].s.u });
+      galleryUrls.push({url: i[1].s.u});
     }
     // console.log(Object.keys(data.media_metadata));
   }
@@ -108,28 +106,25 @@ const PostItem: React.FC<Props> = (props) => {
     <View
       style={{
         borderRadius: inList ? 10 : 0,
-        overflow: "hidden",
+        overflow: 'hidden',
         borderWidth: props.selected ? 2 : 0,
-        borderColor: props.selected ? primary_color : "white",
-      }}
-    >
+        borderColor: props.selected ? primary_color : 'white',
+      }}>
       {/* IMAGE VIEWER MODAL */}
       <Modal
         visible={showImageViewer}
         transparent={false}
         animationType="none"
-        onRequestClose={() => setShowImageViewer(false)}
-      >
+        onRequestClose={() => setShowImageViewer(false)}>
         <ImageViewer
-          imageUrls={isRedditGallery ? galleryUrls : [{ url: data.url }]}
+          imageUrls={isRedditGallery ? galleryUrls : [{url: data.url}]}
           onSwipeDown={() => setShowImageViewer(false)}
           enableSwipeDown={true}
         />
 
         <TouchableOpacity
-          style={{ position: "absolute", top: 40, left: 10 }}
-          onPress={() => setShowImageViewer(false)}
-        >
+          style={{position: 'absolute', top: 40, left: 10}}
+          onPress={() => setShowImageViewer(false)}>
           <Icon name="close" color="white" />
         </TouchableOpacity>
       </Modal>
@@ -138,11 +133,10 @@ const PostItem: React.FC<Props> = (props) => {
         style={[
           s.postItemContainer,
           {
-            borderColor: props.selected ? primary_color : "transparent",
+            borderColor: props.selected ? primary_color : 'transparent',
           },
         ]}
-        onLayout={(e) => setPostItemHeight(e.nativeEvent.layout.height)}
-      >
+        onLayout={(e) => setPostItemHeight(e.nativeEvent.layout.height)}>
         {/* HEADER */}
         <TouchableOpacity
           onPress={() => {
@@ -150,7 +144,7 @@ const PostItem: React.FC<Props> = (props) => {
               props.onPress();
             } else {
               isLink
-                ? props.navigation.navigate("Web", { url: data.url })
+                ? props.navigation.navigate('Web', {url: data.url})
                 : props.setOpenPosts();
             }
           }}
@@ -160,31 +154,29 @@ const PostItem: React.FC<Props> = (props) => {
             }
           }}
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             flex: 1,
-            justifyContent: "space-between",
-          }}
-        >
+            justifyContent: 'space-between',
+          }}>
           {/* ICON/THUMBNAIL */}
           <TouchableOpacity
             style={[
               s.postItemIconContainer,
-              { backgroundColor: useIcon ? primary_color : "transparent" },
+              {backgroundColor: useIcon ? primary_color : 'transparent'},
             ]}
             disabled={inList}
-            onPress={() => props.navigation.navigate("Web", { url: data.url })}
-          >
+            onPress={() => props.navigation.navigate('Web', {url: data.url})}>
             {useIcon ? (
               <Icon
                 name="social-reddit"
                 type="simple-line-icon"
                 color="white"
                 size={50}
-                style={{ backgroundColor: primary_color }}
+                style={{backgroundColor: primary_color}}
               />
             ) : (
               <Image
-                source={{ uri: imgUrl }}
+                source={{uri: imgUrl}}
                 style={{
                   width: 100,
                   height: 100,
@@ -194,39 +186,36 @@ const PostItem: React.FC<Props> = (props) => {
             )}
           </TouchableOpacity>
           {/* TITLE, AUTHOR, SUB */}
-          <View style={{ flex: 3 }}>
-            <View style={{ flex: 1 }}>
+          <View style={{flex: 3}}>
+            <View style={{flex: 1}}>
               <Text
                 numberOfLines={inList ? 3 : 10}
                 style={{
-                  fontWeight: "bold",
-                  color: theme === "light" ? "black" : "white",
-                }}
-              >
+                  fontWeight: 'bold',
+                  color: theme === 'light' ? 'black' : 'white',
+                }}>
                 {data.title}
               </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
-              {data.over_18 && <Text style={{ color: "red" }}>NSFW</Text>}
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+              {data.over_18 && <Text style={{color: 'red'}}>NSFW</Text>}
               <TouchableOpacity
                 disabled={inList}
                 onPress={() => {
                   data.author.fetch().then((author) => {
-                    props.navigation.navigate("RedditUser", { author: author });
+                    props.navigation.navigate('RedditUser', {author: author});
                   });
-                }}
-              >
-                <Text style={{ color: "grey" }}>{data.author.name}</Text>
+                }}>
+                <Text style={{color: 'grey'}}>{data.author.name}</Text>
               </TouchableOpacity>
               <View
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("Home");
+                    props.navigation.navigate('Home');
                     context.clear?.snoowrap
                       ?.getSubreddit(data.subreddit.display_name)
                       .fetch()
@@ -234,14 +223,13 @@ const PostItem: React.FC<Props> = (props) => {
                         setCurrentSub(sub);
                       });
                   }}
-                  disabled={inList}
-                >
-                  <Text style={{ color: "grey", fontWeight: "bold" }}>
+                  disabled={inList}>
+                  <Text style={{color: 'grey', fontWeight: 'bold'}}>
                     {data.subreddit_name_prefixed}
                   </Text>
                 </TouchableOpacity>
 
-                <Text style={{ color: "grey" }}>
+                <Text style={{color: 'grey'}}>
                   {getTimeSincePosted(data.created_utc)}
                 </Text>
               </View>
@@ -251,27 +239,25 @@ const PostItem: React.FC<Props> = (props) => {
           <View
             style={{
               flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
               height: 100,
-            }}
-          >
+            }}>
             <Icon
               name="arrow-up"
               type="simple-line-icon"
               size={15}
               onPress={() => data.upvote().then(() => getPostData())}
               color={
-                data.likes ? "orange" : theme === "light" ? "black" : "white"
+                data.likes ? 'orange' : theme === 'light' ? 'black' : 'white'
               }
             />
             <Text
               style={{
                 margin: 10,
-                color: theme === "light" ? "black" : "white",
+                color: theme === 'light' ? 'black' : 'white',
                 fontSize: 12,
-              }}
-            >
+              }}>
               {data.score}
             </Text>
             <Icon
@@ -281,28 +267,28 @@ const PostItem: React.FC<Props> = (props) => {
               onPress={() => data.downvote().then(() => getPostData())}
               color={
                 data.likes === false
-                  ? "purple"
-                  : theme === "light"
-                  ? "black"
-                  : "white"
+                  ? 'purple'
+                  : theme === 'light'
+                  ? 'black'
+                  : 'white'
               }
             />
           </View>
         </TouchableOpacity>
       </View>
       {/* CONTENT */}
-      <View style={{ overflow: "hidden" }}>
+      <View style={{overflow: 'hidden'}}>
         {isSelf && (listOpenPost || !props.inList) && (
           <RedditMD
             body={data.selftext}
             onLinkPress={(url: any, href: string) =>
-              props.navigation.navigate("Web", { url: href })
+              props.navigation.navigate('Web', {url: href})
             }
             styles={{
               body: {
-                backgroundColor: theme === "light" ? "white" : "black",
+                backgroundColor: theme === 'light' ? 'white' : 'black',
                 padding: 10,
-                color: theme === "light" ? "black" : "white",
+                color: theme === 'light' ? 'black' : 'white',
               },
             }}
           />
@@ -315,24 +301,23 @@ const PostItem: React.FC<Props> = (props) => {
               onPress={() => {
                 console.log(data.media_metadata, galleryUrls);
                 setShowImageViewer(true);
-              }}
-            >
+              }}>
               <View style={contentStyle}>
                 <Image
                   source={{
                     uri: isRedditGallery ? galleryUrls[0].url : data.url,
                   }}
                   style={contentStyle}
-                  resizeMode={"contain"}
+                  resizeMode={'contain'}
                 />
               </View>
             </TouchableWithoutFeedback>
           ) : isVideo || isImgurGif ? (
-            <View style={{ width: "100%" }}>
+            <View style={{width: '100%'}}>
               <VideoPlayer
                 source={{
                   uri: isImgurGif
-                    ? data.url.substring(0, data.url.length - 4) + "mp4"
+                    ? data.url.substring(0, data.url.length - 4) + 'mp4'
                     : (data.media?.reddit_video?.hls_url as string),
                 }}
                 onError={(e: any) => console.log(e)}
@@ -340,8 +325,8 @@ const PostItem: React.FC<Props> = (props) => {
                 resizeMode="contain"
                 controls={false}
                 disableBack={true}
-                style={{ ...contentStyle, backgroundColor: "black" }}
-                poster={"../assets/images/play1.png"}
+                style={{...contentStyle, backgroundColor: 'black'}}
+                poster={'../assets/images/play1.png'}
               />
             </View>
           ) : isGif ? (
