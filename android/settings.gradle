@@ -1,14 +1,5 @@
-rootProject.name = 'clearforreddit'
-include ':react-native-video'
-project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android')
-
-include ':react-native-video'
-project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android-exoplayer')
-
-apply from: '../node_modules/react-native-unimodules/gradle.groovy'
-includeUnimodulesProjects()
-
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
-applyNativeModulesSettingsGradle(settings)
-
+rootProject.name = 'ClearForReddit'
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'

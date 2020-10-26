@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "clearforreddit.app"
-               BlueprintName = "clearforreddit"
-               ReferencedContainer = "container:clearforreddit.xcodeproj">
+               BuildableName = "ClearForReddit.app"
+               BlueprintName = "ClearForReddit"
+               ReferencedContainer = "container:ClearForReddit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "clearforredditTests.xctest"
-               BlueprintName = "clearforredditTests"
-               ReferencedContainer = "container:clearforreddit.xcodeproj">
+               BuildableName = "ClearForRedditTests.xctest"
+               BlueprintName = "ClearForRedditTests"
+               ReferencedContainer = "container:ClearForReddit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "clearforreddit.app"
-            BlueprintName = "clearforreddit"
-            ReferencedContainer = "container:clearforreddit.xcodeproj">
+            BuildableName = "ClearForReddit.app"
+            BlueprintName = "ClearForReddit"
+            ReferencedContainer = "container:ClearForReddit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "clearforreddit.app"
-            BlueprintName = "clearforreddit"
-            ReferencedContainer = "container:clearforreddit.xcodeproj">
+            BuildableName = "ClearForReddit.app"
+            BlueprintName = "ClearForReddit"
+            ReferencedContainer = "container:ClearForReddit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -1,40 +1,4 @@
 {
-  "expo": {
-    "name": "clear-for-reddit",
-    "slug": "clear-for-reddit",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/temp_icon_reversed.png",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#579bfa"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.carrotcake.clearforreddit"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "android": {
-      "package": "com.carrotcake.clearforreddit",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/temp_adaptive_icon.png",
-        "backgroundColor": "#579bfa"
-      }
-    },
-    "sdkVersion": "38.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ]
-  }
+  "name": "ClearForReddit",
+  "displayName": "ClearForReddit"
 }
