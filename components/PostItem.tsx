@@ -25,6 +25,7 @@ interface Props {
   setOpenPosts: any;
   selected: boolean;
   contentHeight?: number;
+  getComments?: boolean;
 }
 
 const PostItem: React.FC<Props> = (props) => {
@@ -48,7 +49,9 @@ const PostItem: React.FC<Props> = (props) => {
     data.thumbnail === 'default';
 
   //can probably do this much more efficiently
+  const isCrosspost = data.crosspost_parent_list;
   const isSelf = data.selftext.length > 0;
+
   const isImage = data.url.includes('.jpg') || data.url.includes('.png');
   const isVideo = data.url.includes('v.redd.it');
   const isImgur = data.url.includes('imgur');
@@ -78,7 +81,7 @@ const PostItem: React.FC<Props> = (props) => {
     backgroundColor: theme === 'light' ? 'white' : 'black',
   };
 
-  const context: any = useContext(ClearContext);
+  const context = useContext(ClearContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
@@ -142,7 +145,12 @@ const PostItem: React.FC<Props> = (props) => {
             if (props.inList) {
               props.onPress();
             } else {
-              isLink
+              isCrosspost
+                ? props.navigation.navigate('Post', {
+                    data: data.crosspost_parent_list[0],
+                    getComments: true,
+                  })
+                : isLink
                 ? props.navigation.navigate('Web', {url: data.url})
                 : props.setOpenPosts();
             }
@@ -212,21 +220,55 @@ const PostItem: React.FC<Props> = (props) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('Home');
-                    context.clear?.snoowrap
-                      ?.getSubreddit(data.subreddit.display_name)
-                      .fetch()
-                      .then((sub: Subreddit) => {
-                        setCurrentSub(sub);
-                      });
-                  }}
-                  disabled={inList}>
-                  <Text style={{color: 'grey', fontWeight: 'bold'}}>
-                    {data.subreddit_name_prefixed}
-                  </Text>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('Home');
+                      context.clear?.snoowrap
+                        ?.getSubreddit(data.subreddit.display_name)
+                        .fetch()
+                        .then((sub: Subreddit) => {
+                          setCurrentSub(sub);
+                        });
+                    }}
+                    disabled={inList}>
+                    <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                      {data.subreddit_name_prefixed}
+                    </Text>
+                  </TouchableOpacity>
+                  {isCrosspost && (
+                    <>
+                      <Icon
+                        name="shuffle"
+                        type="simple-line-icon"
+                        size={13}
+                        color="grey"
+                        style={{marginHorizontal: 10}}
+                      />
+                      <TouchableOpacity
+                        onPress={() => {
+                          props.navigation.navigate('Home');
+                          context.clear?.snoowrap
+                            ?.getSubreddit(
+                              data.crosspost_parent_list[0].subreddit
+                                .display_name,
+                            )
+                            .fetch()
+                            .then((sub: Subreddit) => {
+                              setCurrentSub(sub);
+                            });
+                        }}
+                        disabled={inList}>
+                        <Text style={{color: 'grey', fontWeight: 'bold'}}>
+                          {
+                            data.crosspost_parent_list[0]
+                              .subreddit_name_prefixed
+                          }
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
+                </View>
 
                 <Text style={{color: 'grey'}}>
                   {getTimeSincePosted(data.created_utc)}

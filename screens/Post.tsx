@@ -1,27 +1,27 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, {useState, useContext, useEffect, useRef} from 'react';
 import {
   View,
   ScrollView,
   RefreshControl,
   ActivityIndicator,
-} from "react-native";
-import Text from "../components/Text";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp } from "@react-navigation/native";
-import { MainStackParamList } from "../navigation/mainNavigator";
-import MainNavigationContext from "../context/MainNavigationContext";
-import PostItem from "../components/PostItem";
-import { Comment, Submission } from "snoowrap";
-import { getPostById } from "../util/snoowrap/snoowrapFunctions";
-import ClearContext from "../context/Clear";
-import { SwiperScreenNavProp } from "./PostSwiper";
-import CommentThread from "../components/CommentThread";
-import { defaultColor } from "../assets/styles/palettes";
-import CommentSortPicker from "../components/CommentSortPicker";
+} from 'react-native';
+import Text from '../components/Text';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+import {MainStackParamList} from '../navigation/mainNavigator';
+import MainNavigationContext from '../context/MainNavigationContext';
+import PostItem from '../components/PostItem';
+import {Comment, Submission} from 'snoowrap';
+import {getPostById} from '../util/snoowrap/snoowrapFunctions';
+import ClearContext from '../context/Clear';
+import {SwiperScreenNavProp} from './PostSwiper';
+import CommentThread from '../components/CommentThread';
+import {defaultColor} from '../assets/styles/palettes';
+import CommentSortPicker from '../components/CommentSortPicker';
 
-type PostScreenNavProp = StackNavigationProp<MainStackParamList, "Post">;
+type PostScreenNavProp = StackNavigationProp<MainStackParamList, 'Post'>;
 
-type PostScreenRouteProp = RouteProp<MainStackParamList, "Post">;
+type PostScreenRouteProp = RouteProp<MainStackParamList, 'Post'>;
 
 type Props = {
   navigation: PostScreenNavProp | SwiperScreenNavProp;
@@ -37,15 +37,15 @@ const Post: React.FC<Props> = (props) => {
   const [comments, setComments] = useState<null | Array<Comment>>(null);
   const [refreshingPost, setRefreshingPost] = useState<boolean>(false);
   const [data, setData] = useState<Submission>(
-    props.route?.params ? props.route.params.data : props.data
+    props.route?.params ? props.route.params.data : props.data,
   );
-  const [commentSortType, setCommentSortType] = useState<string>("Top");
+  const [commentSortType, setCommentSortType] = useState<string>('Top');
   const [postHeight, setPostHeight] = useState<number>(0);
   const [showContent, setShowContent] = useState<boolean>(false);
 
   const context: any = useContext(ClearContext);
 
-  const { theme } = useContext(MainNavigationContext);
+  const {theme} = useContext(MainNavigationContext);
 
   const showPostContent = props.data ? props.openPosts : showContent;
 
@@ -74,17 +74,26 @@ const Post: React.FC<Props> = (props) => {
     getComments();
   }, []);
 
-  const { currentSub } = useContext(MainNavigationContext);
+  const {currentSub} = useContext(MainNavigationContext);
 
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
 
   const getComments = async () => {
-    const comments = await data.comments.fetchMore({
-      amount: 10,
-    });
-    setComments(comments);
+    let comments: Array<Comment> = [];
+    if (data.comments) {
+      comments = await data.comments.fetchMore({
+        amount: 10,
+      });
+      setComments(comments);
+    } else {
+      getPostById(context.clear.snoowrap, data.id)
+        ?.fetch()
+        .then((post) => {
+          setComments(post.comments);
+        });
+    }
   };
 
   const getPostData = async () => {
@@ -97,7 +106,7 @@ const Post: React.FC<Props> = (props) => {
 
   const refreshPost = () => {
     Promise.all([getComments(), getPostData()]).then(() =>
-      setRefreshingPost(false)
+      setRefreshingPost(false),
     );
   };
 
@@ -106,8 +115,8 @@ const Post: React.FC<Props> = (props) => {
     setComments(null);
     context.clear.snoowrap
       .oauthRequest({
-        uri: "/r/" + data.subreddit.display_name + "/comments/" + data.id,
-        qs: { sort: type.toLowerCase() },
+        uri: '/r/' + data.subreddit.display_name + '/comments/' + data.id,
+        qs: {sort: type.toLowerCase()},
       })
       .then((d: any) => setComments(d.comments));
   };
@@ -116,12 +125,11 @@ const Post: React.FC<Props> = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: theme === "light" ? "#ebebeb" : "#202020",
+        backgroundColor: theme === 'light' ? '#ebebeb' : '#202020',
       }}
-      onLayout={(e) => setPostHeight(e.nativeEvent.layout.height)}
-    >
+      onLayout={(e) => setPostHeight(e.nativeEvent.layout.height)}>
       <ScrollView
-        style={{ flex: 1 }}
+        style={{flex: 1}}
         refreshControl={
           <RefreshControl
             refreshing={refreshingPost}
@@ -130,8 +138,7 @@ const Post: React.FC<Props> = (props) => {
               refreshPost();
             }}
           />
-        }
-      >
+        }>
         {/* MAIN POST HEADER */}
         <View>
           <PostItem
@@ -154,13 +161,12 @@ const Post: React.FC<Props> = (props) => {
             flex: 1,
             height: 40,
             backgroundColor: primary_color,
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             paddingLeft: 10,
             paddingRight: 10,
-            alignItems: "center",
-          }}
-        >
+            alignItems: 'center',
+          }}>
           <CommentSortPicker
             setType={changeCommentSorting}
             type={commentSortType}
@@ -180,7 +186,7 @@ const Post: React.FC<Props> = (props) => {
                     op={data.author}
                     navigation={props.navigation}
                     onLinkPress={(url: any, href: string) =>
-                      props.navigation.navigate("Web", { url: href })
+                      props.navigation.navigate('Web', {url: href})
                     }
                   />
                 );
@@ -189,18 +195,17 @@ const Post: React.FC<Props> = (props) => {
               <View
                 style={{
                   height: 200,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ color: "grey" }}>No Comments</Text>
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: 'grey'}}>No Comments</Text>
               </View>
             )
           ) : (
             <ActivityIndicator
-              style={{ marginTop: 200 }}
+              style={{marginTop: 200}}
               color={primary_color}
-              size={"large"}
+              size={'large'}
             />
           )}
         </View>
