@@ -1,41 +1,41 @@
-var React = require("react-native");
+var React = require('react-native');
 
-var { StyleSheet } = React;
+var {StyleSheet} = React;
 
-import { Dimensions, Platform } from "react-native";
+import {Dimensions, Platform} from 'react-native';
 
-export const screenWidth = Dimensions.get("window").width;
-export const screenHeight = Dimensions.get("window").height;
+export const screenWidth = Dimensions.get('window').width;
+export const screenHeight = Dimensions.get('window').height;
 
-export const defaultColor = "#579bfa";
+export const defaultColor = '#579bfa';
 
 const isIPhoneX = screenHeight === 812 || screenHeight === 896;
-const pickerYLocation = Platform.OS === "ios" ? (isIPhoneX ? 112 : 85) : 65;
+const pickerYLocation = Platform.OS === 'ios' ? (isIPhoneX ? 112 : 85) : 65;
 
 function elevationShadowStyle(elevation: number) {
   //large elevation values look good on Android but not on iOS,
   //so we set the elevation value to 1 on ios
-  let ele = Platform.OS === "ios" ? 1 : elevation;
+  let ele = Platform.OS === 'ios' ? 1 : elevation;
 
   return {
     elevation: ele,
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 0.5 * ele },
+    shadowColor: 'black',
+    shadowOffset: {width: 0, height: 0.5 * ele},
     shadowOpacity: 0.8,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     shadowRadius: 1 * ele,
   };
 }
 
 export const centeredContentContainer = () => {
   return {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 };
 
 export const createThemedStyle = (theme: string) => {
-  return theme === "light" ? lightStyling : darkStyling;
+  return theme === 'light' ? lightStyling : darkStyling;
 };
 
 const lightStyling = StyleSheet.create({
@@ -45,7 +45,7 @@ const lightStyling = StyleSheet.create({
   screen: {
     flex: 1,
     ...centeredContentContainer(),
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
 
   /**
@@ -53,12 +53,12 @@ const lightStyling = StyleSheet.create({
    */
   tabBarContainer: {
     height: 50,
-    width: "100%",
-    flexDirection: "row",
-    backgroundColor: "white",
+    width: '100%',
+    flexDirection: 'row',
+    backgroundColor: 'white',
     padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     // borderTopLeftRadius: 10,
     // borderTopRightRadius: 10,
   },
@@ -66,17 +66,17 @@ const lightStyling = StyleSheet.create({
   tabBarIconContainer: {
     width: 40,
     height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**
    * ********SUBPICKER********
    */
   subPickerContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     marginTop: pickerYLocation,
     marginLeft: 5,
@@ -85,19 +85,19 @@ const lightStyling = StyleSheet.create({
 
   searchTypeContainer: {
     height: 35,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderWidth: 2,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderTopWidth: 0,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    width: "70%",
+    width: '70%',
   },
 
   searchType: {
     padding: 5,
-    justifyContent: "center",
+    justifyContent: 'center',
     flex: 1,
   },
 
@@ -105,10 +105,10 @@ const lightStyling = StyleSheet.create({
    * *********CATPICKER*********
    */
   categoryPickerContainer: {
-    position: "absolute",
-    backgroundColor: "white",
+    position: 'absolute',
+    backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     top: pickerYLocation,
   },
@@ -116,9 +116,9 @@ const lightStyling = StyleSheet.create({
   categoryItem: {
     padding: 10,
     width: 150,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "lightgrey",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'lightgrey',
   },
 
   /**
@@ -127,14 +127,14 @@ const lightStyling = StyleSheet.create({
   homeHeaderContainer: {
     height: 60,
     padding: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     // borderBottomWidth: 2,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderColor: 'lightgrey',
+    backgroundColor: 'white',
   },
 
   /**
@@ -145,22 +145,22 @@ const lightStyling = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: 'grey',
     marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   headerDropdown: {
-    alignItems: "center",
+    alignItems: 'center',
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: 'grey',
     borderRadius: 20,
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
 
   /**
@@ -168,11 +168,11 @@ const lightStyling = StyleSheet.create({
    */
   postItemContainer: {
     padding: 10,
-    borderColor: "grey",
-    flexDirection: "row",
-    overflow: "hidden",
+    borderColor: 'grey',
+    flexDirection: 'row',
+    overflow: 'hidden',
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
 
   postItemIconContainer: {
@@ -180,17 +180,17 @@ const lightStyling = StyleSheet.create({
     height: 100,
     marginRight: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**
    * *********POST************
    */
   replyModalContainer: {
-    width: "98%",
+    width: '98%',
     height: 200,
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
@@ -205,8 +205,8 @@ const lightStyling = StyleSheet.create({
   subModalContainer: {
     width: screenWidth * 0.9,
     height: screenHeight * 0.75,
-    backgroundColor: "white",
-    alignItems: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 
   subscribeButton: {
@@ -219,22 +219,22 @@ const lightStyling = StyleSheet.create({
   subModalHeader: {
     height: 120,
     width: screenWidth * 0.9,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
   },
   /**
    * ********GENERALMODAL*****
    */
   genModalHeader: {
-    width: "100%",
+    width: '100%',
     height: 60,
     padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: "lightgrey",
-    backgroundColor: "white",
+    borderColor: 'lightgrey',
+    backgroundColor: 'white',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -243,10 +243,10 @@ const lightStyling = StyleSheet.create({
    * *******USERPICKER*********
    */
   userPickerContainer: {
-    position: "absolute",
-    backgroundColor: "white",
+    position: 'absolute',
+    backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     marginTop: pickerYLocation,
     marginLeft: 5,
@@ -262,8 +262,8 @@ const lightStyling = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**
@@ -286,7 +286,7 @@ const darkStyling = StyleSheet.create({
   screen: {
     flex: 1,
     ...centeredContentContainer(),
-    backgroundColor: "black",
+    backgroundColor: 'black',
   },
 
   /**
@@ -294,30 +294,28 @@ const darkStyling = StyleSheet.create({
    */
   tabBarContainer: {
     height: 50,
-    width: "100%",
-    flexDirection: "row",
-    backgroundColor: "black",
+    width: '100%',
+    flexDirection: 'row',
+    backgroundColor: 'black',
     padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    // borderTopLeftRadius: 10,
-    // borderTopRightRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   tabBarIconContainer: {
     width: 40,
     height: 40,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**
    * ********SUBPICKER********
    */
   subPickerContainer: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     marginTop: pickerYLocation,
     marginLeft: 5,
@@ -326,19 +324,19 @@ const darkStyling = StyleSheet.create({
 
   searchTypeContainer: {
     height: 35,
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     borderWidth: 2,
-    backgroundColor: "black",
+    backgroundColor: 'black',
     borderTopWidth: 0,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
-    width: "70%",
+    width: '70%',
   },
 
   searchType: {
     padding: 5,
-    justifyContent: "center",
+    justifyContent: 'center',
     flex: 1,
   },
 
@@ -346,10 +344,10 @@ const darkStyling = StyleSheet.create({
    * *********CATPICKER*********
    */
   categoryPickerContainer: {
-    position: "absolute",
-    backgroundColor: "black",
+    position: 'absolute',
+    backgroundColor: 'black',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     top: pickerYLocation,
   },
@@ -357,9 +355,9 @@ const darkStyling = StyleSheet.create({
   categoryItem: {
     padding: 10,
     width: 150,
-    justifyContent: "center",
-    alignItems: "center",
-    borderColor: "lightgrey",
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'lightgrey',
   },
 
   /**
@@ -368,13 +366,13 @@ const darkStyling = StyleSheet.create({
   homeHeaderContainer: {
     height: 60,
     padding: 10,
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    borderColor: "lightgrey",
-    backgroundColor: "black",
+    borderColor: 'lightgrey',
+    backgroundColor: 'black',
   },
 
   /**
@@ -385,22 +383,22 @@ const darkStyling = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: 'grey',
     marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   headerDropdown: {
-    alignItems: "center",
+    alignItems: 'center',
     borderWidth: 2,
-    borderColor: "grey",
+    borderColor: 'grey',
     borderRadius: 20,
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
 
   /**
@@ -408,12 +406,12 @@ const darkStyling = StyleSheet.create({
    */
   postItemContainer: {
     padding: 10,
-    borderColor: "grey",
-    flexDirection: "row",
-    overflow: "hidden",
+    borderColor: 'grey',
+    flexDirection: 'row',
+    overflow: 'hidden',
     flex: 1,
     ...elevationShadowStyle(3),
-    backgroundColor: "black",
+    backgroundColor: 'black',
   },
 
   postItemIconContainer: {
@@ -421,17 +419,17 @@ const darkStyling = StyleSheet.create({
     height: 100,
     marginRight: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**
    * *********POST************
    */
   replyModalContainer: {
-    width: "98%",
+    width: '98%',
     height: 200,
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
@@ -446,8 +444,8 @@ const darkStyling = StyleSheet.create({
   subModalContainer: {
     width: screenWidth * 0.9,
     height: screenHeight * 0.75,
-    backgroundColor: "black",
-    alignItems: "center",
+    backgroundColor: 'black',
+    alignItems: 'center',
   },
 
   subscribeButton: {
@@ -460,22 +458,22 @@ const darkStyling = StyleSheet.create({
   subModalHeader: {
     height: 120,
     width: screenWidth * 0.9,
-    position: "absolute",
+    position: 'absolute',
     top: 0,
   },
   /**
    * ********GENERALMODAL*****
    */
   genModalHeader: {
-    width: "100%",
+    width: '100%',
     height: 60,
     padding: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     borderBottomWidth: 1,
-    borderColor: "lightgrey",
-    backgroundColor: "black",
+    borderColor: 'lightgrey',
+    backgroundColor: 'black',
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -484,10 +482,10 @@ const darkStyling = StyleSheet.create({
    * *******USERPICKER*********
    */
   userPickerContainer: {
-    position: "absolute",
-    backgroundColor: "black",
+    position: 'absolute',
+    backgroundColor: 'black',
     borderWidth: 2,
-    borderColor: "lightgrey",
+    borderColor: 'lightgrey',
     borderRadius: 5,
     marginTop: pickerYLocation,
     marginLeft: 5,
@@ -503,8 +501,8 @@ const darkStyling = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   /**

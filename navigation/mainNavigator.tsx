@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import { SafeAreaView, StatusBar } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React, {useState, useEffect, useContext} from 'react';
+import {SafeAreaView, StatusBar} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
-} from "@react-navigation/stack";
-import TabNavigator from "./tabNavigator";
-import MainNavigationContext from "../context/MainNavigationContext";
-import Login from "../screens/Login";
-import { useSelector, useDispatch } from "react-redux";
+} from '@react-navigation/stack';
+import TabNavigator from './tabNavigator';
+import MainNavigationContext from '../context/MainNavigationContext';
+import Login from '../screens/Login';
+import {useSelector, useDispatch} from 'react-redux';
 import {
   getUserData,
   initializeSnoowrap,
@@ -16,29 +16,29 @@ import {
   initializeUserSnoowrap,
   getUserSubs,
   getGeneralPosts,
-} from "../util/snoowrap/snoowrapFunctions";
-import ClearContext from "../context/Clear";
-import Settings from "../screens/Settings";
-import Snoowrap, { Submission, Listing, RedditUser } from "snoowrap";
-import Post from "../screens/Post";
-import { useDidUpdateEffect } from "../util/util";
-import PostSwiper from "../screens/PostSwiper";
-import Web from "../screens/Web";
-import { defaultColor } from "../assets/styles/palettes";
-import Header from "../components/Header";
-import User from "../screens/User";
-import { createThemedStyle } from "../assets/styles/mainStyles";
+} from '../util/snoowrap/snoowrapFunctions';
+import ClearContext from '../context/Clear';
+import Settings from '../screens/Settings';
+import Snoowrap, {Submission, Listing, RedditUser} from 'snoowrap';
+import Post from '../screens/Post';
+import {useDidUpdateEffect} from '../util/util';
+import PostSwiper from '../screens/PostSwiper';
+import Web from '../screens/Web';
+import {defaultColor} from '../assets/styles/palettes';
+import Header from '../components/Header';
+import User from '../screens/User';
+import {createThemedStyle} from '../assets/styles/mainStyles';
 
 export type MainStackParamList = {
   Tabs: undefined;
   Login: undefined;
-  Post: { data: Submission };
+  Post: {data: Submission};
   PostSwiper: {
     index: number;
     searchResults: Listing<Submission> | Array<Submission>;
   };
-  Web: { url: string };
-  RedditUser: { author: RedditUser };
+  Web: {url: string};
+  RedditUser: {author: RedditUser};
   Settings: undefined;
 };
 
@@ -48,8 +48,8 @@ const MainNavigator: React.FC = () => {
   /**
    * *******REDUX*********
    */
-  const { authCode, refreshToken, users, theme } = useSelector(
-    (state: any) => state
+  const {authCode, refreshToken, users, theme} = useSelector(
+    (state: any) => state,
   );
   const dispatch = useDispatch();
 
@@ -57,13 +57,13 @@ const MainNavigator: React.FC = () => {
    * ********STATE********
    */
   const [currentPosts, setCurrentPosts] = useState<Array<Submission> | null>(
-    null
+    null,
   );
   const [userSubs, setUserSubs] = useState([]);
   const [user, setUser] = useState(null);
-  const [currentSub, setCurrentSub] = useState<any>("Front Page");
-  const [currentCategory, setCurrentCategory] = useState("Hot");
-  const [currentTimeframe, setCurrentTimeframe] = useState("day");
+  const [currentSub, setCurrentSub] = useState<any>('Front Page');
+  const [currentCategory, setCurrentCategory] = useState('Hot');
+  const [currentTimeframe, setCurrentTimeframe] = useState('day');
 
   const s = createThemedStyle(theme);
 
@@ -90,7 +90,7 @@ const MainNavigator: React.FC = () => {
     getGeneralPosts(snoo, currentSub, currentCategory, currentTimeframe).then(
       (posts: any) => {
         setCurrentPosts(posts);
-      }
+      },
     );
   };
 
@@ -102,7 +102,7 @@ const MainNavigator: React.FC = () => {
   };
 
   useDidUpdateEffect(() => {
-    if (currentSub !== "Search Results") {
+    if (currentSub !== 'Search Results') {
       setCurrentPosts(null);
       getPosts(context.clear.snoowrap);
     }
@@ -110,39 +110,39 @@ const MainNavigator: React.FC = () => {
 
   //when the user changes
   useEffect(() => {
-    if (refreshToken !== "none") {
-      console.log("remaking snoowrap");
+    if (refreshToken !== 'none') {
+      console.log('remaking snoowrap');
       initializeUserSnoowrap(refreshToken).then((r) => {
-        context.updateClear({ ...context.clear, snoowrap: r });
+        context.updateClear({...context.clear, snoowrap: r});
         getRedditData(r);
       });
     } else {
-      if (authCode === "none") {
-        console.log("creating default snoowrap");
+      if (authCode === 'none') {
+        console.log('creating default snoowrap');
         initializeDefaultSnoowrap().then((r) => {
-          context.updateClear({ ...context.clear, snoowrap: r });
+          context.updateClear({...context.clear, snoowrap: r});
           getPosts(r);
         });
       } else {
-        console.log("creating new user snoowrap");
+        console.log('creating new user snoowrap');
         initializeSnoowrap(authCode).then((r: any) => {
           const newUsers = users ? JSON.parse(users) : [];
           r.getMe().then((me: any) => {
-            newUsers.push({ name: me.name, token: r.refreshToken });
+            newUsers.push({name: me.name, token: r.refreshToken});
             setUser(me);
-            dispatch({ type: "SET_USERS", users: JSON.stringify(newUsers) });
+            dispatch({type: 'SET_USERS', users: JSON.stringify(newUsers)});
             dispatch({
-              type: "SET_REFRESH_TOKEN",
+              type: 'SET_REFRESH_TOKEN',
               refreshToken: r.refreshToken,
             });
-            context.updateClear({ ...context.clear, snoowrap: r });
+            context.updateClear({...context.clear, snoowrap: r});
             getPosts(r);
           });
         });
       }
     }
   }, [authCode, refreshToken]);
-
+  console.log('THEME:', theme);
   const primary_color = currentSub.primary_color
     ? currentSub.primary_color
     : defaultColor;
@@ -163,24 +163,29 @@ const MainNavigator: React.FC = () => {
         currentTimeframe: currentTimeframe,
         setCurrentTimeframe: setCurrentTimeframe,
         theme: theme,
-        setTheme: (t: string) => dispatch({ type: "SET_THEME", theme: t }),
-      }}
-    >
-      <SafeAreaView style={{ flex: 1, backgroundColor: primary_color }}>
+        setTheme: (t: string) => dispatch({type: 'SET_THEME', theme: t}),
+      }}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: theme === 'dark' ? 'black' : primary_color,
+        }}>
         {/* STATUS BAR */}
-        <StatusBar barStyle={"light-content"} backgroundColor={primary_color} />
+        <StatusBar
+          barStyle={'light-content'}
+          backgroundColor={theme === 'dark' ? 'black' : primary_color}
+        />
         {/* NAVIGATION CONTAINER */}
         <NavigationContainer>
           <Stack.Navigator
-            screenOptions={({ route, navigation }) => ({
-              headerShown: route.name !== "Tabs",
-              headerStyle: { backgroundColor: primary_color },
+            screenOptions={({route, navigation}) => ({
+              headerShown: route.name !== 'Tabs',
+              headerStyle: {backgroundColor: primary_color},
               headerBackTitleVisible: false,
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
               header: () => <Header navigation={navigation} />,
             })}
-            headerMode={"screen"}
-          >
+            headerMode={'screen'}>
             <Stack.Screen name="Tabs" component={TabNavigator} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Post" component={Post} />

@@ -76,7 +76,7 @@ const PostBar: React.FC<Props> = (props) => {
         style={{
           width: '100%',
           padding: 10,
-          backgroundColor: primary_color,
+          backgroundColor: theme === 'dark' ? 'black' : primary_color,
           flexDirection: 'row',
           justifyContent: 'space-around',
         }}>
